@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- =============================================== -->
+        <!-- Dados de demonstração: Interesses               -->
+        <!-- =============================================== -->
+        
+        <record id="interesse_previdencia" model="crm.wealth.interesse">
+            <field name="name">Previdência Privada</field>
+        </record>
+        
+        <record id="interesse_acoes" model="crm.wealth.interesse">
+            <field name="name">Ações</field>
+        </record>
+        
+        <record id="interesse_fundos" model="crm.wealth.interesse">
+            <field name="name">Fundos de Investimento</field>
+        </record>
+        
+        <record id="interesse_fiis" model="crm.wealth.interesse">
+            <field name="name">Fundos Imobiliários (FIIs)</field>
+        </record>
+        
+        <record id="interesse_renda_fixa" model="crm.wealth.interesse">
+            <field name="name">Renda Fixa</field>
+        </record>
+        
+        <!-- =============================================== -->
+        <!-- Dados de demonstração: Estratégias              -->
+        <!-- =============================================== -->
+        
+        <record id="estrategia_conservadora" model="crm.wealth.estrategia">
+            <field name="name">Conservadora</field>
+            <field name="descricao">80% renda fixa + 20% renda variável</field>
+        </record>
+        
+        <record id="estrategia_moderada" model="crm.wealth.estrategia">
+            <field name="name">Moderada</field>
+            <field name="descricao">50% renda fixa + 50% renda variável</field>
+        </record>
+        
+        <record id="estrategia_agressiva" model="crm.wealth.estrategia">
+            <field name="name">Agressiva</field>
+            <field name="descricao">20% renda fixa + 80% renda variável</field>
+        </record>
+        
+        <!-- =============================================== -->
+        <!-- Dados de demonstração: Objeções                 -->
+        <!-- =============================================== -->
+        
+        <record id="objecao_preco" model="crm.wealth.objecao">
+            <field name="name">Taxa muito alta</field>
+            <field name="tratativa_padrao">Mostrar valor agregado: relatórios personalizados, acompanhamento mensal, expertise do time</field>
+        </record>
+        
+        <record id="objecao_tempo" model="crm.wealth.objecao">
+            <field name="name">Preciso pensar</field>
+            <field name="tratativa_padrao">Agendar follow-up específico, enviar material complementar, oferecer diagnóstico gratuito</field>
+        </record>
+        
+        <!-- =============================================== -->
+        <!-- Dados de demonstração: Documentos               -->
+        <!-- =============================================== -->
+        
+        <record id="documento_rg" model="crm.wealth.documento">
+            <field name="name">RG (frente e verso)</field>
+            <field name="obrigatorio" eval="True"/>
+        </record>
+        
+        <record id="documento_cpf" model="crm.wealth.documento">
+            <field name="name">CPF</field>
+            <field name="obrigatorio" eval="True"/>
+        </record>
+        
+        <record id="documento_comprovante" model="crm.wealth.documento">
+            <field name="name">Comprovante de Residência</field>
+            <field name="obrigatorio" eval="True"/>
+        </record>
+        
+        <record id="documento_ir" model="crm.wealth.documento">
+            <field name="name">Declaração de Imposto de Renda</field>
+            <field name="obrigatorio" eval="False"/>
+        </record>
+        
+        <!-- =============================================== -->
+        <!-- Dados de demonstração: Corretoras               -->
+        <!-- =============================================== -->
+        
+        <record id="corretora_xp" model="crm.wealth.corretora">
+            <field name="name">XP Investimentos</field>
+        </record>
+        
+        <record id="corretora_btg" model="crm.wealth.corretora">
+            <field name="name">BTG Pactual</field>
+        </record>
+        
+        <record id="corretora_rico" model="crm.wealth.corretora">
+            <field name="name">Rico Investimentos</field>
+        </record>
+        
+    </data>
+</odoo>

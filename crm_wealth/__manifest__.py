@@ -31,7 +31,12 @@
     'data': [
         'security/ir.model.access.csv',
         'data/crm_stage_data.xml',
+        'data/crm_wealth_demo_data.xml',
+        'data/crm_wealth_sla_data.xml',
+        'views/crm_wealth_auxiliar_views.xml',
+        'views/crm_wealth_menus.xml',
         'views/crm_lead_views.xml',
+        'views/res_config_settings_views.xml',
     ],
     'demo': [],
     'installable': True,

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- =============================================== -->
+    <!-- VIEWS: Interesses                               -->
+    <!-- =============================================== -->
+    
+    <record id="view_crm_wealth_interesse_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.interesse.tree</field>
+        <field name="model">crm.wealth.interesse</field>
+        <field name="arch" type="xml">
+            <list string="Interesses" editable="top">
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_crm_wealth_interesse_form" model="ir.ui.view">
+        <field name="name">crm.wealth.interesse.form</field>
+        <field name="model">crm.wealth.interesse</field>
+        <field name="arch" type="xml">
+            <form string="Interesse">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- =============================================== -->
+    <!-- VIEWS: Estratégias                              -->
+    <!-- =============================================== -->
+    
+    <record id="view_crm_wealth_estrategia_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.estrategia.tree</field>
+        <field name="model">crm.wealth.estrategia</field>
+        <field name="arch" type="xml">
+            <list string="Estratégias">
+                <field name="name"/>
+                <field name="descricao"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_crm_wealth_estrategia_form" model="ir.ui.view">
+        <field name="name">crm.wealth.estrategia.form</field>
+        <field name="model">crm.wealth.estrategia</field>
+        <field name="arch" type="xml">
+            <form string="Estratégia">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="descricao"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- =============================================== -->
+    <!-- VIEWS: Objeções                                 -->
+    <!-- =============================================== -->
+    
+    <record id="view_crm_wealth_objecao_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.objecao.tree</field>
+        <field name="model">crm.wealth.objecao</field>
+        <field name="arch" type="xml">
+            <list string="Objeções">
+                <field name="name"/>
+                <field name="tratativa_padrao"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_crm_wealth_objecao_form" model="ir.ui.view">
+        <field name="name">crm.wealth.objecao.form</field>
+        <field name="model">crm.wealth.objecao</field>
+        <field name="arch" type="xml">
+            <form string="Objeção">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="tratativa_padrao"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- =============================================== -->
+    <!-- VIEWS: Documentos                               -->
+    <!-- =============================================== -->
+    
+    <record id="view_crm_wealth_documento_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.documento.tree</field>
+        <field name="model">crm.wealth.documento</field>
+        <field name="arch" type="xml">
+            <list string="Documentos" editable="top">
+                <field name="name"/>
+                <field name="obrigatorio" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_crm_wealth_documento_form" model="ir.ui.view">
+        <field name="name">crm.wealth.documento.form</field>
+        <field name="model">crm.wealth.documento</field>
+        <field name="arch" type="xml">
+            <form string="Documento">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="obrigatorio"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- =============================================== -->
+    <!-- VIEWS: Corretoras                               -->
+    <!-- =============================================== -->
+    
+    <record id="view_crm_wealth_corretora_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.corretora.tree</field>
+        <field name="model">crm.wealth.corretora</field>
+        <field name="arch" type="xml">
+            <list string="Corretoras" editable="top">
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_crm_wealth_corretora_form" model="ir.ui.view">
+        <field name="name">crm.wealth.corretora.form</field>
+        <field name="model">crm.wealth.corretora</field>
+        <field name="arch" type="xml">
+            <form string="Corretora">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- =============================================== -->
+    <!-- VIEWS: Acompanhamentos                          -->
+    <!-- =============================================== -->
+    
+    <record id="view_crm_wealth_acompanhamento_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.acompanhamento.tree</field>
+        <field name="model">crm.wealth.acompanhamento</field>
+        <field name="arch" type="xml">
+            <list string="Acompanhamentos">
+                <field name="name"/>
+                <field name="lead_id"/>
+                <field name="data_reuniao"/>
+                <field name="valor_portfolio"/>
+                <field name="rentabilidade_periodo"/>
+                <field name="satisfacao_cliente"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_crm_wealth_acompanhamento_form" model="ir.ui.view">
+        <field name="name">crm.wealth.acompanhamento.form</field>
+        <field name="model">crm.wealth.acompanhamento</field>
+        <field name="arch" type="xml">
+            <form string="Acompanhamento">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="lead_id"/>
+                            <field name="data_reuniao"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="valor_portfolio"/>
+                            <field name="rentabilidade_periodo"/>
+                            <field name="satisfacao_cliente"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="mudancas_realizadas"/>
+                    </group>
+                    <group>
+                        <field name="proximos_passos"/>
+                    </group>
+                    <group>
+                        <field name="observacoes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+</odoo>
