@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_wealth_interesse_user,access.crm.wealth.interesse.user,model_crm_wealth_interesse,base.group_user,1,1,1,1
+access_crm_wealth_estrategia_user,access.crm.wealth.estrategia.user,model_crm_wealth_estrategia,base.group_user,1,1,1,1
+access_crm_wealth_objecao_user,access.crm.wealth.objecao.user,model_crm_wealth_objecao,base.group_user,1,1,1,1
+access_crm_wealth_documento_user,access.crm.wealth.documento.user,model_crm_wealth_documento,base.group_user,1,1,1,1
+access_crm_wealth_corretora_user,access.crm.wealth.corretora.user,model_crm_wealth_corretora,base.group_user,1,1,1,1
+access_crm_wealth_acompanhamento_user,access.crm.wealth.acompanhamento.user,model_crm_wealth_acompanhamento,base.group_user,1,1,1,1

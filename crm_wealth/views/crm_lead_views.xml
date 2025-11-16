@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ============================================================ -->
+    <!-- FORMULÁRIO HERDADO DO CRM.LEAD COM ABAS DINÂMICAS -->
+    <!-- ============================================================ -->
+    
+    <record id="crm_lead_view_form_wealth" model="ir.ui.view">
+        <field name="name">crm.lead.form.wealth</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Adiciona as abas personalizadas dentro do notebook existente -->
+            <xpath expr="//notebook" position="inside">
+                
+                <!-- ============================================================ -->
+                <!-- ABA 1: CAPTAÇÃO -->
+                <!-- ============================================================ -->
+                <page string="🔵 Captação" 
+                      name="captacao" 
+                      invisible="not show_captacao">
+                    <group>
+                        <group string="Informações de Origem">
+                            <field name="show_captacao" invisible="1"/>
+                            <field name="origem_lead" widget="radio"/>
+                            <field name="momento_financeiro"/>
+                        </group>
+                        <group string="Perfil Financeiro Inicial">
+                            <field name="patrimonio_aproximado"/>
+                            <field name="renda_mensal"/>
+                        </group>
+                    </group>
+                    <group string="Interesses Iniciais">
+                        <field name="interesse_inicial" widget="many2many_tags" options="{'color_field': 'name', 'no_create': False}"/>
+                    </group>
+                </page>
+
+                <!-- ============================================================ -->
+                <!-- ABA 2: QUALIFICAÇÃO -->
+                <!-- ============================================================ -->
+                <page string="🟢 Qualificação" 
+                      name="qualificacao" 
+                      invisible="not show_qualificacao">
+                    <group>
+                        <group string="Perfil e Dores">
+                            <field name="show_qualificacao" invisible="1"/>
+                            <field name="perfil_investidor"/>
+                            <field name="dor_principal" widget="radio"/>
+                        </group>
+                        <group string="Objetivos">
+                            <field name="objetivo_curto_prazo" placeholder="Ex.: investir melhor, sair do zero, quitar dívidas"/>
+                            <field name="objetivo_longo_prazo" placeholder="Ex.: FIRE, comprar imóvel, aposentadoria, independência financeira"/>
+                        </group>
+                    </group>
+                </page>
+
+                <!-- ============================================================ -->
+                <!-- ABA 3: REUNIÃO ESTRATÉGICA -->
+                <!-- ============================================================ -->
+                <page string="🟣 Reunião Estratégica" 
+                      name="reuniao_estrategica" 
+                      invisible="not show_reuniao">
+                    <group>
+                        <group string="Diagnóstico Inicial">
+                            <field name="show_reuniao" invisible="1"/>
+                            <field name="diagnostico_situacao_atual" placeholder="Descrição da situação financeira atual do cliente"/>
+                            <field name="diagnostico_pontos_fortes" placeholder="O que o cliente já faz bem"/>
+                            <field name="diagnostico_pontos_melhorar" placeholder="Áreas que precisam de atenção"/>
+                            <field name="diagnostico_oportunidades" placeholder="Oportunidades identificadas"/>
+                        </group>
+                        <group string="Estratégia e Avaliação">
+                            <field name="estrategias_recomendadas" widget="many2many_tags" options="{'color_field': 'name', 'no_create': False}"/>
+                            <field name="score_potencial" widget="radio"/>
+                        </group>
+                    </group>
+                </page>
+
+                <!-- ============================================================ -->
+                <!-- ABA 4: PROPOSTA -->
+                <!-- ============================================================ -->
+                <page string="🟠 Proposta" 
+                      name="proposta" 
+                      invisible="not show_proposta">
+                    <group>
+                        <group string="Detalhes da Proposta">
+                            <field name="show_proposta" invisible="1"/>
+                            <field name="plano_contratado"/>
+                            <field name="valor_proposta"/>
+                            <field name="justificativa_valor" placeholder="Explique o racional e valor da proposta"/>
+                        </group>
+                        <group string="Objeções e Tratativas">
+                            <field name="objecoes_apresentadas" widget="many2many_tags" options="{'color_field': 'name', 'no_create': False}"/>
+                        </group>
+                    </group>
+                </page>
+
+                <!-- ============================================================ -->
+                <!-- ABA 5: ONBOARDING -->
+                <!-- ============================================================ -->
+                <page string="🟡 Onboarding" 
+                      name="onboarding" 
+                      invisible="not show_onboarding">
+                    <group>
+                        <group string="Documentação e Compliance">
+                            <field name="show_onboarding" invisible="1"/>
+                            <field name="suitability_oficial"/>
+                            <field name="perfil_risco_final"/>
+                            <field name="estrutura_inicial_montada"/>
+                        </group>
+                        <group string="Estrutura Operacional">
+                            <field name="documentos_entregues" widget="many2many_tags" options="{'no_create': False}"/>
+                            <field name="contas_corretoras" widget="many2many_tags" options="{'no_create': False}"/>
+                        </group>
+                    </group>
+                </page>
+
+                <!-- ============================================================ -->
+                <!-- ABA 6: EXECUÇÃO & ACOMPANHAMENTO -->
+                <!-- ============================================================ -->
+                <page string="🟤 Execução &amp; Acompanhamento" 
+                      name="execucao" 
+                      invisible="not show_execucao">
+                    <group>
+                        <group string="Portfólio Atual">
+                            <field name="show_execucao" invisible="1"/>
+                            <field name="valor_investido_atual"/>
+                            <field name="distribuicao_portfolio" placeholder="Ex.: 60% Renda Fixa, 30% Ações, 10% FIIs"/>
+                            <field name="historico_mudancas" placeholder="Registro de mudanças realizadas"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Acompanhamento Mensal">
+                        <field name="acompanhamento_mensal_ids" nolabel="1"/>
+                    </group>
+                </page>
+                
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- VIEWS PARA ACOMPANHAMENTO MENSAL -->
+    <!-- ============================================================ -->
+    
+    <record id="crm_wealth_acompanhamento_view_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.acompanhamento.tree</field>
+        <field name="model">crm.wealth.acompanhamento</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="data_reuniao"/>
+                <field name="name"/>
+                <field name="valor_portfolio"/>
+                <field name="rentabilidade_periodo"/>
+                <field name="satisfacao_cliente"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="crm_wealth_acompanhamento_view_form" model="ir.ui.view">
+        <field name="name">crm.wealth.acompanhamento.form</field>
+        <field name="model">crm.wealth.acompanhamento</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="data_reuniao"/>
+                            <field name="valor_portfolio"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="rentabilidade_periodo"/>
+                            <field name="satisfacao_cliente"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="mudancas_realizadas" placeholder="Rebalanceamento, novos aportes, mudança de estratégia"/>
+                        <field name="proximos_passos"/>
+                        <field name="observacoes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- VIEWS TREE PARA MODELOS AUXILIARES -->
+    <!-- ============================================================ -->
+
+    <!-- Interesses -->
+    <record id="crm_wealth_interesse_view_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.interesse.tree</field>
+        <field name="model">crm.wealth.interesse</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Estratégias -->
+    <record id="crm_wealth_estrategia_view_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.estrategia.tree</field>
+        <field name="model">crm.wealth.estrategia</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="descricao"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Objeções -->
+    <record id="crm_wealth_objecao_view_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.objecao.tree</field>
+        <field name="model">crm.wealth.objecao</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="tratativa_padrao"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Documentos -->
+    <record id="crm_wealth_documento_view_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.documento.tree</field>
+        <field name="model">crm.wealth.documento</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="obrigatorio"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Corretoras -->
+    <record id="crm_wealth_corretora_view_tree" model="ir.ui.view">
+        <field name="name">crm.wealth.corretora.tree</field>
+        <field name="model">crm.wealth.corretora</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- MENU ITEMS PARA CONFIGURAÇÃO -->
+    <!-- ============================================================ -->
+
+    <menuitem id="menu_crm_wealth_config"
+              name="Wealth Management"
+              parent="crm.crm_menu_config"
+              sequence="100"/>
+
+    <!-- Interesses -->
+    <record id="crm_wealth_interesse_action" model="ir.actions.act_window">
+        <field name="name">Interesses</field>
+        <field name="res_model">crm.wealth.interesse</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_crm_wealth_interesse"
+              name="Interesses"
+              parent="menu_crm_wealth_config"
+              action="crm_wealth_interesse_action"
+              sequence="10"/>
+
+    <!-- Estratégias -->
+    <record id="crm_wealth_estrategia_action" model="ir.actions.act_window">
+        <field name="name">Estratégias</field>
+        <field name="res_model">crm.wealth.estrategia</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_crm_wealth_estrategia"
+              name="Estratégias"
+              parent="menu_crm_wealth_config"
+              action="crm_wealth_estrategia_action"
+              sequence="20"/>
+
+    <!-- Objeções -->
+    <record id="crm_wealth_objecao_action" model="ir.actions.act_window">
+        <field name="name">Objeções</field>
+        <field name="res_model">crm.wealth.objecao</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_crm_wealth_objecao"
+              name="Objeções"
+              parent="menu_crm_wealth_config"
+              action="crm_wealth_objecao_action"
+              sequence="30"/>
+
+    <!-- Documentos -->
+    <record id="crm_wealth_documento_action" model="ir.actions.act_window">
+        <field name="name">Documentos</field>
+        <field name="res_model">crm.wealth.documento</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_crm_wealth_documento"
+              name="Documentos"
+              parent="menu_crm_wealth_config"
+              action="crm_wealth_documento_action"
+              sequence="40"/>
+
+    <!-- Corretoras -->
+    <record id="crm_wealth_corretora_action" model="ir.actions.act_window">
+        <field name="name">Corretoras</field>
+        <field name="res_model">crm.wealth.corretora</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_crm_wealth_corretora"
+              name="Corretoras"
+              parent="menu_crm_wealth_config"
+              action="crm_wealth_corretora_action"
+              sequence="50"/>
+
+</odoo>
