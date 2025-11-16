@@ -1,209 +1,215 @@
-# CRM Wealth Management - Odoo 19
+# 📊 ODOO Modules - Consultoria de Investimentos
 
-![Odoo Version](https://img.shields.io/badge/Odoo-19.0-blue)
-![License](https://img.shields.io/badge/License-LGPL--3-green)
-![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![Odoo](https://img.shields.io/badge/Odoo-19.0-714B67?style=for-the-badge&logo=odoo)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![License](https://img.shields.io/badge/License-LGPL--3-green?style=for-the-badge)
 
-Sistema de CRM personalizado para Consultoria e Gestão de Investimentos (Wealth Management) desenvolvido para Odoo 19.
-
-## 🎯 Visão Geral
-
-Este repositório contém um módulo completo para transformar o CRM padrão do Odoo em uma poderosa ferramenta de gestão de relacionamento para consultorias financeiras, gestoras de patrimônio e assessorias de investimento.
-
-### ✨ Diferenciais
-
-- **Abas Dinâmicas Progressivas:** As informações aparecem conforme o lead avança no funil
-- **6 Estágios Especializados:** Captação → Qualificação → Reunião → Proposta → Onboarding → Execução
-- **Campos Contextuais:** Cada etapa possui campos relevantes para aquele momento específico
-- **Acompanhamento Contínuo:** Sistema de follow-up mensal integrado
-- **Dados Pré-configurados:** Pronto para uso com estratégias, objeções e documentos padrão
-
-## 📦 Estrutura do Projeto
-
-```
-crm_wealth_odoo/
-├── crm_wealth/                    # Módulo principal
-│   ├── models/                    # Modelos Python
-│   │   ├── crm_lead.py           # Extensão do CRM Lead
-│   │   └── acompanhamento_mensal.py
-│   ├── views/                     # Views XML
-│   │   └── crm_lead_views.xml
-│   ├── data/                      # Dados iniciais
-│   │   └── crm_stage_data.xml
-│   ├── security/                  # Controle de acesso
-│   │   └── ir.model.access.csv
-│   ├── __manifest__.py            # Manifesto do módulo
-│   ├── README.md                  # Documentação do módulo
-│   └── BOAS_PRATICAS_ODOO19.md   # Guia de desenvolvimento
-└── README.md                      # Este arquivo
-```
-
-## 🚀 Instalação Rápida
-
-### Opção 1: Docker (Recomendado para Testes) 🐳
-
-A maneira mais rápida de testar o módulo!
-
-```bash
-# 1. Clone o repositório
-git clone https://github.com/gzconsultoria/crm_wealth_odoo.git
-cd crm_wealth_odoo
-
-# 2. Inicie o Odoo com Docker
-./start-odoo.sh
-
-# 3. Acesse http://localhost:8069
-```
-
-**Pronto!** O Odoo 19 está rodando com o módulo disponível para instalação.
-
-👉 Veja [DOCKER.md](DOCKER.md) para instruções detalhadas
-
-### Opção 2: Instalação Manual
-
-#### Pré-requisitos
-
-- Odoo 19.0 instalado
-- Python 3.10+
-- PostgreSQL 12+
-
-#### Passo a Passo
-
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/gzconsultoria/crm_wealth_odoo.git
-   cd crm_wealth_odoo
-   ```
-
-2. **Copie o módulo para o diretório de addons:**
-   ```bash
-   cp -r crm_wealth /caminho/para/odoo/addons/
-   ```
-
-3. **Atualize a lista de módulos no Odoo:**
-   - Ative o modo desenvolvedor
-   - Apps → Atualizar Lista de Aplicativos
-
-4. **Instale o módulo:**
-   - Apps → Buscar "CRM Wealth Management"
-   - Clique em "Instalar"
-
-## 📊 Funcionalidades Detalhadas
-
-### 🔵 Estágio 1: Captação
-- Origem do Lead (Instagram, Indicação, Site, WhatsApp, etc.)
-- Momento Financeiro Atual
-- Patrimônio Aproximado (faixas)
-- Renda Mensal (faixas)
-- Interesses Iniciais (multi-seleção)
-
-### 🟢 Estágio 2: Qualificação
-- Perfil do Investidor (Suitability Preliminar)
-- Dor Principal (Tempo, Estratégia, Medo, etc.)
-- Objetivo de Curto Prazo (12 meses)
-- Objetivo de Longo Prazo (5+ anos)
-
-### 🟣 Estágio 3: Reunião Estratégica
-- Diagnóstico Completo (Situação Atual, Pontos Fortes, Pontos a Melhorar, Oportunidades)
-- Estratégias Recomendadas (Renda Fixa, FIIs, ETFs, etc.)
-- Score de Potencial (0 a 5 estrelas)
-
-### 🟠 Estágio 4: Proposta
-- Plano Sugerido (Consultoria Mensal, FIRE, Premium, Gestão Completa, Mentoria)
-- Valor da Proposta
-- Justificativa de Valor
-- Objeções Apresentadas e Tratativas
-
-### 🟡 Estágio 5: Onboarding
-- Suitability Oficial
-- Documentos Entregues (RG, CPF, Comprovantes, Extratos)
-- Perfil de Risco Final
-- Estrutura Inicial Montada
-- Contas de Corretoras
-
-### 🟤 Estágio 6: Execução & Acompanhamento
-- Valor Investido Atual
-- Distribuição de Portfólio
-- Acompanhamento Mensal (histórico de reuniões)
-- Histórico de Mudanças
-
-## 🎨 Interface
-
-A interface se adapta automaticamente ao estágio do funil:
-
-- **Captação (seq 10):** Exibe apenas aba Captação
-- **Qualificação (seq 20):** Exibe Captação + Qualificação
-- **Reunião (seq 30):** Exibe até Reunião Estratégica
-- E assim sucessivamente...
-
-Isso garante que o usuário veja apenas as informações relevantes para o momento atual do lead.
-
-## 🛠️ Tecnologias e Boas Práticas
-
-- **Odoo Framework 19.0**
-- **Python 3.10+**
-- **PostgreSQL**
-- **XML Views com XPath Inheritance**
-- **ORM Odoo (models.Model)**
-- **Campos Computados com @api.depends**
-- **Many2many, One2many, Many2one relationships**
-- **Security Rules (ir.model.access)**
-- **Data Files com noupdate**
-
-Veja o arquivo [BOAS_PRATICAS_ODOO19.md](crm_wealth/BOAS_PRATICAS_ODOO19.md) para detalhes completos.
-
-## 📖 Documentação
-
-- 🚀 [Quick Start](QUICKSTART.md) - Comece em 5 minutos
-- 🐳 [Docker Setup](DOCKER.md) - Ambiente completo com Docker
-- 📘 [README do Módulo](crm_wealth/README.md) - Instruções detalhadas
-- 💡 [Exemplos de Uso](EXEMPLOS_USO.md) - Casos práticos e exemplos
-- 🛠️ [Boas Práticas Odoo 19](crm_wealth/BOAS_PRATICAS_ODOO19.md) - Guia de desenvolvimento
-- 🐛 [Troubleshooting](TROUBLESHOOTING.md) - Solução de problemas
-- 🤝 [Contributing](CONTRIBUTING.md) - Como contribuir
-- 📝 [Changelog](CHANGELOG.md) - Histórico de versões
-- 📚 [Documentação Oficial Odoo](https://www.odoo.com/documentation/19.0/)
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Por favor:
-
-1. Faça um Fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📝 Roadmap
-
-- [ ] Dashboard com métricas de conversão por estágio
-- [ ] Integração com APIs de corretoras
-- [ ] Relatórios de performance de carteira
-- [ ] Automação de e-mails por estágio
-- [ ] Assinatura digital de documentos
-- [ ] Portal do cliente para acompanhamento
-
-## 📄 Licença
-
-Este projeto está licenciado sob LGPL-3 - veja o arquivo LICENSE para detalhes.
-
-## 👥 Autor
-
-**GZ Consultoria e Administração de Carteiras**
-- Website: [https://www.gzconsultoria.com.br](https://www.gzconsultoria.com.br)
-- Email: contato@geovanezomer.com.br
-
-## 🆘 Suporte
-
-Para questões, bugs ou sugestões:
-- Abra uma [Issue](https://github.com/gzconsultoria/crm_wealth_odoo/issues)
-- Entre em contato através do website
-
-## 🙏 Agradecimentos
-
-- Comunidade Odoo pela excelente plataforma
-- Todos os contribuidores do projeto
+> **Desenvolvido por:** [Geovane Zomer](https://github.com/gzconsultoria)  
+> **Empresa:** GZ Consultoria  
+> **Especialização:** Módulos Odoo para Wealth Management e Consultoria Financeira
 
 ---
 
-⭐ Se este projeto foi útil para você, considere dar uma estrela!
+## 🎯 Sobre Este Repositório
+
+Este repositório contém uma coleção de **módulos customizados para Odoo 19** voltados especificamente para **consultorias de investimentos, wealth management e assessorias financeiras**.
+
+Os módulos foram desenvolvidos para otimizar o processo comercial de empresas que trabalham com gestão de patrimônio, planejamento financeiro e consultoria de investimentos, desde a captação até o acompanhamento contínuo de clientes.
+
+---
+
+## 📦 Módulos Disponíveis
+
+### 🏆 **CRM Wealth Management** (Principal)
+
+Sistema completo de CRM especializado em Wealth Management com funil de vendas customizado e gestão inteligente de leads.
+
+**Características principais:**
+
+#### 🔄 **Funil Customizado (6 Estágios)**
+- 🔵 **Captação** - Primeiro contato e qualificação inicial
+- 🟢 **Qualificação** - Análise de perfil e objetivos
+- 🟣 **Reunião Estratégica** - Diagnóstico profundo
+- 🟠 **Proposta** - Apresentação de soluções
+- 🟡 **Onboarding** - Documentação e estruturação
+- 🟤 **Execução & Acompanhamento** - Gestão ativa
+
+#### ✨ **Funcionalidades Avançadas**
+- ✅ **Abas Dinâmicas** - Aparecem conforme progressão do lead
+- ✅ **Validações Inteligentes** - Bloqueio de avanço sem dados obrigatórios
+- ✅ **Indicadores de Completude** - 0-100% por aba com alertas visuais
+- ✅ **Cálculos Automáticos** - Aporte mensal necessário, receita estimada
+- ✅ **Sistema de SLA** - Notificações automáticas de follow-up
+- ✅ **Campos Pessoais** - Aniversários, família, hobbies (relacionamento)
+- ✅ **Resumo Executivo** - Primeira aba com contexto completo do cliente
+- ✅ **Score de Qualificação** - Temperatura do lead (hot/warm/cold)
+
+#### 🎛️ **Configurações Flexíveis**
+- Taxas de retorno ajustáveis (conservadora, moderada, agressiva)
+- Prazos de SLA personalizáveis por estágio
+- Cadastros auxiliares (interesses, estratégias, objeções, documentos)
+
+#### 🤖 **Automações**
+- Cron jobs diários para verificação de SLAs
+- Criação automática de atividades e notificações
+- Alertas de aniversário (cliente e cônjuge)
+- Rastreamento de tempo por estágio
+
+---
+
+## 🚀 Instalação Rápida
+
+### Pré-requisitos
+- Odoo 19.0
+- Python 3.12+
+- PostgreSQL 13+
+
+### Passos
+
+```bash
+# Clone o repositório
+git clone https://github.com/gzconsultoria/ODOO_Modules.git
+
+# Copie o módulo para addons path do Odoo
+cp -r ODOO_Modules/crm_wealth /path/to/odoo/addons/
+
+# Restart Odoo
+sudo systemctl restart odoo
+
+# Ative o modo desenvolvedor
+# Apps → Atualizar Lista de Apps
+# Procure por "CRM Wealth Management"
+# Clique em "Instalar"
+```
+
+### Docker (Recomendado)
+
+```bash
+# Use o docker-compose incluído
+cd ODOO_Modules
+docker-compose up -d
+
+# Acesse: http://localhost:8069
+# Login: admin / admin
+```
+
+---
+
+## 📖 Documentação
+
+Cada módulo possui sua própria documentação detalhada:
+
+- 📘 [CRM Wealth Management - README](./crm_wealth/README.md)
+- 📗 [Guia de Boas Práticas Odoo 19](./crm_wealth/BOAS_PRATICAS_ODOO19.md)
+- 📙 [Exemplos de Uso](./crm_wealth/EXEMPLOS_USO.md)
+- 📕 [Changelog](./crm_wealth/CHANGELOG.md)
+
+---
+
+## 🎓 Para Quem é Este Projeto?
+
+### ✅ Ideal para:
+- 🏦 **Consultorias de Investimentos**
+- 💼 **Wealth Management / Family Office**
+- 📊 **Assessorias de Investimentos**
+- 💰 **Gestoras de Patrimônio**
+- 🎯 **Planejadores Financeiros Certificados (CFP)**
+- 📈 **Agentes Autônomos de Investimento (AAI)**
+
+### 💡 Casos de Uso:
+- Gestão de pipeline de prospecção de clientes HNW (High Net Worth)
+- Acompanhamento de onboarding de novos investidores
+- Controle de SLA de atendimento e follow-up
+- Cálculos de viabilidade e simulações financeiras
+- Registro de perfil de risco e suitability
+- Histórico de reuniões e estratégias recomendadas
+
+---
+
+## 🛠️ Stack Tecnológico
+
+- **Framework:** Odoo 19.0
+- **Backend:** Python 3.12
+- **ORM:** Odoo ORM
+- **Frontend:** Owl Framework (Odoo)
+- **Database:** PostgreSQL 13+
+- **Views:** XML (QWeb Templates)
+
+---
+
+## 📊 Roadmap
+
+### ✅ Fase 1 - Concluída
+- [x] Funil customizado com 6 estágios
+- [x] Abas dinâmicas por estágio
+- [x] Validações e completude
+- [x] Cálculos financeiros automáticos
+
+### ✅ Fase 2 - Concluída
+- [x] Sistema de SLAs configurável
+- [x] Campos pessoais e relacionamento
+- [x] Aba Resumo executivo
+- [x] Score e temperatura de leads
+
+### 🚧 Fase 3 - Em Planejamento
+- [ ] Dashboard gerencial com KPIs
+- [ ] Relatórios de performance
+- [ ] Templates de email
+- [ ] Integração WhatsApp/Email
+- [ ] Lead scoring avançado (ML)
+
+---
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Se você tem sugestões de melhorias:
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/NovaFuncionalidade`)
+3. Commit suas mudanças (`git commit -m 'Add: Nova funcionalidade X'`)
+4. Push para a branch (`git push origin feature/NovaFuncionalidade`)
+5. Abra um Pull Request
+
+---
+
+## 📝 Licença
+
+Este projeto está licenciado sob **LGPL-3** - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+---
+
+## 👨‍💻 Autor
+
+**Geovane Zomer**  
+- 🌐 Website: [gzconsultoria.com.br](https://www.gzconsultoria.com.br)  
+- 📧 Email: geovane.zomer@gmail.com  
+- 💼 LinkedIn: [linkedin.com/in/geovanezomer](https://linkedin.com/in/geovanezomer)  
+- 🐙 GitHub: [@gzconsultoria](https://github.com/gzconsultoria)
+
+---
+
+## 🙏 Agradecimentos
+
+- Odoo SA pela plataforma incrível
+- Comunidade Odoo Brasil
+- Clientes que inspiraram estas funcionalidades
+
+---
+
+## ⭐ Apoie o Projeto
+
+Se este projeto foi útil para você, considere:
+- ⭐ Dar uma estrela no GitHub
+- 🐛 Reportar bugs e sugerir melhorias
+- 📢 Compartilhar com colegas do setor financeiro
+- ☕ [Buy me a coffee](https://www.buymeacoffee.com/geovanezomer)
+
+---
+
+<p align="center">
+  <strong>Feito com ❤️ para o mercado financeiro brasileiro</strong>
+</p>
+
+<p align="center">
+  <sub>Transformando a gestão de clientes em consultorias de investimentos</sub>
+</p>
