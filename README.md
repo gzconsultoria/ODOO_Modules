@@ -1,0 +1,1 @@
+# crm_wealth_odoo
