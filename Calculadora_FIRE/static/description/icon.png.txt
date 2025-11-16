@@ -1,0 +1,2 @@
+Placeholder para ícone PNG.
+Para produção, substitua por uma imagem PNG 256x256 com o logo da calculadora FIRE.
