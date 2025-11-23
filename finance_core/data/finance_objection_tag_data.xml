@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Tags de Objeções Comuns -->
+        
+        <record id="objection_price" model="finance.objection.tag">
+            <field name="name">💰 Preço Alto</field>
+            <field name="color">1</field>
+            <field name="description">Cliente considera o valor da proposta elevado. Estratégia: Demonstrar ROI e valor agregado.</field>
+        </record>
+        
+        <record id="objection_time" model="finance.objection.tag">
+            <field name="name">⏰ Falta de Tempo</field>
+            <field name="color">2</field>
+            <field name="description">Cliente alega não ter tempo para acompanhar. Estratégia: Explicar que você fará o trabalho pesado.</field>
+        </record>
+        
+        <record id="objection_fear" model="finance.objection.tag">
+            <field name="name">😰 Medo de Perder Dinheiro</field>
+            <field name="color">3</field>
+            <field name="description">Cliente tem medo de risco. Estratégia: Educar sobre diversificação e gestão de risco.</field>
+        </record>
+        
+        <record id="objection_complexity" model="finance.objection.tag">
+            <field name="name">🤯 Complexidade</field>
+            <field name="color">4</field>
+            <field name="description">Cliente acha muito complicado. Estratégia: Simplificar explicação e mostrar passo a passo.</field>
+        </record>
+        
+        <record id="objection_trust" model="finance.objection.tag">
+            <field name="name">🤝 Falta de Confiança</field>
+            <field name="color">5</field>
+            <field name="description">Cliente não confia totalmente. Estratégia: Social proof, cases de sucesso, garantias.</field>
+        </record>
+        
+        <record id="objection_timing" model="finance.objection.tag">
+            <field name="name">📅 Momento Errado</field>
+            <field name="color">6</field>
+            <field name="description">Cliente quer adiar decisão. Estratégia: Mostrar custo de oportunidade de esperar.</field>
+        </record>
+        
+        <record id="objection_diy" model="finance.objection.tag">
+            <field name="name">🔨 Prefere Fazer Sozinho</field>
+            <field name="color">7</field>
+            <field name="description">Cliente quer gerenciar sozinho. Estratégia: Mostrar resultados profissionais vs amador.</field>
+        </record>
+        
+        <record id="objection_comparison" model="finance.objection.tag">
+            <field name="name">🔍 Comparando Opções</field>
+            <field name="color">8</field>
+            <field name="description">Cliente está avaliando outras alternativas. Estratégia: Diferenciais competitivos claros.</field>
+        </record>
+        
+        <record id="objection_spouse" model="finance.objection.tag">
+            <field name="name">👫 Precisa Consultar Cônjuge</field>
+            <field name="color">9</field>
+            <field name="description">Decisão conjunta necessária. Estratégia: Agendar reunião com ambos.</field>
+        </record>
+        
+        <record id="objection_contract" model="finance.objection.tag">
+            <field name="name">📜 Dúvidas sobre Contrato</field>
+            <field name="color">10</field>
+            <field name="description">Cliente tem dúvidas legais/contratuais. Estratégia: Clareza total em termos e condições.</field>
+        </record>
+        
+    </data>
+</odoo>

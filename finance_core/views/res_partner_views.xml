@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Herança do formulário de contatos para adicionar botão Perfil Financeiro -->
+    <record id="view_partner_form_finance_profile" model="ir.ui.view">
+        <field name="name">res.partner.form.finance.profile</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Adiciona botão no button_box (canto superior direito) -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_finance_profile" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-chart-line"
+                        help="Abrir perfil financeiro do cliente">
+                    <field name="finance_profile_count" widget="statinfo" string="Perfil Financeiro"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

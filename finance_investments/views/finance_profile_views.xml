@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_finance_profile_form_investments" model="ir.ui.view">
+        <field name="name">finance.profile.form.investments</field>
+        <field name="model">finance.profile</field>
+        <field name="inherit_id" ref="finance_core.view_finance_profile_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Carteira &amp; Patrimônio" name="investment_overview">
+                    <group col="2">
+                        <field name="portfolio_snapshot_ids" mode="list,kanban">
+                            <list string="Snapshots de carteira">
+                                <field name="snapshot_date"/>
+                                <field name="market_value" widget="monetary"/>
+                                <field name="allocation_warning"/>
+                            </list>
+                            <kanban default_group_by="snapshot_date" class="o_finance_snapshot_kanban">
+                                <templates>
+                                    <t t-name="card">
+                                        <div class="oe_kanban_card o_kanban_record">
+                                            <div class="oe_kanban_content">
+                                                <h4><field name="snapshot_date"/></h4>
+                                                <div class="o_finance_snapshot_value">
+                                                    <span class="badge badge-success">AUM: <field name="market_value" widget="monetary"/></span>
+                                                </div>
+                                                <t t-if="record.allocation_warning.raw_value">
+                                                    <div class="o_finance_snapshot_warning text-danger">
+                                                        <i class="fa fa-exclamation-triangle" role="img" aria-label="Desvio"/>
+                                                        <t t-esc="record.allocation_warning.raw_value"/>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </group>
+                    <group col="2">
+                        <field name="asset_ids" mode="list" context="{'form_view_ref': 'finance_investments.view_finance_asset_form'}">
+                            <list string="💎 Ativos Patrimoniais" editable="bottom">
+                                <field name="reference_id" string="Ativo" placeholder="Selecione ou cadastre o ativo..."/>
+                                <field name="amount" widget="monetary" string="Valor atual"/>
+                                <field name="notes" string="Observações" placeholder="Detalhes opcionais..."/>
+                            </list>
+                        </field>
+                        <field name="liability_ids" mode="list" context="{'form_view_ref': 'finance_investments.view_finance_liability_form'}">
+                            <list string="💳 Passivos / Dívidas" editable="bottom">
+                                <field name="name" string="Nome da dívida" placeholder="Ex: Financiamento Casa"/>
+                                <field name="liability_type" string="Tipo"/>
+                                <field name="outstanding_balance" widget="monetary" string="Saldo devedor"/>
+                                <field name="interest_rate" widget="percentage" string="Taxa a.a."/>
+                                <field name="maturity_date" string="Vencimento"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

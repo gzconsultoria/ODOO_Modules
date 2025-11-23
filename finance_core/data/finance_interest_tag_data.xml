@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Tags de Interesses do Investidor -->
+        
+        <record id="interest_stocks" model="finance.interest.tag">
+            <field name="name">Ações/Bolsa</field>
+            <field name="color">1</field>
+            <field name="description">Investimentos em ações de empresas listadas em bolsa</field>
+        </record>
+        
+        <record id="interest_fixed_income" model="finance.interest.tag">
+            <field name="name">Renda Fixa</field>
+            <field name="color">2</field>
+            <field name="description">Títulos públicos, CDBs, LCIs, LCAs, Debêntures</field>
+        </record>
+        
+        <record id="interest_reits" model="finance.interest.tag">
+            <field name="name">Fundos Imobiliários (FIIs)</field>
+            <field name="color">3</field>
+            <field name="description">Investimentos em fundos imobiliários</field>
+        </record>
+        
+        <record id="interest_crypto" model="finance.interest.tag">
+            <field name="name">Criptomoedas</field>
+            <field name="color">4</field>
+            <field name="description">Bitcoin, Ethereum e outras criptomoedas</field>
+        </record>
+        
+        <record id="interest_international" model="finance.interest.tag">
+            <field name="name">Investimentos Internacionais</field>
+            <field name="color">5</field>
+            <field name="description">ETFs internacionais, ações estrangeiras, BDRs</field>
+        </record>
+        
+        <record id="interest_retirement" model="finance.interest.tag">
+            <field name="name">Previdência Privada</field>
+            <field name="color">6</field>
+            <field name="description">PGBL, VGBL e outros planos de previdência</field>
+        </record>
+        
+        <record id="interest_funds" model="finance.interest.tag">
+            <field name="name">Fundos de Investimento</field>
+            <field name="color">7</field>
+            <field name="description">Fundos multimercado, de ações, cambiais</field>
+        </record>
+        
+        <record id="interest_alternative" model="finance.interest.tag">
+            <field name="name">Investimentos Alternativos</field>
+            <field name="color">8</field>
+            <field name="description">COEs, derivativos, opções, day trade</field>
+        </record>
+        
+        <record id="interest_commodities" model="finance.interest.tag">
+            <field name="name">Commodities</field>
+            <field name="color">9</field>
+            <field name="description">Ouro, prata, petróleo e outras commodities</field>
+        </record>
+        
+        <record id="interest_sustainable" model="finance.interest.tag">
+            <field name="name">Investimentos Sustentáveis (ESG)</field>
+            <field name="color">10</field>
+            <field name="description">Investimentos com critérios ambientais, sociais e de governança</field>
+        </record>
+        
+    </data>
+</odoo>

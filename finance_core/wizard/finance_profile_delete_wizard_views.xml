@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_finance_profile_delete_wizard_form" model="ir.ui.view">
+        <field name="name">finance.profile.delete.wizard.form</field>
+        <field name="model">finance.profile.delete.wizard</field>
+        <field name="arch" type="xml">
+            <form string="⚠️ Confirmar Exclusão Permanente">
+                <div class="alert alert-danger" role="alert">
+                    <h4><i class="fa fa-exclamation-triangle"/> ATENÇÃO: Esta ação é IRREVERSÍVEL!</h4>
+                    <p>
+                        Você está prestes a excluir <strong>PERMANENTEMENTE</strong> o perfil financeiro:
+                    </p>
+                    <h5><field name="profile_name" readonly="1" nolabel="1"/></h5>
+                    <p class="mb-0">
+                        <strong>O que será excluído:</strong><br/>
+                        • Todos os dados do perfil financeiro<br/>
+                        • Metas e planejamentos vinculados<br/>
+                        • Carteiras e snapshots de investimentos<br/>
+                        • Histórico de compliance e documentos<br/>
+                        • Registros de atividades e chatter<br/>
+                    </p>
+                </div>
+                
+                <group>
+                    <field name="profile_id" invisible="1"/>
+                    <field name="confirmation_text" 
+                           placeholder="Digite EXCLUIR (em maiúsculas)"
+                           required="1"/>
+                    <field name="admin_password" 
+                           password="True" 
+                           placeholder="Digite sua senha de administrador"
+                           required="1"/>
+                </group>
+                
+                <div class="alert alert-info" role="alert">
+                    <p class="mb-0">
+                        <i class="fa fa-info-circle"/> 
+                        <strong>Alternativa Segura:</strong> 
+                        Ao invés de excluir, você pode <strong>Desativar</strong> o perfil. 
+                        Isso congela todas as operações mas preserva os dados para auditoria futura.
+                    </p>
+                </div>
+                
+                <footer>
+                    <button name="action_confirm_delete" 
+                            type="object" 
+                            string="🗑️ EXCLUIR PERMANENTEMENTE" 
+                            class="btn-danger"/>
+                    <button string="Cancelar" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

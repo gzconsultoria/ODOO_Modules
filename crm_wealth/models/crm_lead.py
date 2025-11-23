@@ -199,9 +199,6 @@ class CrmLead(models.Model):
     # ============================================================
     
     momento_financeiro = fields.Selection([
-    ], string='Origem do Lead', tracking=True)
-    
-    momento_financeiro = fields.Selection([
         ('organizando', 'Organizando finanças'),
         ('iniciando', 'Iniciando investimentos'),
         ('planejamento', 'Buscando planejamento'),
@@ -970,7 +967,7 @@ class CrmLead(models.Model):
                 ('res_model', '=', 'crm.lead'),
                 ('res_id', '=', lead.id),
                 ('summary', 'ilike', 'SLA: Captação'),
-                ('active', '=', True)
+                ('state', '!=', 'done')
             ], limit=1)
             
             if not existing:
@@ -1011,7 +1008,7 @@ class CrmLead(models.Model):
                 ('res_model', '=', 'crm.lead'),
                 ('res_id', '=', lead.id),
                 ('summary', 'ilike', 'SLA: Proposta'),
-                ('active', '=', True)
+                ('state', '!=', 'done')
             ], limit=1)
             
             if not existing:
@@ -1052,7 +1049,7 @@ class CrmLead(models.Model):
                 ('res_model', '=', 'crm.lead'),
                 ('res_id', '=', lead.id),
                 ('summary', 'ilike', 'SLA: Reunião'),
-                ('active', '=', True)
+                ('state', '!=', 'done')
             ], limit=1)
             
             if not existing:
@@ -1075,14 +1072,6 @@ class CrmLead(models.Model):
 # MODELOS AUXILIARES
 # ============================================================
 
-
-class CrmWealthInteresse(models.Model):
-    _name = 'crm.wealth.interesse'
-    _description = 'Interesses do Cliente'
-    _order = 'name'
-
-    name = fields.Char(string='Interesse', required=True)
-    active = fields.Boolean(default=True)
 
 class CrmWealthInteresse(models.Model):
     _name = 'crm.wealth.interesse'

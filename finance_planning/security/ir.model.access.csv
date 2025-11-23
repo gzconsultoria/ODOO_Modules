@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_finance_goal_admin,finance.goal.admin,finance_planning.model_finance_goal,base.group_system,1,1,1,1
+access_finance_goal_consultant,finance.goal.consultant,finance_planning.model_finance_goal,finance_core.group_finance_consultant,1,1,1,0
+access_finance_goal_backoffice,finance.goal.backoffice,finance_planning.model_finance_goal,finance_core.group_finance_backoffice,1,1,1,1
+access_finance_goal_portal,finance.goal.portal,finance_planning.model_finance_goal,base.group_portal,1,0,0,0
+access_finance_cashflow_plan_admin,finance.cashflow.plan.admin,finance_planning.model_finance_cashflow_plan,base.group_system,1,1,1,1
+access_finance_cashflow_plan_consultant,finance.cashflow.plan.consultant,finance_planning.model_finance_cashflow_plan,finance_core.group_finance_consultant,1,1,1,0
+access_finance_cashflow_plan_backoffice,finance.cashflow.plan.backoffice,finance_planning.model_finance_cashflow_plan,finance_core.group_finance_backoffice,1,1,1,1
+access_finance_cashflow_item_admin,finance.cashflow.item.admin,finance_planning.model_finance_cashflow_item,base.group_system,1,1,1,1
+access_finance_cashflow_item_consultant,finance.cashflow.item.consultant,finance_planning.model_finance_cashflow_item,finance_core.group_finance_consultant,1,1,1,0
+access_finance_cashflow_item_backoffice,finance.cashflow.item.backoffice,finance_planning.model_finance_cashflow_item,finance_core.group_finance_backoffice,1,1,1,1
+access_finance_goal_wizard_admin,finance.goal.wizard.admin,finance_planning.model_finance_goal_wizard,base.group_system,1,1,1,1
+access_finance_goal_template_admin,finance.goal.template.admin,finance_planning.model_finance_goal_template,base.group_system,1,1,1,1

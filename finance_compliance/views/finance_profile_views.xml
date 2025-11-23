@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Herança do Form View do Finance Profile -->
+    <record id="view_finance_profile_form_compliance" model="ir.ui.view">
+        <field name="name">finance.profile.form.compliance</field>
+        <field name="model">finance.profile</field>
+        <field name="inherit_id" ref="finance_core.view_finance_profile_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Smart Buttons de Compliance -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" 
+                        name="action_open_documents_folder" icon="fa-folder-open"
+                        invisible="not compliance_id">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="document_count"/>
+                        </span>
+                        <span class="o_stat_text">Documentos</span>
+                    </div>
+                </button>
+                
+                <button class="oe_stat_button" type="object" 
+                        name="action_view_pending_signatures" icon="fa-clock-o"
+                        invisible="pending_signatures_count == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="pending_signatures_count"/>
+                        </span>
+                        <span class="o_stat_text">Assinaturas Pendentes</span>
+                    </div>
+                </button>
+            </xpath>
+            
+            <!-- Aba de Compliance Integrado -->
+            <xpath expr="//notebook" position="inside">
+                <page string="📋 Compliance" name="compliance_integrated" 
+                      invisible="not compliance_id">
+                    
+                    <div class="alert alert-info" role="alert" invisible="compliance_id">
+                        <p><strong>ℹ️ Compliance será criado automaticamente</strong></p>
+                        <p>Após salvar este perfil, um registro de compliance será gerado automaticamente.</p>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="compliance_id" invisible="1"/>
+                            <field name="compliance_score" widget="percentpie"/>
+                            <field name="compliance_state" widget="badge"/>
+                        </group>
+                        <group>
+                            <button name="action_send_contract_for_signature" 
+                                    string="📝 Enviar Contrato para Assinatura" 
+                                    type="object" 
+                                    class="btn btn-primary"
+                                    invisible="compliance_id == False"/>
+                        </group>
+                    </group>
+                    
+                    <group string="✅ Status do Checklist" col="4">
+                        <field name="contract_signed" widget="boolean_toggle" readonly="1"/>
+                        <field name="suitability_completed" widget="boolean_toggle" readonly="1"/>
+                        <field name="personal_docs_complete" widget="boolean_toggle" readonly="1"/>
+                        <field name="brokerage_selected" widget="boolean_toggle" readonly="1"/>
+                    </group>
+                    
+                    <separator string="Acesso Rápido ao Compliance"/>
+                    <group>
+                        <button name="action_open_compliance_record" 
+                                string="🔍 Abrir Registro de Compliance" 
+                                type="object" 
+                                class="btn btn-secondary"
+                                invisible="compliance_id == False"/>
+                    </group>
+                    
+                </page>
+                
+                <!-- Aba Legacy (Recomendações & Documentos Antigos) -->
+                <page string="Recomendações &amp; Compliance (Legacy)" name="compliance_overview">
+                    <group col="2">
+                        <field name="recommendation_ids" mode="kanban,list">
+                            <kanban default_group_by="state" class="o_finance_recommendation_kanban">
+                                <templates>
+                                    <t t-name="card">
+                                        <div class="oe_kanban_card o_kanban_record">
+                                            <div class="oe_kanban_content">
+                                                <h4>
+                                                    <field name="recommendation_date"/>
+                                                </h4>
+                                                <div class="text-muted">
+                                                    <i class="fa fa-bullseye" role="img" aria-label="Meta"/>
+                                                    <field name="goal_id"/>
+                                                </div>
+                                                <div class="o_finance_recommendation_state">
+                                                    <field name="state" widget="badge"/>
+                                                </div>
+                                                <div class="o_finance_recommendation_impact">
+                                                    <field name="impact_overview"/>
+                                                </div>
+                                            </div>
+                                            <div class="o_kanban_footer">
+                                                <span class="o_finance_recommendation_author text-muted">
+                                                    <field name="user_id"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                            <list string="Recomendações">
+                                <field name="recommendation_date"/>
+                                <field name="goal_id"/>
+                                <field name="state"/>
+                                <field name="user_id"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group col="2">
+                        <field name="document_ids" mode="list">
+                            <list string="Documentos">
+                                <field name="name"/>
+                                <field name="category"/>
+                                <field name="expiration_date"/>
+                                <field name="is_expired" widget="boolean_toggle"/>
+                            </list>
+                        </field>
+                        <field name="compliance_log_ids" mode="list">
+                            <list string="Logs de compliance">
+                                <field name="create_date"/>
+                                <field name="event"/>
+                                <field name="description"/>
+                                <field name="user_id"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
