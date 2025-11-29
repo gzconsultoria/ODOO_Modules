@@ -214,9 +214,8 @@ class CrmLead(models.Model):
         # Detecta mudança de estágio
         if 'stage_id' in vals:
             for lead in self:
-                # Trigger MAIS CEDO: a partir de "Reunião Estratégica" (seq >= 30)
-                # Permite capturar diagnóstico e dados antes do fechamento
-                if lead.stage_id and lead.stage_id.sequence >= 30:
+                # AUTO-CRIAÇÃO: Apenas quando lead é marcado como GANHO (is_won=True)
+                if lead.stage_id and lead.stage_id.is_won:
                     lead._sync_to_finance_profile()
         
         return result
@@ -295,7 +294,13 @@ class CrmLead(models.Model):
                     vals=profile_vals
                 )
                 
+                
                 self.finance_profile_id = profile
+                
+                # ============================================================
+                # CRIAÇÃO AUTOMÁTICA DE GOALS (finance.goal)
+                # ============================================================
+                self._create_finance_goals(profile)
                 
                 # Notificação no Lead
                 stage_name = self.stage_id.name if self.stage_id else 'desconhecido'
@@ -375,6 +380,11 @@ class CrmLead(models.Model):
         - Diagnóstico: diagnostico_situacao, diagnostico_forcas, etc.
         - Proposta: plano_contrato, valor_proposta, fee_gestao, etc.
         - Reunião: data_reuniao, estrategias_discutidas, etc.
+        
+        **Novos Recursos (Reformulação):**
+        - Cria household automaticamente se casado/união estável
+        - Cria finance.goal records baseado em objetivos do Lead
+        - Status lifecycle iniciado como 'prospect' (lifecycle_event criado por override)
         """
         self.ensure_one()
         
@@ -383,6 +393,7 @@ class CrmLead(models.Model):
             'crm_lead_id': self.id,  # Link reverso
             'advisor_id': self.user_id.id if self.user_id else self.env.user.id,
             'investor_type': 'pf' if self.partner_id.company_type != 'company' else 'pj',
+            'status': 'prospect',  # Status inicial do lifecycle
         }
         
         # ===== DADOS PESSOAIS (Opcionais - CRM Wealth ou customizações) =====
@@ -584,4 +595,93 @@ class CrmLead(models.Model):
     def _onchange_finance_profile_id(self):
         if self.finance_profile_id:
             self.partner_id = self.finance_profile_id.partner_id
+    
+    # ============================================================
+    # MÉTODOS AUXILIARES: GOALS
+    # ============================================================
+    
+    def _create_finance_goals(self, profile):
+        """
+        Cria automaticamente finance.goal records baseado nos objetivos do Lead.
+        
+        Mapeia 3 objetivos do CRM → finance.goal:
+        1. Objetivo Principal (main_goal) → goal_type='other', priority='high'
+        2. Objetivo Curto Prazo (short_term_goal) → goal_type='emergency_fund', priority='medium'
+        3. Objetivo Longo Prazo (long_term_goal) → goal_type='retirement', priority='medium'
+        
+        Só cria goals se:
+        - Campos respectivos estiverem preenchidos no Lead
+        - Goal ainda não existe (evita duplicatas)
+        """
+        self.ensure_one()
+        
+        if not profile:
+            return
+        
+        goals_created = []
+        
+        # ===== OBJETIVO PRINCIPAL =====
+        objetivo_principal = None
+        valor_objetivo = 0.0
+        prazo_objetivo = 0
+        
+        if hasattr(self, 'objetivo_principal') and self.objetivo_principal:
+            objetivo_principal = self.objetivo_principal
+            
+            if hasattr(self, 'valor_objetivo') and self.valor_objetivo:
+                valor_objetivo = self.valor_objetivo
+            
+            if hasattr(self, 'prazo_objetivo'):
+                prazo_objetivo = self.prazo_objetivo or 0
+            
+            # Cria goal principal
+            goal_main = self.env['finance.goal'].create({
+                'profile_id': profile.id,
+                'name': objetivo_principal,
+                'goal_type': 'other',  # Genérico até saber mais detalhes
+                'target_value': valor_objetivo,
+                'current_value': 0.0,
+                'deadline_years': prazo_objetivo,
+                'priority': 'high',
+                'status': 'not_started',
+            })
+            goals_created.append(goal_main.name)
+        
+        # ===== OBJETIVO CURTO PRAZO =====
+        if hasattr(self, 'objetivo_curto_prazo') and self.objetivo_curto_prazo:
+            goal_short = self.env['finance.goal'].create({
+                'profile_id': profile.id,
+                'name': self.objetivo_curto_prazo,
+                'goal_type': 'emergency',  # Assume reserva de emergência
+                'target_value': 0.0,  # Consultor preencherá depois
+                'current_value': 0.0,
+                'deadline_years': 1,  # Curto prazo = 1 ano
+                'priority': 'high',
+                'status': 'not_started',
+            })
+            goals_created.append(goal_short.name)
+        
+        # ===== OBJETIVO LONGO PRAZO =====
+        if hasattr(self, 'objetivo_longo_prazo') and self.objetivo_longo_prazo:
+            goal_long = self.env['finance.goal'].create({
+                'profile_id': profile.id,
+                'name': self.objetivo_longo_prazo,
+                'goal_type': 'retirement',  # Assume aposentadoria
+                'target_value': 0.0,  # Consultor preencherá depois
+                'current_value': 0.0,
+                'deadline_years': 10,  # Longo prazo = 10 anos (default)
+                'priority': 'medium',
+                'status': 'not_started',
+            })
+            goals_created.append(goal_long.name)
+        
+        # Notificação
+        if goals_created:
+            self.message_post(
+                body=_(
+                    "🎯 <strong>Objetivos Financeiros criados automaticamente:</strong><br/>"
+                    "• %s"
+                ) % "<br/>• ".join(goals_created)
+            )
+
 

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ============================================ -->
+    <!-- LGPD CONSENT: TREE VIEW                      -->
+    <!-- ============================================ -->
+    <record id="view_crm_lgpd_consent_tree" model="ir.ui.view">
+        <field name="name">crm.lgpd.consent.tree</field>
+        <field name="model">crm.lgpd.consent</field>
+        <field name="arch" type="xml">
+            <list string="Consentimentos LGPD" default_order="consent_date desc">
+                <field name="consent_date"/>
+                <field name="lead_id"/>
+                <field name="partner_id"/>
+                <field name="consent_type"/>
+                <field name="consent_purpose"/>
+                <field name="consent_granted" widget="boolean_toggle"/>
+                <field name="is_active" widget="badge" 
+                       decoration-success="is_active == True"
+                       decoration-danger="is_active == False"/>
+                <field name="user_id"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- ============================================ -->
+    <!-- LGPD CONSENT: FORM VIEW                      -->
+    <!-- ============================================ -->
+    <record id="view_crm_lgpd_consent_form" model="ir.ui.view">
+        <field name="name">crm.lgpd.consent.form</field>
+        <field name="model">crm.lgpd.consent</field>
+        <field name="arch" type="xml">
+            <form string="Consentimento LGPD">
+                <header>
+                    <button name="action_revoke_consent" string="Revogar Consentimento" 
+                            type="object" class="btn-danger"
+                            invisible="not is_active"/>
+                    <field name="is_active" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group name="lead_info">
+                            <field name="lead_id"/>
+                            <field name="partner_id"/>
+                            <field name="consent_date"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group name="consent_details">
+                            <field name="consent_type"/>
+                            <field name="consent_purpose"/>
+                            <field name="consent_method"/>
+                            <field name="consent_granted" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Dados Técnicos">
+                        <group>
+                            <field name="ip_address"/>
+                            <field name="user_agent"/>
+                        </group>
+                        <group>
+                            <field name="revoked_date"/>
+                            <field name="revoked_reason"/>
+                        </group>
+                    </group>
+                    
+                    <field name="notes" placeholder="Observações adicionais..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- ============================================ -->
+    <!-- AUDIT LOG: TREE VIEW                         -->
+    <!-- ============================================ -->
+    <record id="view_crm_audit_log_tree" model="ir.ui.view">
+        <field name="name">crm.audit.log.tree</field>
+        <field name="model">crm.audit.log</field>
+        <field name="arch" type="xml">
+            <list string="Audit Log" default_order="timestamp desc" create="false" edit="false" delete="false">
+                <field name="timestamp"/>
+                <field name="model_name"/>
+                <field name="res_id"/>
+                <field name="record_name"/>
+                <field name="action_type"/>
+                <field name="changes_summary"/>
+                <field name="user_id"/>
+                <field name="severity" widget="badge"
+                       decoration-info="severity == 'low'"
+                       decoration-warning="severity == 'medium'"
+                       decoration-danger="severity == 'high' or severity == 'critical'"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- ============================================ -->
+    <!-- AUDIT LOG: FORM VIEW                         -->
+    <!-- ============================================ -->
+    <record id="view_crm_audit_log_form" model="ir.ui.view">
+        <field name="name">crm.audit.log.form</field>
+        <field name="model">crm.audit.log</field>
+        <field name="arch" type="xml">
+            <form string="Registro de Auditoria" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group name="basic_info">
+                            <field name="timestamp"/>
+                            <field name="user_id"/>
+                            <field name="action_type"/>
+                            <field name="severity"/>
+                        </group>
+                        <group name="record_info">
+                            <field name="model_name"/>
+                            <field name="res_id"/>
+                            <field name="record_name"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Detalhes da Mudança" invisible="action_type not in ['write', 'stage_change']">
+                        <field name="field_name"/>
+                        <field name="old_value"/>
+                        <field name="new_value"/>
+                        <field name="changes_summary"/>
+                    </group>
+                    
+                    <group string="Dados Técnicos">
+                        <field name="ip_address"/>
+                        <field name="user_agent"/>
+                        <field name="context_data"/>
+                    </group>
+                    
+                    <field name="notes" placeholder="Observações..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- ============================================ -->
+    <!-- ACTIONS                                      -->
+    <!-- ============================================ -->
+    <record id="action_crm_lgpd_consent" model="ir.actions.act_window">
+        <field name="name">Consentimentos LGPD</field>
+        <field name="res_model">crm.lgpd.consent</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Registros de consentimento LGPD
+            </p>
+            <p>
+                Todos os consentimentos de uso de dados pessoais são registrados aqui.
+            </p>
+        </field>
+    </record>
+    
+    <record id="action_crm_audit_log" model="ir.actions.act_window">
+        <field name="name">Audit Log</field>
+        <field name="res_model">crm.audit.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Log de auditoria completo
+            </p>
+            <p>
+                Todas as ações importantes são registradas automaticamente.
+            </p>
+        </field>
+    </record>
+    
+    <!-- ============================================ -->
+    <!-- MENUS (apenas para managers)                 -->
+    <!-- ============================================ -->
+    <menuitem id="menu_crm_compliance"
+              name="Compliance &amp; LGPD"
+              parent="crm.crm_menu_config"
+              sequence="100"
+              groups="sales_team.group_sale_manager"/>
+    
+    <menuitem id="menu_crm_lgpd_consent"
+              name="Consentimentos LGPD"
+              parent="menu_crm_compliance"
+              action="action_crm_lgpd_consent"
+              sequence="10"/>
+    
+    <menuitem id="menu_crm_audit_log"
+              name="Audit Log"
+              parent="menu_crm_compliance"
+              action="action_crm_audit_log"
+              sequence="20"/>
+    
+</odoo>

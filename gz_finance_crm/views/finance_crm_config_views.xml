@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ====================================== -->
+    <!-- FINANCE CRM INTEREST VIEWS             -->
+    <!-- ====================================== -->
+    <record id="view_finance_crm_interest_tree" model="ir.ui.view">
+        <field name="name">finance.crm.interest.tree</field>
+        <field name="model">finance.crm.interest</field>
+        <field name="arch" type="xml">
+            <list string="Interesses de Investimento">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="color" widget="color"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_finance_crm_interest_form" model="ir.ui.view">
+        <field name="name">finance.crm.interest.form</field>
+        <field name="model">finance.crm.interest</field>
+        <field name="arch" type="xml">
+            <form string="Interesse de Investimento">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="color" widget="color"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Descrição detalhada do interesse..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_finance_crm_interest" model="ir.actions.act_window">
+        <field name="name">Interesses de Investimento</field>
+        <field name="res_model">finance.crm.interest</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar primeiro interesse de investimento
+            </p>
+            <p>
+                Tags usadas para qualificar interesses dos leads.
+                Ex: Renda Fixa, Ações, FIIs, Fundos, Criptomoedas
+            </p>
+        </field>
+    </record>
+    
+    <!-- ====================================== -->
+    <!-- FINANCE CRM OBJECTION VIEWS            -->
+    <!-- ====================================== -->
+    <record id="view_finance_crm_objection_tree" model="ir.ui.view">
+        <field name="name">finance.crm.objection.tree</field>
+        <field name="model">finance.crm.objection</field>
+        <field name="arch" type="xml">
+            <list string="Objeções Comerciais">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="color" widget="color"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_finance_crm_objection_form" model="ir.ui.view">
+        <field name="name">finance.crm.objection.form</field>
+        <field name="model">finance.crm.objection</field>
+        <field name="arch" type="xml">
+            <form string="Objeção Comercial">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="color" widget="color"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Descrição da objeção..."/>
+                    </group>
+                    <separator string="Resposta Sugerida"/>
+                    <field name="suggested_response" widget="html" 
+                           placeholder="Script ou argumentação para contornar esta objeção..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_finance_crm_objection" model="ir.actions.act_window">
+        <field name="name">Objeções Comerciais</field>
+        <field name="res_model">finance.crm.objection</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar primeira objeção comercial
+            </p>
+            <p>
+                Tags usadas para mapear objeções levantadas pelos leads.
+                Ex: Preço alto, Precisa consultar cônjuge, Comparando concorrentes
+            </p>
+        </field>
+    </record>
+    
+    <!-- ====================================== -->
+    <!-- MENUS DE CONFIGURAÇÃO                  -->
+    <!-- ====================================== -->
+    <menuitem id="menu_finance_crm_config"
+              name="Finance CRM"
+              parent="crm.crm_menu_config"
+              sequence="100"/>
+    
+    <menuitem id="menu_finance_crm_interest"
+              name="Interesses de Investimento"
+              parent="menu_finance_crm_config"
+              action="action_finance_crm_interest"
+              sequence="10"/>
+    
+    <menuitem id="menu_finance_crm_objection"
+              name="Objeções Comerciais"
+              parent="menu_finance_crm_config"
+              action="action_finance_crm_objection"
+              sequence="20"/>
+    
+</odoo>

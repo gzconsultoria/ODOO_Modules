@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================= -->
+        <!-- CRON JOB: Detecção de Risco de Churn     -->
+        <!-- ========================================= -->
+        <record id="cron_detect_churn_risk" model="ir.cron">
+            <field name="name">CRM: Detectar Risco de Churn</field>
+            <field name="model_id" ref="model_crm_churn_indicator"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_detect_churn_risk()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="doall">False</field>
+            <field name="priority">5</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- CRON JOB: Detecção de Cross-Sell         -->
+        <!-- ========================================= -->
+        <record id="cron_detect_crosssell" model="ir.cron">
+            <field name="name">CRM: Detectar Oportunidades Cross-Sell</field>
+            <field name="model_id" ref="model_crm_crosssell_opportunity"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_detect_crosssell_opportunities()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="doall">False</field>
+            <field name="priority">5</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ====================================== -->
+    <!-- MODULE CATEGORY                        -->
+    <!-- ====================================== -->
+    <record id="module_category_finance" model="ir.module.category">
+        <field name="name">Finance</field>
+        <field name="description">Manage finance and investments</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- ====================================== -->
+    <!-- ACCESS GROUPS (4 levels)               -->
+    <!-- ====================================== -->
+    
+    <!-- 1. Finance User (read-only) -->
+    <record id="group_finance_user" model="res.groups">
+        <field name="name">Finance User</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Read-only access to finance data</field>
+    </record>
+
+    <!-- 2. Finance Advisor (operational) -->
+    <record id="group_finance_advisor" model="res.groups">
+        <field name="name">Finance Advisor</field>
+        <field name="implied_ids" eval="[(4, ref('group_finance_user'))]"/>
+        <field name="comment">Can manage own clients and portfolios</field>
+    </record>
+
+    <!-- 3. Finance Manager (supervisor) -->
+    <record id="group_finance_manager" model="res.groups">
+        <field name="name">Finance Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_finance_advisor'))]"/>
+        <field name="comment">Full access to finance operations</field>
+    </record>
+
+    <!-- 4. Finance Admin (configuration) -->
+    <record id="group_finance_admin" model="res.groups">
+        <field name="name">Finance Admin</field>
+        <field name="implied_ids" eval="[(4, ref('group_finance_manager'))]"/>
+        <field name="comment">System configuration and settings</field>
+    </record>
+
+    <!-- ====================================== -->
+    <!-- RECORD RULES (RLS Policies)            -->
+    <!-- ====================================== -->
+    
+    <!-- Advisor sees only own clients -->
+    <record id="rule_partner_advisor_own" model="ir.rule">
+        <field name="name">Finance Advisor: Own Clients Only</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[
+            '|',
+                ('advisor_id.id', '=', user.id),
+                ('commercial_partner_id.advisor_id.id', '=', user.id)
+        ]</field>
+        <field name="groups" eval="[(4, ref('group_finance_advisor'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Manager sees all clients -->
+    <record id="rule_partner_manager_all" model="ir.rule">
+        <field name="name">Finance Manager: All Clients</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_finance_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- User read-only finance clients -->
+    <record id="rule_partner_user_readonly" model="ir.rule">
+        <field name="name">Finance User: Read Finance Clients</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[
+            ('is_finance_client', '=', True)
+        ]</field>
+        <field name="groups" eval="[(4, ref('group_finance_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ====================================== -->
+    <!-- PATRIMONY RECORD RULES                 -->
+    <!-- ====================================== -->
+    
+    <record id="rule_patrimony_advisor" model="ir.rule">
+        <field name="name">Finance Advisor: Own Client Patrimony</field>
+        <field name="model_id" ref="model_finance_patrimony"/>
+        <field name="domain_force">[('partner_id.advisor_id.id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_finance_advisor'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_patrimony_manager" model="ir.rule">
+        <field name="name">Finance Manager: All Patrimony</field>
+        <field name="model_id" ref="model_finance_patrimony"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_finance_manager'))]"/>
+    </record>
+
+    <!-- ====================================== -->
+    <!-- MULTI-COMPANY RULES                    -->
+    <!-- ====================================== -->
+    <record id="rule_partner_multi_company" model="ir.rule">
+        <field name="name">Finance: Multi-Company Partners</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">['|',
+            ('company_id', '=', False),
+            ('company_id', 'in', company_ids)
+        ]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="rule_patrimony_multi_company" model="ir.rule">
+        <field name="name">Finance: Multi-Company Patrimony</field>
+        <field name="model_id" ref="model_finance_patrimony"/>
+        <field name="domain_force">['|',
+            ('partner_id.company_id', '=', False),
+            ('partner_id.company_id', 'in', company_ids)
+        ]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ====================================== -->
+    <!-- MAIN MENU                              -->
+    <!-- ====================================== -->
+    <menuitem id="menu_finance_root"
+              name="Consultoria"
+              sequence="40"
+              groups="group_finance_user"/>
+    
+    <!-- ====================================== -->
+    <!-- CLIENTES FINANCEIROS                   -->
+    <!-- ====================================== -->
+    <menuitem id="menu_finance_clients"
+              name="Clientes Financeiros"
+              parent="menu_finance_root"
+              action="action_finance_clients"
+              sequence="5"/>
+    
+    <!-- ====================================== -->
+    <!-- SUBMENUS - DADOS E HISTÓRICOS          -->
+    <!-- ====================================== -->
+    <menuitem id="menu_finance_data"
+              name="Dados &amp; Histórico"
+              parent="menu_finance_root"
+              sequence="10"/>
+
+    <menuitem id="menu_finance_clients_patrimony"
+              name="Histórico de Patrimônio"
+              parent="menu_finance_data"
+              action="action_finance_patrimony"
+              sequence="20"/>
+
+    <!-- ====================================== -->
+    <!-- CONFIGURATION SUBMENU                  -->
+    <!-- ====================================== -->
+    <menuitem id="menu_finance_configuration"
+              name="Configuração"
+              parent="menu_finance_root"
+              sequence="90"
+              groups="group_finance_manager"/>
+
+    <menuitem id="menu_finance_categories"
+              name="Categorias de Clientes"
+              parent="menu_finance_configuration"
+              action="action_finance_categories"
+              sequence="10"/>
+
+</odoo>

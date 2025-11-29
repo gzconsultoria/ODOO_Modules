@@ -4,6 +4,72 @@
 
 Este repositório contém **módulos customizados para Odoo 19** especializados em **consultoria de investimentos e wealth management**. O módulo principal (`crm_wealth`) estende o CRM nativo do Odoo com funcionalidades específicas para gestão de clientes de alto patrimônio.
 
+---
+
+## 🔌 **USO OBRIGATÓRIO DAS EXTENSÕES VS CODE**
+
+### **Extensões Instaladas - USO MANDATÓRIO**
+
+Este workspace possui extensões poderosas instaladas. **VOCÊ DEVE USÁ-LAS** ao gerar código:
+
+#### **Snippets Odoo (jigar-patel + mstuttgart)**
+
+**REGRA:** Nunca escreva código Odoo manualmente se existir snippet para isso.
+
+**Snippets Python disponíveis:**
+- `omodel` + Tab → Modelo completo com _name, _description, _inherit
+- `ofield` + Tab → Campo com string, required, help
+- `ocompute` + Tab → Método computado com @api.depends e loop for
+- `oconstrains` + Tab → Validação com @api.constrains
+- `oonchange` + Tab → Método onchange com @api.onchange
+- `omethod` + Tab → Método básico
+
+**Snippets XML disponíveis:**
+- `oview` + Tab → Record de view completo
+- `oform` + Tab → Form view
+- `otree` + Tab → Tree/List view
+- `osearch` + Tab → Search view
+- `oaction` + Tab → Action window
+
+**Como você deve usar:**
+1. Ao criar modelo Python → Use `omodel` snippet
+2. Ao adicionar campo → Use `ofield` snippet  
+3. Ao criar view XML → Use `oview` snippet
+4. NUNCA escreva estruturas do zero
+
+#### **Validação Automática**
+- **Odoo Language Server** valida código em tempo real
+- **Pylance** detecta erros Python
+- **Red Hat XML** valida sintaxe XML
+- Se há erro no editor, **há erro real** - não ignore
+
+#### **Auto-complete Inteligente**
+- **Odoo IDE** fornece IntelliSense para modelos/campos
+- XML auto-completa tags Odoo
+- Python auto-completa métodos do ORM
+
+### **Checklist Obrigatório Antes de Gerar Código**
+
+- [ ] Existe snippet para isso? → USE-O (não escreva manualmente)
+- [ ] Language Server sem erros vermelhos?
+- [ ] IntelliSense sugerindo corretamente?
+- [ ] XML auto-completando?
+
+**Lembre:** Snippets economizam 70% do tempo e evitam 90% dos erros de digitação.
+
+---
+
+# 🎯 Princípios Centrais
+
+-   Sempre assumir **Odoo 19** como padrão.
+-   Rejeitar código legado (Odoo ≤ 16).
+-   Usar Owl, registries, assets modernos.
+-   Gerar módulos escaláveis, seguros e com boa engenharia.
+- 2FA obrigatório para assessores
+Tokenização de dados sensíveis
+
+
+
 ## 🏗️ Arquitetura do Sistema
 
 ### Módulo Principal: `crm_wealth`
@@ -337,3 +403,4 @@ docs(crm_wealth): atualiza exemplos de uso
 - Checklist completo de desenvolvimento
 - Comandos úteis para debugging
 - Anatomia detalhada de search views, form views, etc.
+

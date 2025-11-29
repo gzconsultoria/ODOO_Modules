@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_finance_crm_interest_user,finance.crm.interest.user,model_finance_crm_interest,sales_team.group_sale_salesman,1,1,1,0
+access_finance_crm_interest_manager,finance.crm.interest.manager,model_finance_crm_interest,sales_team.group_sale_manager,1,1,1,1
+access_finance_crm_objection_user,finance.crm.objection.user,model_finance_crm_objection,sales_team.group_sale_salesman,1,1,1,0
+access_finance_crm_objection_manager,finance.crm.objection.manager,model_finance_crm_objection,sales_team.group_sale_manager,1,1,1,1
+access_finance_profile_wizard_user,finance.profile.wizard.user,model_finance_profile_wizard,sales_team.group_sale_salesman,1,1,1,1
+access_crm_lgpd_consent_user,crm.lgpd.consent.user,model_crm_lgpd_consent,sales_team.group_sale_salesman,1,1,1,0
+access_crm_lgpd_consent_manager,crm.lgpd.consent.manager,model_crm_lgpd_consent,sales_team.group_sale_manager,1,1,1,1
+access_crm_audit_log_user,crm.audit.log.user,model_crm_audit_log,sales_team.group_sale_salesman,1,0,0,0
+access_crm_audit_log_manager,crm.audit.log.manager,model_crm_audit_log,sales_team.group_sale_manager,1,1,1,1
+access_crm_churn_indicator_user,crm.churn.indicator.user,model_crm_churn_indicator,sales_team.group_sale_salesman,1,0,0,0
+access_crm_churn_indicator_manager,crm.churn.indicator.manager,model_crm_churn_indicator,sales_team.group_sale_manager,1,1,1,1
+access_crm_crosssell_opportunity_user,crm.crosssell.opportunity.user,model_crm_crosssell_opportunity,sales_team.group_sale_salesman,1,1,1,0
+access_crm_crosssell_opportunity_manager,crm.crosssell.opportunity.manager,model_crm_crosssell_opportunity,sales_team.group_sale_manager,1,1,1,1
+access_crm_approval_user,crm.approval.user,model_crm_approval,sales_team.group_sale_salesman,1,1,1,0
+access_crm_approval_manager,crm.approval.manager,model_crm_approval,sales_team.group_sale_manager,1,1,1,1

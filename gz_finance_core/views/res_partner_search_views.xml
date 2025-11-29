@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ====================================== -->
+    <!-- PARTNER SEARCH VIEW - ADD FINANCE FILTERS -->
+    <!-- Versão simplificada - apenas adiciona filtros básicos -->
+    <!-- ====================================== -->
+    <record id="view_res_partner_filter_finance" model="ir.ui.view">
+        <field name="name">res.partner.search.finance</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <!-- Adiciona campos de busca -->
+            <field name="name" position="after">
+                <field name="advisor_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

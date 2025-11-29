@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ====================================== -->
+    <!-- CRM LEAD FORM VIEW INHERITANCE         -->
+    <!-- ====================================== -->
+    <record id="view_crm_lead_finance_form" model="ir.ui.view">
+        <field name="name">crm.lead.finance.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Adicionar botão PERFIL FINANCEIRO no button_box -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_finance_profile"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-user-circle"
+                        groups="gz_finance_core.group_finance_user">
+                    
+                    <!-- Badge: Perfil Ativo (verde) -->
+                    <div class="o_stat_info" invisible="not has_finance_profile">
+                        <span class="o_stat_text text-success">
+                            <i class="fa fa-check-circle"/> Perfil Ativo
+                        </span>
+                        <span class="o_stat_value">
+                            <field name="finance_profile_id"/>
+                        </span>
+                    </div>
+                    
+                    <!-- Badge: Criar Perfil (cinza) -->
+                    <div class="o_stat_info" invisible="has_finance_profile">
+                        <span class="o_stat_text text-muted">
+                            <i class="fa fa-plus-circle"/> Criar Perfil
+                        </span>
+                    </div>
+                    
+                    <field name="has_finance_profile" invisible="1"/>
+                </button>
+            </xpath>
+            
+            <!-- Adicionar campos de qualificação financeira -->
+            <xpath expr="//page[@name='extra']" position="before">
+                
+                <!-- ABA: QUALIFICAÇÃO FINANCEIRA -->
+                <page string="Qualificação Financeira" name="finance_qualification">
+                    
+                    <group>
+                        <group string="Estimativas Iniciais">
+                            <field name="estimated_wealth" widget="monetary"/>
+                            <field name="estimated_income_range"/>
+                        </group>
+                        <group string="Perfil e Urgência">
+                            <field name="preliminary_risk_profile" widget="badge"
+                                   decoration-info="preliminary_risk_profile == 'conservative'"
+                                   decoration-success="preliminary_risk_profile == 'moderate'"
+                                   decoration-warning="preliminary_risk_profile == 'aggressive'"/>
+                            <field name="main_pain_point"/>
+                            <field name="urgency_level" widget="badge"
+                                   decoration-success="urgency_level == 'high'"
+                                   decoration-warning="urgency_level == 'medium'"
+                                   decoration-muted="urgency_level == 'low'"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Interesses">
+                            <field name="investment_interest_ids" widget="many2many_tags"
+                                   options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                        <group string="Score do Lead">
+                            <field name="lead_score" widget="progressbar"/>
+                            <field name="lead_temperature" widget="badge"
+                                   decoration-danger="lead_temperature == 'hot'"
+                                   decoration-warning="lead_temperature == 'warm'"
+                                   decoration-info="lead_temperature == 'cold'"/>
+                        </group>
+                    </group>
+                    
+                    <separator string="Proposta Comercial"/>
+                    <group>
+                        <group>
+                            <field name="proposal_sent_date"/>
+                            <field name="proposed_fee" widget="percentage"/>
+                        </group>
+                        <group>
+                            <field name="competitor_comparison" 
+                                   placeholder="Ex: XP, BTG, Genial"/>
+                        </group>
+                    </group>
+                    
+                    <separator string="Objeções Levantadas"/>
+                    <field name="objection_ids" widget="many2many_tags"
+                           options="{'color_field': 'color', 'no_create_edit': True}"/>
+                    
+                    <!-- Sprint 3: Alerta de Divergência AUM -->
+                    <separator string="Divergência AUM" invisible="aum_divergence_alert == 'none'"/>
+                    <group invisible="aum_divergence_alert == 'none'">
+                        <group>
+                            <field name="estimated_wealth" widget="monetary"/>
+                            <field name="partner_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="aum_divergence" widget="percentage"/>
+                            <field name="aum_divergence_alert" widget="badge"
+                                   decoration-success="aum_divergence_alert == 'minor'"
+                                   decoration-warning="aum_divergence_alert == 'moderate'"
+                                   decoration-danger="aum_divergence_alert == 'critical'"/>
+                        </group>
+                    </group>
+                    
+                    <!-- Sprint 4: Google Calendar -->
+                    <separator string="Reunião Google Meet" invisible="not meeting_link"/>
+                    <group invisible="not meeting_link">
+                        <group>
+                            <field name="meeting_scheduled_date"/>
+                            <field name="meeting_link" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="google_event_id" readonly="1"/>
+                            <field name="auto_create_meeting" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    
+                </page>
+                
+            </xpath>
+            
+        </field>
+    </record>
+    
+</odoo>

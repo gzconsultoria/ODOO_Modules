@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_finance_profile_wizard_form" model="ir.ui.view">
+        <field name="name">finance.profile.wizard.form</field>
+        <field name="model">finance.profile.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Criar Perfil Financeiro">
+                
+                <div class="alert alert-success" role="alertdialog">
+                    <h4 class="alert-heading">
+                        <i class="fa fa-trophy" title="Sucesso"/> Parabéns! Oportunidade Ganha
+                    </h4>
+                    <p>
+                        A oportunidade chegou ao estágio <strong>Onboarding</strong>.
+                        Agora você pode criar um perfil financeiro completo para este cliente.
+                    </p>
+                </div>
+                
+                <group>
+                    <group string="Informações do Lead">
+                        <field name="lead_name" readonly="1"/>
+                        <field name="partner_id" readonly="1"/>
+                    </group>
+                    <group string="Dados Comerciais">
+                        <field name="company_currency" invisible="1"/>
+                        <field name="expected_revenue" readonly="1" widget="monetary"/>
+                        <field name="estimated_wealth" readonly="1" widget="monetary"/>
+                    </group>
+                </group>
+                
+                <separator/>
+                
+                <group>
+                    <field name="create_now" widget="boolean_toggle"/>
+                </group>
+                
+                <group invisible="not create_now">
+                    <div class="alert alert-info" role="alertdialog">
+                        <i class="fa fa-check-circle" title="Sucesso"/> 
+                        <strong>Perfil será criado!</strong>
+                        <p class="mb-0">
+                            O perfil financeiro será criado automaticamente e você será 
+                            direcionado para o formulário para preencher os dados completos.
+                        </p>
+                    </div>
+                </group>
+                
+                <group invisible="create_now">
+                    <div class="alert alert-warning" role="alertdialog">
+                        <i class="fa fa-clock-o" title="Aguardando"/> 
+                        <strong>Criação adiada</strong>
+                        <p class="mb-0">
+                            Você poderá criar o perfil financeiro depois clicando no 
+                            botão "Perfil Financeiro" na oportunidade.
+                        </p>
+                    </div>
+                </group>
+                
+                <footer>
+                    <button string="Confirmar" 
+                            name="action_confirm" 
+                            type="object" 
+                            class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancelar" 
+                            class="btn-secondary" 
+                            special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+</odoo>

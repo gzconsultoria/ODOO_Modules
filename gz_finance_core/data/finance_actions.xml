@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========================================= -->
+        <!-- SERVER ACTION: Generate Missing Profile IDs -->
+        <!-- ========================================= -->
+        <record id="action_server_generate_profile_ids" model="ir.actions.server">
+            <field name="name">Gerar Profile IDs Faltantes</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+if records:
+    action = records.action_generate_missing_profile_ids()
+            </field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- MENU ITEM: Technical Menu (Dev Mode Only) -->
+        <!-- ========================================= -->
+        <menuitem
+            id="menu_generate_profile_ids"
+            name="Gerar Profile IDs"
+            parent="base.menu_administration"
+            sequence="100"
+            groups="base.group_system"
+            action="action_server_generate_profile_ids"/>
+            
+    </data>
+</odoo>

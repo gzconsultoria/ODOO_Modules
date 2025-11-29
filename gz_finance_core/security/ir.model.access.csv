@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_finance_patrimony_user,finance.patrimony.user,model_finance_patrimony,group_finance_user,1,0,0,0
+access_finance_patrimony_advisor,finance.patrimony.advisor,model_finance_patrimony,group_finance_advisor,1,1,1,0
+access_finance_patrimony_manager,finance.patrimony.manager,model_finance_patrimony,group_finance_manager,1,1,1,1
+access_finance_category_user,finance.category.user,model_finance_category,group_finance_user,1,0,0,0
+access_finance_category_advisor,finance.category.advisor,model_finance_category,group_finance_advisor,1,0,0,0
+access_finance_category_manager,finance.category.manager,model_finance_category,group_finance_manager,1,1,1,1

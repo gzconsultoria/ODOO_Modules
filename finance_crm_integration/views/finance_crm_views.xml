@@ -9,6 +9,17 @@
             
             <!-- Adiciona botão de ação rápida no button_box -->
             <xpath expr="//div[@name='button_box']" position="inside">
+                <!-- Botão quando NÃO existe perfil -->
+                <button 
+                    class="oe_stat_button" 
+                    type="object" 
+                    name="action_create_finance_profile"
+                    icon="fa-user-circle"
+                    invisible="finance_profile_id != False">
+                    <span>Perfil Financeiro</span>
+                </button>
+                
+                <!-- Botão quando JÁ existe perfil -->
                 <button 
                     class="oe_stat_button" 
                     type="object" 
@@ -21,25 +32,7 @@
             
             <!-- Adiciona nova página "Gestão de Investimentos" no notebook -->
             <xpath expr="//notebook" position="inside">
-                <page string="💼 Gestão de Investimentos" name="finance_consulting">
-                    <div class="alert alert-info" role="alert" invisible="finance_profile_id != False">
-                        <p class="mb-0">
-                            <i class="fa fa-info-circle"/> 
-                            <strong>Sincronização Automática:</strong> 
-                            Quando este Lead atingir o estágio <strong>"🟤 Execução &amp; Acompanhamento"</strong>, 
-                            um Perfil Financeiro será criado automaticamente com todos os dados preenchidos.
-                        </p>
-                    </div>
-                    
-                    <div class="alert alert-success" role="alert" invisible="finance_profile_id == False">
-                        <p class="mb-0">
-                            <i class="fa fa-check-circle"/> 
-                            <strong>Perfil Sincronizado:</strong> 
-                            Este Lead está vinculado ao Perfil Financeiro abaixo. 
-                            As abas do perfil são controladas automaticamente pelo estágio do Lead.
-                        </p>
-                    </div>
-                    
+                <page string="💼 Gestão de Investimentos" name="finance_consulting" invisible="finance_profile_id == False">
                     <group>
                         <group string="Perfil Financeiro Vinculado">
                             <field name="finance_profile_id" 
@@ -56,17 +49,6 @@
                     <!-- ====================================================== -->
                     <!-- SINCRONIZAÇÃO BIDIRECIONAL: Finance Profile → Lead    -->
                     <!-- ====================================================== -->
-                    <separator string="📊 Dados Sincronizados do Finance Profile (Somente Leitura)" 
-                              invisible="finance_profile_id == False"/>
-                    
-                    <div class="alert alert-warning" role="alert" invisible="finance_profile_id == False">
-                        <p class="mb-0">
-                            <i class="fa fa-lock"/> 
-                            <strong>Campos Somente Leitura:</strong> 
-                            Para editar esses dados, clique em <strong>"📂 Abrir Perfil Financeiro"</strong> abaixo.
-                            Alterações lá serão refletidas aqui automaticamente.
-                        </p>
-                    </div>
                     
                     <!-- Dados Pessoais Sincronizados -->
                     <group string="👤 Dados Pessoais (Profile)" invisible="finance_profile_id == False">
@@ -106,25 +88,26 @@
                         </group>
                     </group>
                     
-                    <group>
-                        <group string="Ações">
-                            <!-- Botão: Criar Perfil Manualmente (quando NÃO existe) -->
-                            <button name="action_create_finance_profile" 
-                                    type="object" 
-                                    string="🚀 Criar Perfil Financeiro Agora" 
-                                    class="btn btn-primary"
-                                    help="Cria o Perfil Financeiro mesmo antes de atingir o estágio 'Execução'"
-                                    invisible="finance_profile_id != False"/>
-                            
-                            <!-- Botão: Abrir Perfil (quando JÁ existe) -->
+                    <!-- Alerta e Botão no Final -->
+                    <div class="alert alert-warning" role="alert" invisible="finance_profile_id == False">
+                        <p class="mb-0">
+                            <i class="fa fa-lock"/> 
+                            <strong>Campos Somente Leitura:</strong> 
+                            Para editar esses dados, clique em <strong>"📂 Abrir Perfil Financeiro"</strong> abaixo.
+                            Alterações lá serão refletidas aqui automaticamente.
+                        </p>
+                    </div>
+                    
+                    <group invisible="finance_profile_id == False">
+                        <group>
                             <button name="action_open_finance_profile" 
                                     type="object" 
                                     string="📂 Abrir Perfil Financeiro" 
-                                    class="btn btn-success"
-                                    help="Abre o formulário completo do Perfil Financeiro"
-                                    invisible="finance_profile_id == False"/>
+                                    class="btn btn-primary"
+                                    help="Abre o formulário completo do Perfil Financeiro para edição"/>
                         </group>
                     </group>
+
                 </page>
             </xpath>
         </field>

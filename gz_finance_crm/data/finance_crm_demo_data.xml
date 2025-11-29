@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ====================================== -->
+        <!-- INTERESSES DE INVESTIMENTO             -->
+        <!-- ====================================== -->
+        <record id="interest_renda_fixa" model="finance.crm.interest">
+            <field name="name">Renda Fixa</field>
+            <field name="sequence">10</field>
+            <field name="color">3</field>
+            <field name="description">Títulos de renda fixa, CDBs, LCIs, Tesouro Direto</field>
+        </record>
+        
+        <record id="interest_acoes" model="finance.crm.interest">
+            <field name="name">Ações</field>
+            <field name="sequence">20</field>
+            <field name="color">9</field>
+            <field name="description">Ações de empresas listadas em bolsa</field>
+        </record>
+        
+        <record id="interest_fiis" model="finance.crm.interest">
+            <field name="name">FIIs</field>
+            <field name="sequence">30</field>
+            <field name="color">6</field>
+            <field name="description">Fundos de Investimento Imobiliário</field>
+        </record>
+        
+        <record id="interest_fundos" model="finance.crm.interest">
+            <field name="name">Fundos de Investimento</field>
+            <field name="sequence">40</field>
+            <field name="color">4</field>
+            <field name="description">Fundos multimercado, de ações, cambiais</field>
+        </record>
+        
+        <record id="interest_previdencia" model="finance.crm.interest">
+            <field name="name">Previdência Privada</field>
+            <field name="sequence">50</field>
+            <field name="color">5</field>
+            <field name="description">PGBL, VGBL</field>
+        </record>
+        
+        <record id="interest_crypto" model="finance.crm.interest">
+            <field name="name">Criptomoedas</field>
+            <field name="sequence">60</field>
+            <field name="color">8</field>
+            <field name="description">Bitcoin, Ethereum e outras criptomoedas</field>
+        </record>
+        
+        <record id="interest_internacional" model="finance.crm.interest">
+            <field name="name">Investimentos Internacionais</field>
+            <field name="sequence">70</field>
+            <field name="color">7</field>
+            <field name="description">Ações, ETFs e fundos no exterior</field>
+        </record>
+        
+        <!-- ====================================== -->
+        <!-- OBJEÇÕES COMERCIAIS                    -->
+        <!-- ====================================== -->
+        <record id="objection_preco_alto" model="finance.crm.objection">
+            <field name="name">Preço Alto</field>
+            <field name="sequence">10</field>
+            <field name="color">1</field>
+            <field name="description">Cliente acha o fee de gestão muito alto</field>
+            <field name="suggested_response"><![CDATA[
+                <p><strong>Argumentação:</strong></p>
+                <ul>
+                    <li>Demonstrar valor entregue vs custo</li>
+                    <li>Comparar com economia de tempo do cliente</li>
+                    <li>Mostrar histórico de performance</li>
+                    <li>Calcular custo de oportunidade de não investir corretamente</li>
+                </ul>
+            ]]></field>
+        </record>
+        
+        <record id="objection_consultar_conjuge" model="finance.crm.objection">
+            <field name="name">Precisa Consultar Cônjuge</field>
+            <field name="sequence">20</field>
+            <field name="color">3</field>
+            <field name="description">Decisão em conjunto com parceiro(a)</field>
+            <field name="suggested_response"><![CDATA[
+                <p><strong>Abordagem:</strong></p>
+                <ul>
+                    <li>Propor reunião com o casal</li>
+                    <li>Enviar material para análise conjunta</li>
+                    <li>Respeitar o processo decisório</li>
+                    <li>Oferecer flexibilidade de horários</li>
+                </ul>
+            ]]></field>
+        </record>
+        
+        <record id="objection_comparando" model="finance.crm.objection">
+            <field name="name">Comparando com Concorrentes</field>
+            <field name="sequence">30</field>
+            <field name="color">4</field>
+            <field name="description">Está avaliando outras consultorias</field>
+            <field name="suggested_response"><![CDATA[
+                <p><strong>Diferenciais a destacar:</strong></p>
+                <ul>
+                    <li>Atendimento personalizado</li>
+                    <li>Experiência da equipe</li>
+                    <li>Metodologia proprietária</li>
+                    <li>Cases de sucesso</li>
+                </ul>
+            ]]></field>
+        </record>
+        
+        <record id="objection_nao_urgente" model="finance.crm.objection">
+            <field name="name">Não é Urgente</field>
+            <field name="sequence">40</field>
+            <field name="color">5</field>
+            <field name="description">Cliente quer pensar mais, não vê urgência</field>
+            <field name="suggested_response"><![CDATA[
+                <p><strong>Criar senso de urgência:</strong></p>
+                <ul>
+                    <li>Custo de oportunidade de esperar</li>
+                    <li>Juros compostos trabalham a favor do tempo</li>
+                    <li>Mercado não espera</li>
+                    <li>Propor follow-up definido</li>
+                </ul>
+            ]]></field>
+        </record>
+        
+        <record id="objection_falta_conhecimento" model="finance.crm.objection">
+            <field name="name">Falta Conhecimento</field>
+            <field name="sequence">50</field>
+            <field name="color">6</field>
+            <field name="description">Cliente se sente inseguro por não entender</field>
+            <field name="suggested_response"><![CDATA[
+                <p><strong>Educação financeira:</strong></p>
+                <ul>
+                    <li>Oferecer material educativo</li>
+                    <li>Explicar de forma simples e didática</li>
+                    <li>Propor reunião de alinhamento</li>
+                    <li>Destacar que consultoria serve justamente para isso</li>
+                </ul>
+            ]]></field>
+        </record>
+        
+    </data>
+</odoo>
