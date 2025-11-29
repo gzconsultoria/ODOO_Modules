@@ -12,9 +12,7 @@
             <field name="code">model._cron_detect_churn_risk()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field name="active">True</field>
-            <field name="doall">False</field>
+            <field name="active" eval="True"/>
             <field name="priority">5</field>
         </record>
         
@@ -28,9 +26,7 @@
             <field name="code">model._cron_detect_crosssell_opportunities()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field name="active">True</field>
-            <field name="doall">False</field>
+            <field name="active" eval="True"/>
             <field name="priority">5</field>
         </record>
         
