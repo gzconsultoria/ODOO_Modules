@@ -31,7 +31,7 @@
                     <!-- Badge: Criar Perfil (cinza) -->
                     <div class="o_stat_info" invisible="has_finance_profile">
                         <span class="o_stat_text text-muted">
-                            <i class="fa fa-plus-circle"/> Criar Perfil
+                            <i class="fa fa-plus-circle"/> CRIAR PERFIL FINANCEIRO
                         </span>
                     </div>
                     
@@ -51,15 +51,9 @@
                             <field name="estimated_income_range"/>
                         </group>
                         <group string="Perfil e Urgência">
-                            <field name="preliminary_risk_profile" widget="badge"
-                                   decoration-info="preliminary_risk_profile == 'conservative'"
-                                   decoration-success="preliminary_risk_profile == 'moderate'"
-                                   decoration-warning="preliminary_risk_profile == 'aggressive'"/>
+                            <field name="preliminary_risk_profile"/>
                             <field name="main_pain_point"/>
-                            <field name="urgency_level" widget="badge"
-                                   decoration-success="urgency_level == 'high'"
-                                   decoration-warning="urgency_level == 'medium'"
-                                   decoration-muted="urgency_level == 'low'"/>
+                            <field name="urgency_level"/>
                         </group>
                     </group>
                     
@@ -90,8 +84,17 @@
                     </group>
                     
                     <separator string="Objeções Levantadas"/>
-                    <field name="objection_ids" widget="many2many_tags"
-                           options="{'color_field': 'color', 'no_create_edit': True}"/>
+                    <group>
+                        <field name="objection_ids" widget="many2many_tags"
+                               options="{'color_field': 'color', 'no_create_edit': True}"
+                               colspan="2" nolabel="1"/>
+                    </group>
+                    
+                    <separator string="Notas sobre Objeções" invisible="not objection_ids"/>
+                    <group invisible="not objection_ids">
+                        <field name="objection_notes" widget="html" colspan="2" nolabel="1"
+                               placeholder="Descreva como as objeções foram tratadas, argumentos utilizados, etc."/>
+                    </group>
                     
                     <!-- Sprint 3: Alerta de Divergência AUM -->
                     <separator string="Divergência AUM" invisible="aum_divergence_alert == 'none'"/>

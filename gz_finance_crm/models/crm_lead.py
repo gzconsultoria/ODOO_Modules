@@ -63,6 +63,11 @@ class CrmLead(models.Model):
         string='Objeções Levantadas'
     )
     
+    objection_notes = fields.Html(
+        string='Notas sobre Objeções',
+        help='Descreva como as objeções foram tratadas, argumentos utilizados, estratégias aplicadas'
+    )
+    
     competitor_comparison = fields.Char(
         string='Concorrentes Mencionados',
         help='Ex: XP, BTG, Genial'
