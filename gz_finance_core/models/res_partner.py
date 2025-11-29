@@ -749,17 +749,18 @@ class ResPartner(models.Model):
     # HELPER METHODS
     # ================================
     def _generate_profile_id(self):
-        """Generate unique Profile ID using sequence (format: FIN-YYYYMMDD-XXXX)
+        """Generate unique Profile ID using sequence (format: FIN-DD.MM.YYYY-XXXX)
         
         The sequence already includes the FIN- prefix, this method just calls next_by_code
         """
         sequence_value = self.env['ir.sequence'].next_by_code('finance.profile')
         if not sequence_value:
             # Fallback manual generation if sequence fails
-            today = fields.Date.today().strftime('%Y%m%d')
+            today = fields.Date.today()
+            date_str = today.strftime('%d.%m.%Y')
             last_id = self.search([], order='id desc', limit=1)
             next_num = (last_id.id + 1) if last_id else 1
-            return f'FIN-{today}-{next_num:04d}'
+            return f'FIN-{date_str}-{next_num:04d}'
         return sequence_value
     
     def compute_roi(self, start_date, end_date):
