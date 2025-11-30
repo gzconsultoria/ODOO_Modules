@@ -1076,47 +1076,14 @@ class ResPartner(models.Model):
             _logger.warning("gz_finance_docs não instalado - pulando criação de pastas")
             return
         
-        # Busca ou cria pasta raiz "Clientes"
-        root_folder = None
-        
-        # Primeiro tenta buscar por XML ID
-        try:
-            root_folder = self.env.ref('gz_finance_docs.folder_clientes', raise_if_not_found=False)
-        except:
-            pass
-        
-        # Se não encontrou por XML ID, busca por nome (qualquer idioma)
-        if not root_folder:
-            # Busca por nome que contenha "Clientes" OU "📁 Clientes"
-            all_root_folders = folder_model.search([('parent_folder_id', '=', False)])
-            for folder in all_root_folders:
-                if folder.name and 'Cliente' in folder.name:
-                    root_folder = folder
-                    break
-        
-        # Se ainda não existe, CRIA a pasta raiz
-        if not root_folder:
-            _logger.info("Pasta raiz 'Clientes' não encontrada - criando automaticamente...")
-            try:
-                root_folder = folder_model.create({
-                    'name': '📁 Clientes',
-                    'description': 'Pastas individuais de cada cliente, criadas automaticamente ao ativar perfil financeiro.',
-                    'visibility_administration': True,
-                    'visibility_salesman': True,
-                })
-                _logger.info(f"✅ Pasta raiz 'Clientes' criada com ID {root_folder.id}")
-            except Exception as e:
-                _logger.error(f"❌ Erro ao criar pasta raiz 'Clientes': {e}")
-                return
-        
-        # Cria pasta principal do cliente
+        # Cria pasta principal do cliente (direto na raiz, sem pasta "Clientes" intermediária)
         client_folder_name = f"{self.name} ({self.finance_profile_id})"
         
         client_folder = folder_model.create({
             'name': client_folder_name,
             'description': f"Documentos do cliente {self.name}. "
                           f"Criada automaticamente ao ativar Cliente Consultoria.",
-            'parent_folder_id': root_folder.id,
+            'parent_folder_id': False,  # Cria na raiz, sem pasta pai
             'partner_id': self.id,
             'client_folder': True,
             'visibility_administration': True,
