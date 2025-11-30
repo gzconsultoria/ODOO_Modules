@@ -56,7 +56,7 @@
                         </group>
                         <group name='general' string='General' col="2">
                             <group col='2'>
-                                <field name="file_ids" widget="many2many_binary" colspan="2" readonly="state == 'lock'"/>
+                                <field name="file_ids" widget="many2many_binary" readonly="state == 'lock'"/>
                             </group>
                             <group col='2'>
                                 <field name="owner_id" options="{'no_create_edit': True, 'no_create': True,}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
@@ -65,8 +65,8 @@
                             </group>
                         </group>
 
-                        <group name='description' string='Description' col="2">
-                            <field name="description" nolabel="1" colspan="2" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
+                        <group name='description' string='Description'>
+                            <field name="description" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
                         </group>
 
                     </sheet>

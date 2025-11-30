@@ -39,7 +39,7 @@
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
                         </group>
                         <group name='visibility' string='Visibility'>
-                            <div class="alert alert-info" role="alert" colspan='2'>
+                            <div class="alert alert-info" role="alert">
                                 Specify which groups should be able to view documents for this category.
                             </div>
                             <field name='visibility_administration'/>
@@ -53,7 +53,7 @@
                     </group>
                     <notebook>
                         <page string="Description" name="description">
-                            <field name="description" widget="html" nolabel="1" />
+                            <field name="description" widget="html"/>
                         </page>
                     </notebook>
                 </sheet>
