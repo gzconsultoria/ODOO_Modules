@@ -5,12 +5,12 @@
     <!-- FINANCE AUM SNAPSHOT VIEWS             -->
     <!-- ====================================== -->
     
-    <!-- Tree View -->
-    <record id="view_finance_aum_snapshot_tree" model="ir.ui.view">
-        <field name="name">finance.aum.snapshot.tree</field>
+    <!-- List View (Odoo 19 - tree foi substituído por list) -->
+    <record id="view_finance_aum_snapshot_list" model="ir.ui.view">
+        <field name="name">finance.aum.snapshot.list</field>
         <field name="model">finance.aum.snapshot</field>
         <field name="arch" type="xml">
-            <tree string="Snapshots de AUM" 
+            <list string="Snapshots de AUM" 
                   default_order="snapshot_date desc"
                   decoration-success="aum_variation_percent &gt; 0"
                   decoration-danger="aum_variation_percent &lt; -10">
@@ -26,7 +26,7 @@
                        decoration-warning="source == 'crm_conversion'"/>
                 <field name="currency_id" column_invisible="1"/>
                 <field name="company_id" groups="base.group_multi_company" optional="show"/>
-            </tree>
+            </list>
         </field>
     </record>
     

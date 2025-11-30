@@ -35,6 +35,7 @@
         'contacts',
         'mail',           # Chatter and notifications
         'web',            # Web interface
+        'crm',            # Necessário para origin_lead_id
     ],
     
     'data': [
