@@ -11,7 +11,29 @@ class ResConfigSettings(models.TransientModel):
     imap_port = fields.Integer(string='Port', default=465)
     imap_user = fields.Char(string='User')
     imap_password = fields.Char(string='Password')
-    imap_folder = fields.Many2one('document_hub.folder', string="Folder", default=lambda lm: lm.env.ref('gz_finance_docs.folder_administration_inbox'))
+    imap_folder = fields.Many2one('document_hub.folder', string="Folder")
+    
+    @api.model
+    def get_values(self):
+        res = super(ResConfigSettings, self).get_values()
+        get_param = self.env['ir.config_parameter'].sudo().get_param
+        res.update(
+            imap_active=get_param('document_hub.active', default=False),
+            imap_host=get_param('document_hub.imap_host', default=''),
+            imap_port=int(get_param('document_hub.imap_port', default=465)),
+            imap_user=get_param('document_hub.imap_user', default=''),
+            imap_password=get_param('document_hub.imap_password', default=''),
+            imap_folder=int(get_param('document_hub.imap_folder', default=0)) or self._get_default_imap_folder(),
+        )
+        return res
+    
+    def _get_default_imap_folder(self):
+        """Retorna a pasta padrão de forma segura"""
+        try:
+            return self.env.ref('gz_finance_docs.folder_administration_inbox').id
+        except:
+            # Se o módulo ainda não foi instalado ou a pasta não existe, retorna False
+            return False
     
     def set_values(self):
         res = super(ResConfigSettings, self).set_values()
