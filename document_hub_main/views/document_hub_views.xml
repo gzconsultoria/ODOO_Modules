@@ -48,23 +48,30 @@
                             <field name="privacy_doc" readonly="state == 'lock'" invisible="is_admin != True"/>
                         </div>
                         <group>
-                            <field name="tag_ids" widget="many2many_tags" />
-                            <field name="folder_id" readonly="state == 'lock'" options="{'no_create_edit': True, 'no_create': True,}"/>
-                            <field name="rel_is_project" invisible="1"/>
-                            <field name="rel_is_parent_folder_project" invisible="1"/>
-                            <field name="project_id" readonly="state == 'lock'" invisible='not folder_id or rel_is_project != True' options="{'no_create_edit': True, 'no_create': True,}"/>
+                            <group>
+                                <field name="tag_ids" widget="many2many_tags" />
+                                <field name="folder_id" readonly="state == 'lock'" options="{'no_create_edit': True, 'no_create': True,}"/>
+                                <field name="rel_is_project" invisible="1"/>
+                                <field name="rel_is_parent_folder_project" invisible="1"/>
+                                <field name="project_id" readonly="state == 'lock'" invisible='not folder_id or rel_is_project != True' options="{'no_create_edit': True, 'no_create': True,}"/>
+                            </group>
+                            <group>
+                                <field name="owner_id" options="{'no_create_edit': True, 'no_create': True,}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
+                                <field name="partner_id" widget="res_partner_many2one" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}" readonly="state == 'lock'" />
+                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" readonly="state == 'lock'"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="owner_id" options="{'no_create_edit': True, 'no_create': True,}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
-                            <field name="partner_id" widget="res_partner_many2one" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}" readonly="state == 'lock'" />
-                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" readonly="state == 'lock'"/>
-                        </group>
-                        <group>
-                            <field name="file_ids" widget="many2many_binary" readonly="state == 'lock'"/>
-                        </group>
-                        <group>
-                            <field name="description" nolabel="1" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
-                        </group>
+                        
+                        <notebook>
+                            <page string="Details">
+                                <group>
+                                    <field name="file_ids" widget="many2many_binary" readonly="state == 'lock'"/>
+                                </group>
+                                <group>
+                                    <field name="description" nolabel="1" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
+                                </group>
+                            </page>
+                        </notebook>
 
                     </sheet>
                     <div class="oe_chatter">
