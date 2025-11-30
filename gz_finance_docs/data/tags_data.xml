@@ -2,104 +2,138 @@
 <odoo>
     <data noupdate="1">
 
+        <!-- Tags de Status -->
         <record id="tag_urgent" model="document_hub.tag">
-            <field name="name">Urgent</field>
+            <field name="name">Urgente</field>
+            <field name="color">1</field>
         </record>
         
         <record id="tag_to_review" model="document_hub.tag">
-            <field name="name">To Review</field>
+            <field name="name">Revisar</field>
+            <field name="color">3</field>
         </record>
         
         <record id="tag_approved" model="document_hub.tag">
-            <field name="name">Approved</field>
+            <field name="name">Aprovado</field>
+            <field name="color">10</field>
         </record>
         
         <record id="tag_draft" model="document_hub.tag">
-            <field name="name">Draft</field>
+            <field name="name">Rascunho</field>
+            <field name="color">7</field>
         </record>
         
         <record id="tag_archived" model="document_hub.tag">
-            <field name="name">Archived</field>
+            <field name="name">Arquivado</field>
+            <field name="color">8</field>
+        </record>
+
+        <!-- Tags de Produtos de Investimento -->
+        <record id="tag_acoes" model="document_hub.tag">
+            <field name="name">Ações</field>
+            <field name="color">2</field>
+        </record>
+
+        <record id="tag_fundos_imobiliarios" model="document_hub.tag">
+            <field name="name">Fundos Imobiliários</field>
+            <field name="color">4</field>
+        </record>
+
+        <record id="tag_renda_fixa" model="document_hub.tag">
+            <field name="name">Renda Fixa</field>
+            <field name="color">6</field>
+        </record>
+
+        <record id="tag_fundos_investimento" model="document_hub.tag">
+            <field name="name">Fundos de Investimento</field>
+            <field name="color">5</field>
+        </record>
+
+        <record id="tag_previdencia" model="document_hub.tag">
+            <field name="name">Previdência Privada</field>
+            <field name="color">9</field>
+        </record>
+
+        <record id="tag_exterior" model="document_hub.tag">
+            <field name="name">Investimentos no Exterior</field>
+            <field name="color">11</field>
+        </record>
+
+        <record id="tag_crypto" model="document_hub.tag">
+            <field name="name">Criptomoedas</field>
+            <field name="color">1</field>
+        </record>
+
+        <!-- Tags de Documentação -->
+        <record id="tag_contrato" model="document_hub.tag">
+            <field name="name">Contrato</field>
+            <field name="color">3</field>
         </record>
         
-        <record id="tag_management" model="document_hub.tag">
-            <field name="name">Management</field>
+        <record id="tag_relatorio" model="document_hub.tag">
+            <field name="name">Relatório</field>
+            <field name="color">7</field>
         </record>
-        
-        <record id="tag_finance" model="document_hub.tag">
-            <field name="name">Finance</field>
+
+        <record id="tag_analise" model="document_hub.tag">
+            <field name="name">Análise de Mercado</field>
+            <field name="color">4</field>
         </record>
-        
-        <record id="tag_hr" model="document_hub.tag">
-            <field name="name">HR</field>
+
+        <record id="tag_politica_investimento" model="document_hub.tag">
+            <field name="name">Política de Investimento</field>
+            <field name="color">10</field>
         </record>
-        
-        <record id="tag_legal" model="document_hub.tag">
-            <field name="name">Legal</field>
+
+        <record id="tag_compliance" model="document_hub.tag">
+            <field name="name">Compliance</field>
+            <field name="color">1</field>
         </record>
-        
-        <record id="tag_marketing" model="document_hub.tag">
-            <field name="name">Marketing</field>
+
+        <record id="tag_suitability" model="document_hub.tag">
+            <field name="name">Suitability</field>
+            <field name="color">5</field>
         </record>
-        
-        <record id="tag_sales" model="document_hub.tag">
-            <field name="name">Sales</field>
+
+        <!-- Tags de Gestão -->
+        <record id="tag_cliente" model="document_hub.tag">
+            <field name="name">Cliente</field>
+            <field name="color">2</field>
         </record>
-        
-        <record id="tag_it" model="document_hub.tag">
-            <field name="name">IT</field>
+
+        <record id="tag_prospecto" model="document_hub.tag">
+            <field name="name">Prospecto</field>
+            <field name="color">8</field>
         </record>
-        
-        <record id="tag_qa" model="document_hub.tag">
-            <field name="name">QA</field>
+
+        <record id="tag_confidencial" model="document_hub.tag">
+            <field name="name">Confidencial</field>
+            <field name="color">1</field>
         </record>
-        
-        <record id="tag_rnd" model="document_hub.tag">
-            <field name="name">R&amp;D</field>
+
+        <record id="tag_tributacao" model="document_hub.tag">
+            <field name="name">Tributação</field>
+            <field name="color">9</field>
         </record>
-        
-        <record id="tag_contract" model="document_hub.tag">
-            <field name="name">Contract</field>
+
+        <record id="tag_auditoria" model="document_hub.tag">
+            <field name="name">Auditoria</field>
+            <field name="color">6</field>
         </record>
-        
-        <record id="tag_invoice" model="document_hub.tag">
-            <field name="name">Invoice</field>
+
+        <record id="tag_regulatorio" model="document_hub.tag">
+            <field name="name">Regulatório (CVM/BACEN)</field>
+            <field name="color">3</field>
         </record>
-        
-        <record id="tag_report" model="document_hub.tag">
-            <field name="name">Report</field>
-        </record>
-        
-        <record id="tag_policy" model="document_hub.tag">
-            <field name="name">Policy</field>
-        </record>
-        
-        <record id="tag_confidential" model="document_hub.tag">
-            <field name="name">Confidential</field>
-        </record>
-        
-        <record id="tag_tax" model="document_hub.tag">
-            <field name="name">Tax</field>
-        </record>
-        
-        <record id="tag_audit" model="document_hub.tag">
-            <field name="name">Audit</field>
-        </record>
-        
-        <record id="tag_project" model="document_hub.tag">
-            <field name="name">Project</field>
-        </record>
-        
-        <record id="tag_client" model="document_hub.tag">
-            <field name="name">Client</field>
-        </record>
-        
-        <record id="tag_supplier" model="document_hub.tag">
-            <field name="name">Supplier</field>
+
+        <record id="tag_operacional" model="document_hub.tag">
+            <field name="name">Operacional</field>
+            <field name="color">7</field>
         </record>
         
         <record id="tag_email" model="document_hub.tag">
-            <field name="name">From email</field>
+            <field name="name">Email</field>
+            <field name="color">4</field>
         </record>
 
     </data>
