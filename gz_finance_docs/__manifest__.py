@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 {
-    'name': 'Document Hub Main',
+    'name': 'GZ Finance - Gestão de Documentos',
     'version': '19.0.1.0.0',
-    'author': 'Daniel Demedziuk (Adapted to Odoo 19 by GZ Consultoria)',
+    'author': 'GZ Consultoria (Adapted from Daniel Demedziuk)',
     'license': 'GPL-2',
     'sequence': 55,
     'category': 'Productivity/Documents',
-    'summary': 'Advanced document management system for Odoo Community',
+    'summary': 'Sistema avançado de gestão de documentos financeiros',
     'description': """
 Document hub
 ==================
@@ -53,7 +53,7 @@ This module is fully open source under the GPL-2 license.
     ],
     'assets': {
         'web.assets_backend': [
-            'document_hub_main/static/src/css/document_hub.css',
+            'gz_finance_docs/static/src/css/document_hub.css',
         ],
     },
     'auto_install': False,

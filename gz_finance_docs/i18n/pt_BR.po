@@ -1,0 +1,286 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * gz_finance_docs
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-30 15:30:00+0000\n"
+"PO-Revision-Date: 2025-11-30 15:30:00+0000\n"
+"Last-Translator: GZ Consultoria\n"
+"Language-Team: Portuguese (Brazil)\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__topic
+msgid "Topic"
+msgstr "Assunto"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__file_ids
+msgid "Attachments"
+msgstr "Anexos"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__description
+msgid "Description"
+msgstr "Descrição"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__tag_ids
+msgid "Tags"
+msgstr "Etiquetas"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__partner_id
+msgid "Contact"
+msgstr "Contato"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__project_id
+msgid "Project"
+msgstr "Projeto"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__owner_id
+msgid "Owner"
+msgstr "Proprietário"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__folder_id
+msgid "Folder"
+msgstr "Pasta"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__state
+msgid "State"
+msgstr "Status"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,selection:gz_finance_docs.selection__document_hub_document__state__open
+msgid "Open"
+msgstr "Aberto"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,selection:gz_finance_docs.selection__document_hub_document__state__lock
+msgid "Locked"
+msgstr "Bloqueado"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_document__privacy_doc
+msgid "Privacy"
+msgstr "Privacidade"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,selection:gz_finance_docs.selection__document_hub_document__privacy_doc__company
+msgid "Company"
+msgstr "Empresa"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,selection:gz_finance_docs.selection__document_hub_document__privacy_doc__mail
+msgid "Mail"
+msgstr "E-mail"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_form
+msgid "Lock"
+msgstr "Bloquear"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_form
+msgid "Unlock"
+msgstr "Desbloquear"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_form
+msgid "Enter a description of the documents so they can be more easily identified.."
+msgstr "Digite uma descrição dos documentos para que possam ser facilmente identificados.."
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_tree
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_search
+msgid "Search Documents"
+msgstr "Buscar Documentos"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_search
+msgid "Group By"
+msgstr "Agrupar Por"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_search
+msgid "By Owner"
+msgstr "Por Proprietário"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_search
+msgid "By Folder"
+msgstr "Por Pasta"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_search
+msgid "By Contact"
+msgstr "Por Contato"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_search
+msgid "By Project"
+msgstr "Por Projeto"
+
+#. module: gz_finance_docs
+#: model:ir.model,name:gz_finance_docs.model_document_hub_document
+msgid "Document hub: Document"
+msgstr "Hub de Documentos: Documento"
+
+#. module: gz_finance_docs
+#: model:ir.model,name:gz_finance_docs.model_document_hub_folder
+msgid "Document hub: Folder"
+msgstr "Hub de Documentos: Pasta"
+
+#. module: gz_finance_docs
+#: model:ir.model,name:gz_finance_docs.model_document_hub_tag
+msgid "Document hub: Tag"
+msgstr "Hub de Documentos: Etiqueta"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__name
+msgid "Folder Name"
+msgstr "Nome da Pasta"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_tag__name
+msgid "Tag Name"
+msgstr "Nome da Etiqueta"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_tag__color
+msgid "Color"
+msgstr "Cor"
+
+#. module: gz_finance_docs
+#: model:ir.actions.act_window,name:gz_finance_docs.action_document_hub_document
+#: model:ir.ui.menu,name:gz_finance_docs.menu_document_hub_document
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: gz_finance_docs
+#: model:ir.actions.act_window,name:gz_finance_docs.action_document_hub_folder
+#: model:ir.ui.menu,name:gz_finance_docs.menu_document_hub_folder
+msgid "Folders"
+msgstr "Pastas"
+
+#. module: gz_finance_docs
+#: model:ir.actions.act_window,name:gz_finance_docs.action_document_hub_tag
+#: model:ir.ui.menu,name:gz_finance_docs.menu_document_hub_tag
+msgid "Tags"
+msgstr "Etiquetas"
+
+#. module: gz_finance_docs
+#: model:ir.ui.menu,name:gz_finance_docs.menu_document_hub_root
+msgid "Finance Docs"
+msgstr "Documentos Financeiros"
+
+#. module: gz_finance_docs
+#: model:ir.ui.menu,name:gz_finance_docs.menu_document_hub_config
+msgid "Configuration"
+msgstr "Configuração"
+
+#. module: gz_finance_docs
+#: code:addons/gz_finance_docs/models/document.py:0
+#, python-format
+msgid "New"
+msgstr "Novo"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__parent_folder_id
+msgid "Parent Folder"
+msgstr "Pasta Pai"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__is_project
+msgid "Is Project Folder"
+msgstr "É Pasta de Projeto"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_res_config_settings__enable_document_expiry
+msgid "Enable Document Expiry"
+msgstr "Habilitar Expiração de Documentos"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_res_config_settings__default_document_folder
+msgid "Default Document Folder"
+msgstr "Pasta Padrão de Documentos"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.res_config_settings_view_form
+msgid "Document Management"
+msgstr "Gestão de Documentos"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,help:gz_finance_docs.field_res_config_settings__enable_document_expiry
+msgid "Automatically archive documents after a specified period"
+msgstr "Arquivar automaticamente documentos após um período especificado"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,help:gz_finance_docs.field_res_config_settings__default_document_folder
+msgid "Default folder for new documents"
+msgstr "Pasta padrão para novos documentos"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__visibility_administration
+msgid "Administration"
+msgstr "Administração"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__visibility_purchasing_and_logistics
+msgid "Purchasing and Logistics"
+msgstr "Compras e Logística"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__visibility_marketing
+msgid "Marketing"
+msgstr "Marketing"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__visibility_accounting
+msgid "Accounting"
+msgstr "Contabilidade"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__visibility_pm
+msgid "Project Management"
+msgstr "Gestão de Projetos"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__visibility_hr
+msgid "Human Resources"
+msgstr "Recursos Humanos"
+
+#. module: gz_finance_docs
+#: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__visibility_salesman
+msgid "Sales"
+msgstr "Vendas"
