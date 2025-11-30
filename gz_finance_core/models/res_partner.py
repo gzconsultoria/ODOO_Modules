@@ -12,6 +12,15 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
     
     # ================================
+    # SQL CONSTRAINTS
+    # ================================
+    _sql_constraints = [
+        ('finance_profile_id_unique',
+         'UNIQUE(finance_profile_id)',
+         'O Finance Profile ID deve ser único! Este ID já está em uso.')
+    ]
+    
+    # ================================
     # FIELDS - Financial Identification
     # ================================
     finance_profile_id = fields.Char(
@@ -551,20 +560,8 @@ class ResPartner(models.Model):
     # ================================
     # CONSTRAINT METHODS
     # ================================
-    @api.constrains('finance_profile_id')
-    def _check_finance_profile_id_unique(self):
-        """Ensure Profile ID uniqueness"""
-        for partner in self:
-            if partner.finance_profile_id:
-                duplicate = self.search([
-                    ('finance_profile_id', '=', partner.finance_profile_id),
-                    ('id', '!=', partner.id)
-                ], limit=1)
-                if duplicate:
-                    raise ValidationError(_(
-                        'Finance Profile ID must be unique. '
-                        'ID %s already exists for %s'
-                    ) % (partner.finance_profile_id, duplicate.name))
+    # NOTA: Constraint de unicidade do finance_profile_id movido para SQL (_sql_constraints)
+    # para melhor performance - não executa em todo write(), apenas em INSERT/UPDATE real
     
     @api.constrains('kyc_expiry_date', 'kyc_completed_date')
     def _check_kyc_dates(self):

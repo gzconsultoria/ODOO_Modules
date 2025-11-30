@@ -340,14 +340,28 @@ Entrar em contato com urgência para entender motivos e propor ações de reten�
         
         _logger.info(f"Encontrados {len(high_risk_indicators)} clientes em risco alto/crítico")
         
+        # ⚡ RATE LIMITING: Processar no máximo 50 indicadores por execução
+        max_leads_per_run = 50
+        indicators_to_process = high_risk_indicators[:max_leads_per_run]
+        
+        if len(high_risk_indicators) > max_leads_per_run:
+            _logger.warning(
+                f"⚠️ Limitando processamento: {len(high_risk_indicators)} encontrados, "
+                f"processando apenas {max_leads_per_run}. "
+                f"Restantes serão processados na próxima execução."
+            )
+        
         leads_created = 0
-        for indicator in high_risk_indicators:
+        for indicator in indicators_to_process:
             try:
                 indicator.action_create_retention_lead()
                 leads_created += 1
             except Exception as e:
                 _logger.error(f"Erro ao criar lead para {indicator.partner_id.name}: {str(e)}")
         
-        _logger.info(f"=== DETECÇÃO CONCLUÍDA: {leads_created} leads de retenção criados ===")
+        _logger.info(
+            f"=== DETECÇÃO CONCLUÍDA: {leads_created}/{len(high_risk_indicators)} "
+            f"leads de retenção criados ==="
+        )
         
         return True

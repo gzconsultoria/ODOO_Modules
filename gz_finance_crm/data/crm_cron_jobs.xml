@@ -30,5 +30,20 @@
             <field name="priority">5</field>
         </record>
         
+        <!-- ========================================= -->
+        <!-- CRON JOB: Limpeza de Audit Logs Antigos  -->
+        <!-- ========================================= -->
+        <record id="cron_cleanup_audit_logs" model="ir.cron">
+            <field name="name">CRM: Limpar Audit Logs Antigos (+365 dias)</field>
+            <field name="model_id" ref="model_crm_audit_log"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_cleanup_old_logs()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+            <field name="priority">10</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=3, minute=0)"/>
+        </record>
+        
     </data>
 </odoo>

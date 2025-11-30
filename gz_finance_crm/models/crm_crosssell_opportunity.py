@@ -297,7 +297,9 @@ AÇÕES SUGERIDAS:
         _logger.info(f"Encontrados {len(high_growth_clients)} clientes com crescimento AUM >20%")
         
         opportunities_created = 0
-        for client in high_growth_clients:
+        total_clients = len(high_growth_clients)
+        
+        for idx, client in enumerate(high_growth_clients, start=1):
             # Verificar se já existe oportunidade ativa
             existing = self.search([
                 ('partner_id', '=', client.id),
@@ -324,7 +326,20 @@ AÇÕES SUGERIDAS:
                 'suggested_actions': 'Entrar em contato para entender origem dos novos recursos e oferecer produtos adicionais.'
             })
             opportunities_created += 1
+            
+            # ⚡ RATE LIMITING: Parar após 50 oportunidades criadas
+            if opportunities_created >= 50:
+                remaining = total_clients - idx
+                if remaining > 0:
+                    _logger.warning(
+                        f"⚠️ Limite de 50 oportunidades atingido. "
+                        f"{remaining} clientes restantes serão processados na próxima execução."
+                    )
+                break
         
-        _logger.info(f"=== DETECÇÃO CONCLUÍDA: {opportunities_created} oportunidades de cross-sell criadas ===")
+        _logger.info(
+            f"=== DETECÇÃO CONCLUÍDA: {opportunities_created} "
+            f"oportunidades de cross-sell criadas ==="
+        )
         
         return True
