@@ -94,33 +94,29 @@
             <search string="Buscar Snapshots">
                 <field name="partner_id"/>
                 <field name="snapshot_date"/>
-                
-                <filter string="Mês Atual" name="current_month"
-                        domain="[('snapshot_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
-                <filter string="Último Mês" name="last_month"
-                        domain="[('snapshot_date', '&gt;=', (context_today() - relativedelta(months=2)).strftime('%Y-%m-01')),
-                                 ('snapshot_date', '&lt;', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
-                <filter string="Últimos 3 Meses" name="last_3_months"
-                        domain="[('snapshot_date', '&gt;=', (context_today() - relativedelta(months=3)).strftime('%Y-%m-01'))]"/>
+                <field name="source"/>
                 
                 <separator/>
                 <filter string="Automático" name="auto"
                         domain="[('source', '=', 'auto')]"/>
                 <filter string="Manual" name="manual"
                         domain="[('source', '=', 'manual')]"/>
-                <filter string="Conversão CRM" name="crm_conversion"
+                <filter string="Conversão CRM" name="crm"
                         domain="[('source', '=', 'crm_conversion')]"/>
                 
                 <separator/>
-                <filter string="Crescimento Positivo" name="growth"
+                <filter string="Crescimento Positivo" name="growth" 
                         domain="[('aum_variation_percent', '&gt;', 0)]"/>
-                <filter string="Declínio" name="decline"
+                <filter string="Declínio" name="decline" 
                         domain="[('aum_variation_percent', '&lt;', 0)]"/>
                 
                 <group expand="0" string="Agrupar Por">
-                    <filter string="Cliente" name="group_partner" context="{'group_by': 'partner_id'}"/>
-                    <filter string="Mês" name="group_month" context="{'group_by': 'snapshot_date:month'}"/>
-                    <filter string="Origem" name="group_source" context="{'group_by': 'source'}"/>
+                    <filter string="Cliente" name="group_partner" 
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter string="Mês" name="group_month" 
+                            context="{'group_by': 'snapshot_date:month'}"/>
+                    <filter string="Origem" name="group_source" 
+                            context="{'group_by': 'source'}"/>
                 </group>
             </search>
         </field>
@@ -155,10 +151,7 @@
     <record id="action_finance_aum_snapshots" model="ir.actions.act_window">
         <field name="name">Snapshots de AUM</field>
         <field name="res_model">finance.aum.snapshot</field>
-        <field name="view_mode">tree,form,graph,pivot</field>
-        <field name="context">{
-            'search_default_last_3_months': 1,
-        }</field>
+        <field name="view_mode">list,form,graph,pivot</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Criar primeiro snapshot de AUM
