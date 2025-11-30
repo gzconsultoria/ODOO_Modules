@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ====================================== -->
+    <!-- FINANCE AUM SNAPSHOT VIEWS             -->
+    <!-- ====================================== -->
+    
+    <!-- Tree View -->
+    <record id="view_finance_aum_snapshot_tree" model="ir.ui.view">
+        <field name="name">finance.aum.snapshot.tree</field>
+        <field name="model">finance.aum.snapshot</field>
+        <field name="arch" type="xml">
+            <tree string="Snapshots de AUM" 
+                  default_order="snapshot_date desc"
+                  decoration-success="aum_variation_percent &gt; 0"
+                  decoration-danger="aum_variation_percent &lt; -10">
+                
+                <field name="snapshot_date"/>
+                <field name="partner_id"/>
+                <field name="aum_value" widget="monetary"/>
+                <field name="aum_variation" widget="monetary" optional="show"/>
+                <field name="aum_variation_percent" widget="percentage" optional="show"/>
+                <field name="source" widget="badge"
+                       decoration-info="source == 'auto'"
+                       decoration-success="source == 'manual'"
+                       decoration-warning="source == 'crm_conversion'"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- Form View -->
+    <record id="view_finance_aum_snapshot_form" model="ir.ui.view">
+        <field name="name">finance.aum.snapshot.form</field>
+        <field name="model">finance.aum.snapshot</field>
+        <field name="arch" type="xml">
+            <form string="Snapshot de AUM">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_partner"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-user">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Ver Cliente</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group string="Informações Básicas">
+                            <field name="partner_id" required="1"/>
+                            <field name="snapshot_date" required="1"/>
+                            <field name="aum_value" widget="monetary" required="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Metadados">
+                            <field name="source" widget="badge"
+                                   decoration-info="source == 'auto'"
+                                   decoration-success="source == 'manual'"
+                                   decoration-warning="source == 'crm_conversion'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Análise de Variação">
+                        <group>
+                            <field name="previous_snapshot_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="aum_variation" widget="monetary" readonly="1"/>
+                            <field name="aum_variation_percent" widget="percentage" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Observações">
+                        <field name="notes" nolabel="1" placeholder="Adicione observações sobre este snapshot (ex: entrada grande de capital, resgates, etc.)"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Search View -->
+    <record id="view_finance_aum_snapshot_search" model="ir.ui.view">
+        <field name="name">finance.aum.snapshot.search</field>
+        <field name="model">finance.aum.snapshot</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Snapshots">
+                <field name="partner_id"/>
+                <field name="snapshot_date"/>
+                
+                <filter string="Mês Atual" name="current_month"
+                        domain="[('snapshot_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                <filter string="Último Mês" name="last_month"
+                        domain="[('snapshot_date', '&gt;=', (context_today() - relativedelta(months=2)).strftime('%Y-%m-01')),
+                                 ('snapshot_date', '&lt;', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                <filter string="Últimos 3 Meses" name="last_3_months"
+                        domain="[('snapshot_date', '&gt;=', (context_today() - relativedelta(months=3)).strftime('%Y-%m-01'))]"/>
+                
+                <separator/>
+                <filter string="Automático" name="auto"
+                        domain="[('source', '=', 'auto')]"/>
+                <filter string="Manual" name="manual"
+                        domain="[('source', '=', 'manual')]"/>
+                <filter string="Conversão CRM" name="crm_conversion"
+                        domain="[('source', '=', 'crm_conversion')]"/>
+                
+                <separator/>
+                <filter string="Crescimento Positivo" name="growth"
+                        domain="[('aum_variation_percent', '&gt;', 0)]"/>
+                <filter string="Declínio" name="decline"
+                        domain="[('aum_variation_percent', '&lt;', 0)]"/>
+                
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Cliente" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Mês" name="group_month" context="{'group_by': 'snapshot_date:month'}"/>
+                    <filter string="Origem" name="group_source" context="{'group_by': 'source'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <!-- Graph View -->
+    <record id="view_finance_aum_snapshot_graph" model="ir.ui.view">
+        <field name="name">finance.aum.snapshot.graph</field>
+        <field name="model">finance.aum.snapshot</field>
+        <field name="arch" type="xml">
+            <graph string="Evolução de AUM" type="line">
+                <field name="snapshot_date" interval="month"/>
+                <field name="aum_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    
+    <!-- Pivot View -->
+    <record id="view_finance_aum_snapshot_pivot" model="ir.ui.view">
+        <field name="name">finance.aum.snapshot.pivot</field>
+        <field name="model">finance.aum.snapshot</field>
+        <field name="arch" type="xml">
+            <pivot string="Análise de Snapshots">
+                <field name="snapshot_date" interval="month" type="row"/>
+                <field name="aum_value" type="measure"/>
+                <field name="aum_variation" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    
+    <!-- Action -->
+    <record id="action_finance_aum_snapshots" model="ir.actions.act_window">
+        <field name="name">Snapshots de AUM</field>
+        <field name="res_model">finance.aum.snapshot</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+        <field name="context">{
+            'search_default_last_3_months': 1,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar primeiro snapshot de AUM
+            </p>
+            <p>
+                Snapshots mensais de AUM são criados automaticamente no dia 1 de cada mês.<br/>
+                Você também pode criar snapshots manuais a qualquer momento.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Menu -->
+    <menuitem id="menu_finance_aum_snapshots"
+              name="Snapshots de AUM"
+              parent="gz_finance_core.menu_finance_root"
+              action="action_finance_aum_snapshots"
+              sequence="40"
+              groups="group_finance_manager"/>
+    
+</odoo>

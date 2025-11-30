@@ -46,12 +46,14 @@
         'data/finance_data.xml',
         'data/finance_cron.xml',
         'data/finance_actions.xml',
+        'data/finance_aum_snapshot_cron.xml',
         
         # Views com Actions (ANTES do menu!)
         'views/res_partner_views.xml',
         'views/res_partner_search_views.xml',
         'views/finance_patrimony_views.xml',  # Contém action_finance_patrimony
         'views/finance_category_views.xml',   # Contém action_finance_categories
+        'views/finance_aum_snapshot_views.xml',  # Contém action_finance_aum_snapshots
         
         # Menu POR ÚLTIMO (depende das actions acima)
         'views/finance_menu.xml',

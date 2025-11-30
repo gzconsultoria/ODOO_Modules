@@ -100,6 +100,39 @@ class ResPartner(models.Model):
     )
     
     # ================================
+    # FIELDS - Dados para Churn Detection
+    # ================================
+    
+    aum_3months_ago = fields.Monetary(
+        string='AUM 3 Meses Atrás',
+        compute='_compute_aum_3months_ago',
+        store=True,
+        currency_field='currency_id',
+        help='AUM de 3 meses atrás (usado para calcular decline no churn indicator)'
+    )
+    
+    meetings_last_6months = fields.Integer(
+        string='Reuniões (6 meses)',
+        compute='_compute_meetings_last_6months',
+        store=False,
+        help='Número de reuniões realizadas nos últimos 6 meses'
+    )
+    
+    response_rate = fields.Float(
+        string='Taxa de Resposta (%)',
+        compute='_compute_response_rate',
+        store=False,
+        digits=(5, 2),
+        help='Percentual de mensagens respondidas nos últimos 3 meses'
+    )
+    
+    finance_aum_snapshot_ids = fields.One2many(
+        'finance.aum.snapshot',
+        'partner_id',
+        string='Histórico de Snapshots AUM'
+    )
+    
+    # ================================
     # FIELDS - Categorization
     # ================================
     finance_category_ids = fields.Many2many(
@@ -438,6 +471,126 @@ class ResPartner(models.Model):
                     partner.aum_growth_percent = 0.0
             else:
                 partner.aum_growth_percent = 0.0
+    
+    @api.depends('finance_aum_snapshot_ids', 'finance_aum_snapshot_ids.snapshot_date', 'finance_aum_snapshot_ids.aum_value')
+    def _compute_aum_3months_ago(self):
+        """
+        Calcular AUM de 3 meses atrás usando snapshots mensais
+        
+        Usado pelo crm.churn.indicator para calcular decline de AUM
+        """
+        from dateutil.relativedelta import relativedelta
+        
+        for partner in self:
+            if not partner.finance_aum_snapshot_ids:
+                partner.aum_3months_ago = 0.0
+                continue
+            
+            # Data de 3 meses atrás
+            target_date = fields.Date.today() - relativedelta(months=3)
+            
+            # Buscar snapshot mais próximo de 3 meses atrás (±15 dias)
+            date_min = target_date - timedelta(days=15)
+            date_max = target_date + timedelta(days=15)
+            
+            snapshot = partner.finance_aum_snapshot_ids.filtered(
+                lambda s: date_min <= s.snapshot_date <= date_max
+            ).sorted('snapshot_date', reverse=True)[:1]
+            
+            if snapshot:
+                partner.aum_3months_ago = snapshot.aum_value
+                _logger.debug(
+                    f"AUM 3 meses atrás para {partner.name}: "
+                    f"R$ {snapshot.aum_value:,.2f} (snapshot: {snapshot.snapshot_date})"
+                )
+            else:
+                # Se não há snapshot de 3 meses, buscar o mais antigo disponível
+                oldest_snapshot = partner.finance_aum_snapshot_ids.sorted('snapshot_date')[:1]
+                if oldest_snapshot:
+                    partner.aum_3months_ago = oldest_snapshot.aum_value
+                    _logger.debug(
+                        f"AUM 3 meses atrás para {partner.name}: "
+                        f"usando snapshot mais antigo - R$ {oldest_snapshot.aum_value:,.2f}"
+                    )
+                else:
+                    partner.aum_3months_ago = 0.0
+    
+    def _compute_meetings_last_6months(self):
+        """
+        Contar reuniões concluídas nos últimos 6 meses
+        
+        Usa mail.activity do Odoo com activity_type_id = 'meeting'
+        """
+        from dateutil.relativedelta import relativedelta
+        
+        six_months_ago = fields.Date.today() - relativedelta(months=6)
+        
+        for partner in self:
+            # Buscar atividades do tipo "meeting" concluídas
+            if 'mail.activity' in self.env:
+                # Buscar activity_type_id de meeting
+                meeting_activity = self.env.ref('mail.mail_activity_data_meeting', raise_if_not_found=False)
+                
+                if meeting_activity:
+                    # Contar atividades concluídas (state = 'done' não existe, usamos date_done)
+                    # No Odoo, atividades concluídas são deletadas, então vamos contar de outra forma
+                    
+                    # Alternativa: Contar eventos de calendário (calendar.event)
+                    if 'calendar.event' in self.env:
+                        meetings = self.env['calendar.event'].search([
+                            ('partner_ids', 'in', [partner.id]),
+                            ('start', '>=', six_months_ago),
+                            ('start', '<=', fields.Datetime.now()),
+                        ])
+                        partner.meetings_last_6months = len(meetings)
+                    else:
+                        partner.meetings_last_6months = 0
+                else:
+                    partner.meetings_last_6months = 0
+            else:
+                partner.meetings_last_6months = 0
+    
+    def _compute_response_rate(self):
+        """
+        Calcular taxa de resposta baseado em mensagens
+        
+        Lógica:
+        - Busca mensagens ENVIADAS para o cliente (últimos 3 meses)
+        - Busca mensagens RECEBIDAS do cliente (últimos 3 meses)
+        - Taxa = (recebidas / enviadas) * 100
+        """
+        from dateutil.relativedelta import relativedelta
+        
+        three_months_ago = datetime.now() - relativedelta(months=3)
+        
+        for partner in self:
+            if 'mail.message' not in self.env:
+                partner.response_rate = 0.0
+                continue
+            
+            # Mensagens ENVIADAS para o cliente (message_type = 'email' ou 'comment')
+            sent_messages = self.env['mail.message'].search_count([
+                ('model', '=', 'res.partner'),
+                ('res_id', '=', partner.id),
+                ('message_type', 'in', ['email', 'comment']),
+                ('date', '>=', three_months_ago),
+                ('author_id', '!=', partner.id),  # Não enviadas pelo próprio cliente
+            ])
+            
+            # Mensagens RECEBIDAS do cliente (author_id = partner)
+            received_messages = self.env['mail.message'].search_count([
+                ('model', '=', 'res.partner'),
+                ('res_id', '=', partner.id),
+                ('message_type', 'in', ['email', 'comment']),
+                ('date', '>=', three_months_ago),
+                ('author_id', '=', partner.id),  # Enviadas pelo cliente
+            ])
+            
+            # Calcular taxa de resposta
+            if sent_messages > 0:
+                partner.response_rate = (received_messages / sent_messages) * 100
+            else:
+                partner.response_rate = 0.0
                 
     @api.depends('aum')
     def _compute_client_segment(self):

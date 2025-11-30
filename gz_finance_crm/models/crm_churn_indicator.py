@@ -183,19 +183,40 @@ class CrmChurnIndicator(models.Model):
         - Tempo desde última reunião: 30 pontos
         - Número de reuniões: 20 pontos
         - Taxa de resposta: 10 pontos
+        
+        IMPORTANTE: Agora busca dados REAIS do res.partner:
+        - aum_3months_ago (via finance.aum.snapshot)
+        - meetings_last_6months (via calendar.event)
+        - response_rate (via mail.message)
         """
         for record in self:
             score = 0.0
             
+            # Buscar dados do partner (atualizado em tempo real)
+            partner = record.partner_id
+            
             # 1. Queda de AUM (0-40 pontos)
-            if record.aum_decline_percent >= 30:
-                score += 40
-            elif record.aum_decline_percent >= 20:
-                score += 30
-            elif record.aum_decline_percent >= 10:
-                score += 20
-            elif record.aum_decline_percent > 0:
-                score += 10
+            # Calcular decline usando AUM atual vs 3 meses atrás
+            if partner.aum_3months_ago > 0:
+                decline_percent = ((partner.aum_3months_ago - partner.aum) / partner.aum_3months_ago) * 100
+                record.aum_decline_percent = max(decline_percent, 0)  # Apenas declínio positivo
+                
+                if decline_percent >= 30:
+                    score += 40
+                elif decline_percent >= 20:
+                    score += 30
+                elif decline_percent >= 10:
+                    score += 20
+                elif decline_percent > 0:
+                    score += 10
+            else:
+                record.aum_decline_percent = 0.0
+            
+            # Atualizar campo meetings_last_6months do partner
+            record.meetings_last_6months = partner.meetings_last_6months
+            
+            # Atualizar campo response_rate do partner
+            record.response_rate = partner.response_rate
             
             # 2. Tempo desde última reunião (0-30 pontos)
             days = record.days_since_last_meeting
@@ -209,7 +230,7 @@ class CrmChurnIndicator(models.Model):
                 score += 5
             
             # 3. Número de reuniões últimos 6 meses (0-20 pontos)
-            meetings = record.meetings_last_6months or 0
+            meetings = partner.meetings_last_6months or 0
             if meetings == 0:
                 score += 20
             elif meetings == 1:
@@ -221,7 +242,7 @@ class CrmChurnIndicator(models.Model):
             # 4+ reuniões = 0 pontos (bom engajamento)
             
             # 4. Taxa de resposta (0-10 pontos)
-            response = record.response_rate or 0
+            response = partner.response_rate or 0
             if response < 20:
                 score += 10
             elif response < 40:

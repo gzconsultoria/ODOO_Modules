@@ -5,3 +5,6 @@ access_finance_patrimony_manager,finance.patrimony.manager,model_finance_patrimo
 access_finance_category_user,finance.category.user,model_finance_category,group_finance_user,1,0,0,0
 access_finance_category_advisor,finance.category.advisor,model_finance_category,group_finance_advisor,1,0,0,0
 access_finance_category_manager,finance.category.manager,model_finance_category,group_finance_manager,1,1,1,1
+access_finance_aum_snapshot_user,finance.aum.snapshot.user,model_finance_aum_snapshot,group_finance_user,1,0,0,0
+access_finance_aum_snapshot_advisor,finance.aum.snapshot.advisor,model_finance_aum_snapshot,group_finance_advisor,1,0,0,0
+access_finance_aum_snapshot_manager,finance.aum.snapshot.manager,model_finance_aum_snapshot,group_finance_manager,1,1,1,1
