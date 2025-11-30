@@ -100,14 +100,14 @@ class FinanceAumSnapshot(models.Model):
         'finance.aum.snapshot',
         string='Snapshot Anterior',
         compute='_compute_previous_snapshot',
-        store=False,
+        store=True,
         help='Snapshot do mês anterior para este cliente'
     )
     
     aum_variation = fields.Monetary(
         string='Variação AUM (R$)',
         compute='_compute_aum_variation',
-        store=False,
+        store=True,
         currency_field='currency_id',
         help='Diferença em reais vs mês anterior'
     )
@@ -115,7 +115,7 @@ class FinanceAumSnapshot(models.Model):
     aum_variation_percent = fields.Float(
         string='Variação AUM (%)',
         compute='_compute_aum_variation',
-        store=False,
+        store=True,
         digits=(5, 2),
         help='Variação percentual vs mês anterior'
     )
