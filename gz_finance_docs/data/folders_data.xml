@@ -2,183 +2,318 @@
 <odoo>
     <data noupdate="1">
 
-        <!-- Main-folders -->
-        <record id="folder_administration" model="document_hub.folder">
-            <field name="name">Administration</field>
-            <field name="description">Documents related to company administration, including internal policies, procedures, and official correspondence.</field>
+        <!-- PASTAS PRINCIPAIS - Consultoria de Investimentos -->
+        
+        <record id="folder_clientes" model="document_hub.folder">
+            <field name="name">📁 Clientes</field>
+            <field name="description">Documentos e informações dos clientes ativos, incluindo contratos, suitability e perfil de investidor.</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_compliance" model="document_hub.folder">
+            <field name="name">🔒 Compliance</field>
+            <field name="description">Documentos de conformidade regulatória, políticas internas, procedimentos CVM/BACEN e auditorias.</field>
             <field name="visibility_administration">True</field>
         </record>
 
-        <record id="folder_project" model="document_hub.folder">
-            <field name="name">Project</field>
-            <field name="description">All documents concerning ongoing and completed projects, including plans, reports, and agreements.</field>
-            <field name="is_project">True</field>
+        <record id="folder_propostas" model="document_hub.folder">
+            <field name="name">📊 Propostas Comerciais</field>
+            <field name="description">Propostas de investimento, apresentações comerciais e cotações enviadas aos clientes.</field>
             <field name="visibility_administration">True</field>
-            <field name="visibility_purchasing_and_logistics">True</field>
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_contratos" model="document_hub.folder">
+            <field name="name">📝 Contratos</field>
+            <field name="description">Contratos de assessoria, termos de adesão, acordos de gestão e documentos legais.</field>
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_relatorios" model="document_hub.folder">
+            <field name="name">📈 Relatórios de Investimento</field>
+            <field name="description">Relatórios de performance, análises de mercado, rebalanceamentos e acompanhamento de carteiras.</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_financeiro" model="document_hub.folder">
+            <field name="name">💰 Financeiro</field>
+            <field name="description">Documentos financeiros da empresa: notas fiscais, recibos, orçamentos e faturamento.</field>
             <field name="visibility_accounting">True</field>
-            <field name="visibility_pm">True</field>
+            <field name="visibility_administration">True</field>
         </record>
 
         <record id="folder_marketing" model="document_hub.folder">
-            <field name="name">Marketing</field>
-            <field name="description">Materials and documents related to marketing strategies, campaigns, and promotional activities.</field>
+            <field name="name">📢 Marketing</field>
+            <field name="description">Materiais de marketing, campanhas, conteúdo educacional e materiais institucionais.</field>
             <field name="visibility_administration">True</field>
             <field name="visibility_marketing">True</field>
         </record>
 
-        <record id="folder_organization" model="document_hub.folder">
-            <field name="name">Organization</field>
-            <field name="description">Documents related to company structure, human resources, and organizational development.</field>
-        </record>
-
-        <record id="folder_finance" model="document_hub.folder">
-            <field name="name">Finance</field>
-            <field name="description">Financial documents including invoices, budgets, accounting reports, and tax filings.</field>
-            <field name="visibility_accounting">True</field>
-        </record>
-
-        <record id="folder_hr" model="document_hub.folder">
-            <field name="name">Human Resources</field>
-            <field name="description">Employee records, recruitment documents, training materials, and HR policies.</field>
-            <field name="visibility_hr">True</field>
-        </record>
-
-        <!-- Sub-folders -->
-        <record id="folder_project_contracts" model="document_hub.folder">
-            <field name="name">Contracts</field>
-            <field name="description">Project-related contracts, agreements, and legal documents.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_project" />
-            <field name="is_project">True</field>
+        <record id="folder_administrativo" model="document_hub.folder">
+            <field name="name">🏢 Administrativo</field>
+            <field name="description">Documentos administrativos gerais, políticas internas, processos e comunicados.</field>
             <field name="visibility_administration">True</field>
-            <field name="visibility_accounting">True</field>
-            <field name="visibility_pm">True</field>
         </record>
 
-        <record id="folder_project_annexes" model="document_hub.folder">
-            <field name="name">Annexes</field>
-            <field name="description">Supplementary documents and annexes attached to project files and contracts.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_project" />
-            <field name="is_project">True</field>
+        <record id="folder_produtos" model="document_hub.folder">
+            <field name="name">🎯 Produtos de Investimento</field>
+            <field name="description">Lâminas, regulamentos, prospectos e documentos técnicos de fundos e produtos financeiros.</field>
             <field name="visibility_administration">True</field>
-            <field name="visibility_accounting">True</field>
-            <field name="visibility_pm">True</field>
+            <field name="visibility_salesman">True</field>
         </record>
 
-        <record id="folder_project_protocols" model="document_hub.folder">
-            <field name="name">Protocols</field>
-            <field name="description">Meeting minutes, protocols, and procedural documents related to projects.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_project" />
-            <field name="is_project">True</field>
+        <!-- SUB-PASTAS: CLIENTES -->
+        
+        <record id="folder_clientes_suitability" model="document_hub.folder">
+            <field name="name">✅ Análise de Suitability</field>
+            <field name="description">Questionários API, análises de perfil de risco e adequação de produtos.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_clientes" />
             <field name="visibility_administration">True</field>
-            <field name="visibility_accounting">True</field>
-            <field name="visibility_pm">True</field>
+            <field name="visibility_salesman">True</field>
         </record>
 
-        <record id="folder_project_invoices_for_projects" model="document_hub.folder">
-            <field name="name">Invoices for projects</field>
-            <field name="description">Invoices and billing documents associated with specific projects.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_project" />
-            <field name="is_project">True</field>
+        <record id="folder_clientes_cadastro" model="document_hub.folder">
+            <field name="name">📋 Cadastro e Documentação</field>
+            <field name="description">Documentos pessoais, comprovantes, procurações e ficha cadastral dos clientes.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_clientes" />
             <field name="visibility_administration">True</field>
-            <field name="visibility_accounting">True</field>
-            <field name="visibility_pm">True</field>
         </record>
 
-        <record id="folder_project_nda" model="document_hub.folder">
-            <field name="name">NDA</field>
-            <field name="description">Non-Disclosure Agreements and confidentiality documents related to projects.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_project" />
-            <field name="is_project">True</field>
+        <record id="folder_clientes_politica_investimento" model="document_hub.folder">
+            <field name="name">📜 Política de Investimento</field>
+            <field name="description">IPS (Investment Policy Statement) e diretrizes personalizadas de investimento.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_clientes" />
             <field name="visibility_administration">True</field>
-            <field name="visibility_accounting">True</field>
-            <field name="visibility_pm">True</field>
+            <field name="visibility_salesman">True</field>
         </record>
 
-        <record id="folder_project_other_projects" model="document_hub.folder">
-            <field name="name">Other projects</field>
-            <field name="description">Documents related to miscellaneous or smaller projects not categorized elsewhere.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_project" />
-            <field name="is_project">True</field>
+        <record id="folder_clientes_reunioes" model="document_hub.folder">
+            <field name="name">🤝 Atas de Reunião</field>
+            <field name="description">Registros de reuniões com clientes, decisões de investimento e follow-ups.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_clientes" />
             <field name="visibility_administration">True</field>
-            <field name="visibility_accounting">True</field>
-            <field name="visibility_pm">True</field>
+            <field name="visibility_salesman">True</field>
         </record>
 
-        <record id="folder_marketing_campaigns" model="document_hub.folder">
-            <field name="name">Campaigns</field>
-            <field name="description">Documentation and materials related to marketing campaigns and promotions.</field>
+        <!-- SUB-PASTAS: COMPLIANCE -->
+        
+        <record id="folder_compliance_pld" model="document_hub.folder">
+            <field name="name">🕵️ PLD-FT</field>
+            <field name="description">Prevenção à Lavagem de Dinheiro e Financiamento ao Terrorismo: políticas, treinamentos e registros.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_compliance" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_compliance_lgpd" model="document_hub.folder">
+            <field name="name">🔐 LGPD</field>
+            <field name="description">Documentos de conformidade com a Lei Geral de Proteção de Dados.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_compliance" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_compliance_cvm" model="document_hub.folder">
+            <field name="name">⚖️ Regulatório CVM/BACEN</field>
+            <field name="description">Resoluções, instruções normativas e comunicações com órgãos reguladores.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_compliance" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_compliance_auditoria" model="document_hub.folder">
+            <field name="name">🔍 Auditoria</field>
+            <field name="description">Relatórios de auditoria interna/externa e planos de ação corretiva.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_compliance" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_compliance_politicas" model="document_hub.folder">
+            <field name="name">📖 Políticas e Procedimentos</field>
+            <field name="description">Manual de compliance, código de ética e procedimentos operacionais.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_compliance" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <!-- SUB-PASTAS: PROPOSTAS -->
+        
+        <record id="folder_propostas_enviadas" model="document_hub.folder">
+            <field name="name">📤 Propostas Enviadas</field>
+            <field name="description">Propostas comerciais enviadas aguardando aprovação dos clientes.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_propostas" />
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_propostas_aprovadas" model="document_hub.folder">
+            <field name="name">✅ Propostas Aprovadas</field>
+            <field name="description">Propostas aceitas pelos clientes e em fase de implementação.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_propostas" />
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_propostas_arquivadas" model="document_hub.folder">
+            <field name="name">🗄️ Propostas Arquivadas</field>
+            <field name="description">Propostas não aprovadas ou descontinuadas.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_propostas" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <!-- SUB-PASTAS: CONTRATOS -->
+        
+        <record id="folder_contratos_assessoria" model="document_hub.folder">
+            <field name="name">🤝 Contratos de Assessoria</field>
+            <field name="description">Contratos vigentes de prestação de serviços de assessoria de investimentos.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_contratos" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_contratos_gestao" model="document_hub.folder">
+            <field name="name">💼 Contratos de Gestão</field>
+            <field name="description">Contratos com gestores de recursos e administradores de carteiras.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_contratos" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_contratos_fornecedores" model="document_hub.folder">
+            <field name="name">🏭 Contratos com Fornecedores</field>
+            <field name="description">Contratos com prestadores de serviços: custódia, plataformas, software, etc.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_contratos" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <!-- SUB-PASTAS: RELATÓRIOS -->
+        
+        <record id="folder_relatorios_performance" model="document_hub.folder">
+            <field name="name">📊 Performance de Carteiras</field>
+            <field name="description">Relatórios mensais/trimestrais de rentabilidade e benchmark das carteiras.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_relatorios" />
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_relatorios_analise_mercado" model="document_hub.folder">
+            <field name="name">🌍 Análise de Mercado</field>
+            <field name="description">Cenários macroeconômicos, análises setoriais e recomendações de investimento.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_relatorios" />
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_relatorios_rebalanceamento" model="document_hub.folder">
+            <field name="name">⚖️ Rebalanceamento</field>
+            <field name="description">Relatórios de rebalanceamento de carteiras e ajustes de alocação.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_relatorios" />
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <!-- SUB-PASTAS: FINANCEIRO -->
+        
+        <record id="folder_financeiro_notas_fiscais" model="document_hub.folder">
+            <field name="name">🧾 Notas Fiscais</field>
+            <field name="description">Notas fiscais emitidas e recebidas.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_financeiro" />
+            <field name="visibility_accounting">True</field>
+        </record>
+
+        <record id="folder_financeiro_faturamento" model="document_hub.folder">
+            <field name="name">💵 Faturamento</field>
+            <field name="description">Controle de faturamento, recibos e cobranças aos clientes.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_financeiro" />
+            <field name="visibility_accounting">True</field>
+        </record>
+
+        <record id="folder_financeiro_orcamentos" model="document_hub.folder">
+            <field name="name">📑 Orçamentos</field>
+            <field name="description">Orçamentos solicitados e aprovados para despesas da empresa.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_financeiro" />
+            <field name="visibility_accounting">True</field>
+        </record>
+
+        <record id="folder_financeiro_impostos" model="document_hub.folder">
+            <field name="name">🏛️ Impostos e Tributos</field>
+            <field name="description">Declarações, guias de pagamento e documentação fiscal da empresa.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_financeiro" />
+            <field name="visibility_accounting">True</field>
+        </record>
+
+        <!-- SUB-PASTAS: MARKETING -->
+        
+        <record id="folder_marketing_conteudo" model="document_hub.folder">
+            <field name="name">✍️ Conteúdo Educacional</field>
+            <field name="description">Artigos, e-books, webinars e materiais educativos para clientes e prospects.</field>
             <field name="parent_folder_id" ref="gz_finance_docs.folder_marketing" />
             <field name="visibility_marketing">True</field>
         </record>
 
-        <record id="folder_marketing_marketing_strategy" model="document_hub.folder">
-            <field name="name">Marketing strategy</field>
-            <field name="description">Strategic plans, market research, and analysis documents for marketing activities.</field>
+        <record id="folder_marketing_institucional" model="document_hub.folder">
+            <field name="name">🏆 Material Institucional</field>
+            <field name="description">Apresentações da empresa, cases de sucesso e mídia kit.</field>
             <field name="parent_folder_id" ref="gz_finance_docs.folder_marketing" />
             <field name="visibility_marketing">True</field>
         </record>
 
-        <record id="folder_marketing_promotional_materials" model="document_hub.folder">
-            <field name="name">Promotional materials</field>
-            <field name="description">Brochures, flyers, digital content, and other promotional assets.</field>
+        <record id="folder_marketing_campanhas" model="document_hub.folder">
+            <field name="name">🚀 Campanhas</field>
+            <field name="description">Planejamento e materiais de campanhas de captação e relacionamento.</field>
             <field name="parent_folder_id" ref="gz_finance_docs.folder_marketing" />
             <field name="visibility_marketing">True</field>
         </record>
 
-        <record id="folder_finance_invoices" model="document_hub.folder">
-            <field name="name">Invoices</field>
-            <field name="description">All incoming and outgoing invoices related to company finances.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_finance" />
-            <field name="visibility_accounting">True</field>
-        </record>
-
-        <record id="folder_finance_budgeting" model="document_hub.folder">
-            <field name="name">Budgeting</field>
-            <field name="description">Budget plans, forecasts, and financial planning documents.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_finance" />
-            <field name="visibility_accounting">True</field>
-        </record>
-
-        <record id="folder_finance_financial_reports" model="document_hub.folder">
-            <field name="name">Financial reports</field>
-            <field name="description">Periodic financial statements, audit reports, and performance analyses.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_finance" />
-            <field name="visibility_accounting">True</field>
-        </record>
-
-        <record id="folder_finance_banks" model="document_hub.folder">
-            <field name="name">Banks</field>
-            <field name="description">Bank statements, account details, and correspondence with financial institutions.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_finance" />
-            <field name="visibility_accounting">True</field>
-        </record>
-
-        <record id="folder_hr_training" model="document_hub.folder">
-            <field name="name">Training</field>
-            <field name="description">Training programs, materials, schedules, and employee development records.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_hr" />
+        <!-- SUB-PASTAS: ADMINISTRATIVO -->
+        
+        <record id="folder_administrativo_rh" model="document_hub.folder">
+            <field name="name">👥 Recursos Humanos</field>
+            <field name="description">Contratos de trabalho, treinamentos, avaliações e documentação de colaboradores.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_administrativo" />
             <field name="visibility_hr">True</field>
         </record>
 
-        <record id="folder_hr_employee_records" model="document_hub.folder">
-            <field name="name">Employee records</field>
-            <field name="description">Personal files, contracts, performance reviews, and employment history.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_hr" />
-            <field name="visibility_hr">True</field>
+        <record id="folder_administrativo_ti" model="document_hub.folder">
+            <field name="name">💻 Tecnologia da Informação</field>
+            <field name="description">Documentação de sistemas, licenças de software e políticas de segurança.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_administrativo" />
+            <field name="visibility_administration">True</field>
         </record>
 
-        <record id="folder_administration_other" model="document_hub.folder">
-            <field name="name">Other</field>
-            <field name="description">Miscellaneous administrative documents not classified in other folders.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_administration" />
+        <record id="folder_administrativo_inbox" model="document_hub.folder">
+            <field name="name">📥 Caixa de Entrada</field>
+            <field name="description">Documentos recém-recebidos aguardando classificação.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_administrativo" />
             <field name="visibility_administration">True</field>
         </record>
 
         <record id="folder_administration_inbox" model="document_hub.folder">
             <field name="name">Inbox</field>
-            <field name="description">Documents not classified in other folders.</field>
-            <field name="parent_folder_id" ref="gz_finance_docs.folder_administration" />
+            <field name="description">Alias para compatibilidade - usar Caixa de Entrada.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_administrativo" />
             <field name="visibility_administration">True</field>
+        </record>
+
+        <!-- SUB-PASTAS: PRODUTOS DE INVESTIMENTO -->
+        
+        <record id="folder_produtos_fundos" model="document_hub.folder">
+            <field name="name">📚 Fundos de Investimento</field>
+            <field name="description">Regulamentos, lâminas e relatórios mensais de fundos.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_produtos" />
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_produtos_renda_fixa" model="document_hub.folder">
+            <field name="name">💰 Renda Fixa</field>
+            <field name="description">Prospectos de CDBs, LCIs, LCAs, debêntures e títulos públicos.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_produtos" />
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_produtos_previdencia" model="document_hub.folder">
+            <field name="name">🛡️ Previdência Privada</field>
+            <field name="description">Regulamentos de PGBL, VGBL e planos de previdência.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_produtos" />
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_produtos_estruturados" model="document_hub.folder">
+            <field name="name">🎲 Produtos Estruturados</field>
+            <field name="description">COEs, derivativos e produtos estruturados customizados.</field>
+            <field name="parent_folder_id" ref="gz_finance_docs.folder_produtos" />
+            <field name="visibility_salesman">True</field>
         </record>
 
     </data>
