@@ -54,14 +54,20 @@ class Folder(models.Model):
         help='Indica se esta pasta é uma subpasta de uma pasta de cliente.'
     )
 
-    @api.depends('parent_folder_id', 'name')
+    @api.depends('parent_folder_id', 'name', 'client_folder')
     def _compute_parent_path(self):
         for rec in self:
             name = _(rec.name)
             
             if rec.parent_folder_id:
                 parent_folder = _(rec.parent_folder_id.name)
-                rec.parent_path = F"{parent_folder}: {name}"
+                
+                # Se a pasta PAI é "Clientes" e esta é uma pasta de cliente,
+                # não adicionar prefixo (evita "Clientes: Nome Cliente")
+                if rec.parent_folder_id.name == '📁 Clientes' and rec.client_folder:
+                    rec.parent_path = name
+                else:
+                    rec.parent_path = F"{parent_folder}: {name}"
             else:
                 rec.parent_path = name
     
