@@ -63,13 +63,20 @@
                         </group>
                         
                         <notebook>
-                            <page string="Details">
+                            <page string="Attachments">
                                 <group>
                                     <field name="file_ids" widget="many2many_binary" readonly="state == 'lock'"/>
                                 </group>
+                            </page>
+                            <page string="Description">
                                 <group>
                                     <field name="description" nolabel="1" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
                                 </group>
+                            </page>
+                            <page string="Activity History">
+                                <field name="message_follower_ids"/>
+                                <field name="activity_ids"/>
+                                <field name="message_ids"/>
                             </page>
                         </notebook>
 
