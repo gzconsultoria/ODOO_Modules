@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ====================================================================== -->
+        <!-- ESTRUTURA SIMPLIFICADA: ESCRITÓRIO + CLIENTES                         -->
+        <!-- ====================================================================== -->
+        
+        <!-- ══════════════════════════════════════════════════════════════════════ -->
+        <!-- RAIZ 1: ESCRITÓRIO - Documentos internos organizados                   -->
+        <!-- ══════════════════════════════════════════════════════════════════════ -->
+        
+        <record id="folder_escritorio" model="document_hub.folder">
+            <field name="name">🏢 Escritório</field>
+            <field name="description">Documentos e operações internas do escritório de consultoria.</field>
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <!-- Subpastas do Escritório -->
+        <record id="folder_escritorio_financeiro" model="document_hub.folder">
+            <field name="name">💰 Financeiro</field>
+            <field name="description">Documentos financeiros do escritório.</field>
+            <field name="parent_folder_id" ref="folder_escritorio" />
+            <field name="visibility_administration">True</field>
+            <field name="visibility_accounting">True</field>
+        </record>
+
+        <record id="folder_escritorio_marketing" model="document_hub.folder">
+            <field name="name">📢 Marketing</field>
+            <field name="description">Materiais de marketing, campanhas e conteúdo institucional.</field>
+            <field name="parent_folder_id" ref="folder_escritorio" />
+            <field name="visibility_administration">True</field>
+            <field name="visibility_marketing">True</field>
+        </record>
+
+        <record id="folder_escritorio_administrativo" model="document_hub.folder">
+            <field name="name">🏢 Administrativo</field>
+            <field name="description">Documentos administrativos, RH, TI e processos internos.</field>
+            <field name="parent_folder_id" ref="folder_escritorio" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_escritorio_inbox" model="document_hub.folder">
+            <field name="name">📥 Caixa de Entrada</field>
+            <field name="description">Documentos recém-recebidos aguardando classificação.</field>
+            <field name="parent_folder_id" ref="folder_escritorio" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_escritorio_compliance" model="document_hub.folder">
+            <field name="name">🔒 Compliance</field>
+            <field name="description">Conformidade regulatória, políticas e auditorias.</field>
+            <field name="parent_folder_id" ref="folder_escritorio" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_escritorio_produtos" model="document_hub.folder">
+            <field name="name">🎯 Produtos de Investimento</field>
+            <field name="description">Lâminas, regulamentos e documentos técnicos de produtos financeiros.</field>
+            <field name="parent_folder_id" ref="folder_escritorio" />
+            <field name="visibility_administration">True</field>
+            <field name="visibility_salesman">True</field>
+        </record>
+
+        <record id="folder_escritorio_contratos" model="document_hub.folder">
+            <field name="name">📝 Contratos</field>
+            <field name="description">Contratos do escritório: fornecedores, prestadores de serviço, parcerias.</field>
+            <field name="parent_folder_id" ref="folder_escritorio" />
+            <field name="visibility_administration">True</field>
+        </record>
+
+        <record id="folder_escritorio_recibos" model="document_hub.folder">
+            <field name="name">🧾 Recibos</field>
+            <field name="description">Recibos de pagamentos e comprovantes.</field>
+            <field name="parent_folder_id" ref="folder_escritorio" />
+            <field name="visibility_administration">True</field>
+            <field name="visibility_accounting">True</field>
+        </record>
+
+        <record id="folder_escritorio_notas" model="document_hub.folder">
+            <field name="name">📄 Notas Fiscais</field>
+            <field name="description">Notas fiscais emitidas e recebidas pelo escritório.</field>
+            <field name="parent_folder_id" ref="folder_escritorio" />
+            <field name="visibility_administration">True</field>
+            <field name="visibility_accounting">True</field>
+        </record>
+
+        <!-- ══════════════════════════════════════════════════════════════════════ -->
+        <!-- RAIZ 2: CLIENTES - Pastas criadas automaticamente                      -->
+        <!-- ══════════════════════════════════════════════════════════════════════ -->
+        
+        <record id="folder_clientes" model="document_hub.folder">
+            <field name="name">📁 Clientes</field>
+            <field name="description">Pastas individuais de cada cliente, criadas automaticamente ao ativar perfil financeiro.</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_salesman">True</field>
+        </record>
+
+    </data>
+</odoo>
