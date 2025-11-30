@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>
-
     <record id="document_hub_folder_tree_view" model="ir.ui.view">
-        <field name="name">Document hub folder list view</field>
+        <field name="name">Document hub folder tree view</field>
         <field name="model">document_hub.folder</field>
         <field name="arch" type="xml">
-            <list string="Folders">
+            <tree string="Folders">
                 <field name="sequence" widget="handle"/>
-                <field name="name"/>
-                <field name="parent_path" optional="show"/>
-                <field name="description" optional="show"/>
-                <field name="parent_folder_id" optional="show"/>
-                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="show"/>
-                <field name="children_folder_ids" optional="hide"/>
-                <field name="document_ids" optional="hide"/>
-            </list>
+                <field name="name" />
+                <field name="parent_path" optional="show" />
+                <field name="description" optional="show" />
+                <field name="parent_folder_id" optional="show" />
+                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="show" />
+                <field name="children_folder_ids" optional="hide" />
+                <field name="document_ids" optional="hide" />
+            </tree>
         </field>
     </record>
 
@@ -41,7 +39,7 @@
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
                         </group>
                         <group name='visibility' string='Visibility'>
-                            <div class="alert alert-info" role="alert">
+                            <div class="alert alert-info" role="alert" colspan='2'>
                                 Specify which groups should be able to view documents for this category.
                             </div>
                             <field name='visibility_administration'/>
@@ -55,7 +53,7 @@
                     </group>
                     <notebook>
                         <page string="Description" name="description">
-                            <field name="description" widget="html"/>
+                            <field name="description" widget="html" nolabel="1" />
                         </page>
                     </notebook>
                 </sheet>
@@ -68,12 +66,12 @@
         <field name="model">document_hub.folder</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
-                <field name="description"/>
-                <field name="parent_folder_id"/>
-                
-                <separator/>
-                <filter name="group_parent_folder_id" string="Parent Folder" context="{'group_by':'parent_folder_id'}"/>
+                <field name="name" />
+                <field name="description" />
+                <field name="parent_folder_id" />
+                <group expand="1" string="Group By">
+                    <filter name="group_parent_folder_id" string="Parent folder" context="{'group_by':'parent_folder_id'}" />
+                </group>
             </search>
         </field>
     </record>
@@ -81,7 +79,7 @@
     <record id="document_hub_folder_act" model="ir.actions.act_window">
         <field name="name">Folders</field>
         <field name="res_model">document_hub.folder</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="context">{
             'search_default_group_parent_folder_id': 1,
         }</field>
@@ -93,32 +91,30 @@
     </record>
 
     <record id="document_hub_tag_tree_view" model="ir.ui.view">
-        <field name="name">Document hub tag list view</field>
+        <field name="name">Document hub tag tree view</field>
         <field name="model">document_hub.tag</field>
         <field name="arch" type="xml">
-            <list string="Tags" editable="bottom">
-                <field name="sequence" widget="handle"/>
-                <field name="name"/>
-            </list>
+            <tree string="Tags" editable="bottom">
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+            </tree>
         </field>
     </record>
 
     <record id="document_hub_tag_act" model="ir.actions.act_window">
         <field name="name">Tags</field>
         <field name="res_model">document_hub.tag</field>
-        <field name="view_mode">list</field>
+        <field name="view_mode">tree</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Let's create new tag!
             </p>
         </field>
-        </record>
+    </record>
 
     <menuitem name="Configuration" id="menu_config" parent="document_hub.menu_root" sequence="50" groups="document_hub.group_document_hub_document_manager"/>
     <menuitem name="General" id="menu_config_general" parent="document_hub.menu_config" sequence="10">
         <menuitem name="Folders" id="menu_config_folder" action="document_hub_folder_act" sequence="1" />
         <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />
     </menuitem>
-
-    </data>
 </odoo>

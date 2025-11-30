@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="tag_urgent" model="document_hub.tag">
+            <field name="name">Urgent</field>
+        </record>
+        
+        <record id="tag_to_review" model="document_hub.tag">
+            <field name="name">To Review</field>
+        </record>
+        
+        <record id="tag_approved" model="document_hub.tag">
+            <field name="name">Approved</field>
+        </record>
+        
+        <record id="tag_draft" model="document_hub.tag">
+            <field name="name">Draft</field>
+        </record>
+        
+        <record id="tag_archived" model="document_hub.tag">
+            <field name="name">Archived</field>
+        </record>
+        
+        <record id="tag_management" model="document_hub.tag">
+            <field name="name">Management</field>
+        </record>
+        
+        <record id="tag_finance" model="document_hub.tag">
+            <field name="name">Finance</field>
+        </record>
+        
+        <record id="tag_hr" model="document_hub.tag">
+            <field name="name">HR</field>
+        </record>
+        
+        <record id="tag_legal" model="document_hub.tag">
+            <field name="name">Legal</field>
+        </record>
+        
+        <record id="tag_marketing" model="document_hub.tag">
+            <field name="name">Marketing</field>
+        </record>
+        
+        <record id="tag_sales" model="document_hub.tag">
+            <field name="name">Sales</field>
+        </record>
+        
+        <record id="tag_it" model="document_hub.tag">
+            <field name="name">IT</field>
+        </record>
+        
+        <record id="tag_qa" model="document_hub.tag">
+            <field name="name">QA</field>
+        </record>
+        
+        <record id="tag_rnd" model="document_hub.tag">
+            <field name="name">R&amp;D</field>
+        </record>
+        
+        <record id="tag_contract" model="document_hub.tag">
+            <field name="name">Contract</field>
+        </record>
+        
+        <record id="tag_invoice" model="document_hub.tag">
+            <field name="name">Invoice</field>
+        </record>
+        
+        <record id="tag_report" model="document_hub.tag">
+            <field name="name">Report</field>
+        </record>
+        
+        <record id="tag_policy" model="document_hub.tag">
+            <field name="name">Policy</field>
+        </record>
+        
+        <record id="tag_confidential" model="document_hub.tag">
+            <field name="name">Confidential</field>
+        </record>
+        
+        <record id="tag_tax" model="document_hub.tag">
+            <field name="name">Tax</field>
+        </record>
+        
+        <record id="tag_audit" model="document_hub.tag">
+            <field name="name">Audit</field>
+        </record>
+        
+        <record id="tag_project" model="document_hub.tag">
+            <field name="name">Project</field>
+        </record>
+        
+        <record id="tag_client" model="document_hub.tag">
+            <field name="name">Client</field>
+        </record>
+        
+        <record id="tag_supplier" model="document_hub.tag">
+            <field name="name">Supplier</field>
+        </record>
+        
+        <record id="tag_email" model="document_hub.tag">
+            <field name="name">From email</field>
+        </record>
+
+    </data>
+</odoo>
