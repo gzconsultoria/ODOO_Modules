@@ -86,8 +86,7 @@
         </field>
     </record>
     
-    <!-- Search View - COMENTADA TEMPORARIAMENTE PARA TESTE -->
-    <!--
+    <!-- Search View -->
     <record id="view_finance_aum_snapshot_search" model="ir.ui.view">
         <field name="name">finance.aum.snapshot.search</field>
         <field name="model">finance.aum.snapshot</field>
@@ -95,10 +94,15 @@
             <search>
                 <field name="partner_id"/>
                 <field name="snapshot_date"/>
+                <filter name="auto" string="Automático" domain="[('source', '=', 'auto')]"/>
+                <filter name="manual" string="Manual" domain="[('source', '=', 'manual')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Cliente" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_month" string="Mês" context="{'group_by': 'snapshot_date:month'}"/>
+                </group>
             </search>
         </field>
     </record>
-    -->
     
     
     <!-- Graph View -->
@@ -142,12 +146,6 @@
         </field>
     </record>
     
-    <!-- Menu -->
-    <menuitem id="menu_finance_aum_snapshots"
-              name="Snapshots de AUM"
-              parent="gz_finance_core.menu_finance_root"
-              action="action_finance_aum_snapshots"
-              sequence="40"
-              groups="group_finance_manager"/>
+    <!-- MENU REMOVIDO - Deve estar em finance_menu.xml -->
     
 </odoo>

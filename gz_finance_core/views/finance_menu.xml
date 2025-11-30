@@ -32,6 +32,13 @@
               action="action_finance_patrimony"
               sequence="20"/>
 
+    <menuitem id="menu_finance_aum_snapshots"
+              name="Snapshots de AUM"
+              parent="menu_finance_data"
+              action="action_finance_aum_snapshots"
+              sequence="30"
+              groups="group_finance_manager"/>
+
     <!-- ====================================== -->
     <!-- CONFIGURATION SUBMENU                  -->
     <!-- ====================================== -->
