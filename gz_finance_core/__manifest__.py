@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Finance Core',
+    'name': 'GZ Finance Core',
     'version': '19.0.1.0.0',
     'category': 'Finance',
-    'sequence': 10,
+    'sequence': 1,
     'summary': 'Core module for investment advisory - SSOT for financial data',
     'description': """
         Finance Core - Single Source of Truth (SSOT)
