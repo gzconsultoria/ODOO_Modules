@@ -1085,9 +1085,14 @@ class ResPartner(models.Model):
         except:
             pass
         
-        # Se não encontrou por XML ID, busca por nome
+        # Se não encontrou por XML ID, busca por nome (qualquer idioma)
         if not root_folder:
-            root_folder = folder_model.search([('name', 'ilike', 'Clientes'), ('parent_folder_id', '=', False)], limit=1)
+            # Busca por nome que contenha "Clientes" OU "📁 Clientes"
+            all_root_folders = folder_model.search([('parent_folder_id', '=', False)])
+            for folder in all_root_folders:
+                if folder.name and 'Cliente' in folder.name:
+                    root_folder = folder
+                    break
         
         # Se ainda não existe, CRIA a pasta raiz
         if not root_folder:
