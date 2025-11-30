@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 {
-    'name': 'Document hub',
-    'version': '17.0.0.0.1',
-    'author': 'Daniel Demedziuk',
+    'name': 'Document Hub',
+    'version': '19.0.1.0.0',
+    'author': 'Daniel Demedziuk (Adapted to Odoo 19 by GZ Consultoria)',
     'license': 'GPL-2',
     'sequence': 55,
-    'category': 'Customizations',
-    'summary': 'Advanced document management system for Odoo Community',
+    'category': 'Productivity/Documents',
+    'summary': 'Advanced document management system for Odoo 19 Community',
     'description': """
 Document hub
 ==================
@@ -37,7 +37,7 @@ This module is fully open source under the GPL-2 license.
         'base', 
         'mail',
         'project',
-        'sale_offer',
+        # 'sale_offer',  # Removido - módulo customizado não padrão
     ],
     'data': [
         'data/document_sequence.xml',

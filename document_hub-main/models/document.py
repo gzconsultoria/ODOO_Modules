@@ -37,6 +37,14 @@ class Document(models.Model):
     rel_visibility_pm = fields.Boolean(related='folder_id.visibility_pm',)
     rel_visibility_hr = fields.Boolean(related='folder_id.visibility_hr',)
     rel_visibility_salesman = fields.Boolean(related='folder_id.visibility_salesman',)
+    is_admin = fields.Boolean(compute='_compute_is_admin', store=False)
+    
+    @api.depends_context('uid')
+    def _compute_is_admin(self):
+        """Verifica se usuário atual tem grupo Administrator"""
+        is_admin = self.env.user.has_group('document_hub.group_document_hub_document_administrator')
+        for record in self:
+            record.is_admin = is_admin
     
     @api.model_create_multi
     def create(self, vals_list):
@@ -44,7 +52,7 @@ class Document(models.Model):
             if vals.get('name', _('New')) == _('New'):
                 vals['name'] = (self.env['ir.sequence'].next_by_code('document_hub.document'))
 
-        res = super(Document, self.sudo()).create(vals_list)
+        res = super(Document, self).create(vals_list)
         return res
     
     def action_lock_document(self):
@@ -56,11 +64,3 @@ class Document(models.Model):
         self.write({
             'state': 'open'
         })
-    
-    @api.onchange('owner_id')
-    def compute_admin_group(self):
-        if self.env.user.has_group('document_hub.group_document_hub_document_administrator'):
-            self.is_admin = True
-        else:
-            self.is_admin = False
-            

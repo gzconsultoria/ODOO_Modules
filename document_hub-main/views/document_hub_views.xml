@@ -3,10 +3,10 @@
     <data>
 
         <record id="document_hub_document_tree_view" model="ir.ui.view">
-            <field name="name">Document hub document tree view</field>
+            <field name="name">Document hub document list view</field>
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
-                <tree string="Documents">
+                <list string="Documents">
                     <field name="name" />
                     <field name="topic" optional="show" />
                     <field name="folder_id" optional="show" />
@@ -18,7 +18,7 @@
                     <field name="owner_id" optional="show" widget="many2one_avatar_user" />
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="hide" />
                     <field name="is_admin" column_invisible="1"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -90,8 +90,9 @@
                     <field name="project_id" />
                     <field name="partner_id" />
                     <field name="tag_ids" />
-                    <group expand="1" string="Group By">
-                        <filter name="group_by_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
+                    <separator/>
+                    <group string="Group By">
+                        <filter name="group_by_folder_id" string="Folder" domain="[]" context="{'group_by':'folder_id'}" />
                     </group>
                 </search>
             </field>
