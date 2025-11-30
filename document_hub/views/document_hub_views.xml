@@ -69,12 +69,12 @@
                                 <field name="description" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
                             </page>
                         </notebook>
-
                     </sheet>
-                    <div class="oe_chatter">
+                    
+                    <chatter>
                         <field name="message_follower_ids"/>
                         <field name="message_ids"/>
-                    </div>
+                    </chatter>
                 </form>
             </field>
         </record>
