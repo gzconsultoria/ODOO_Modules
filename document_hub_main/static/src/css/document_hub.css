@@ -1,0 +1,24 @@
+/* Document Hub Main - Fix para chatter overflow */
+
+/* Corrigir barra de rolagem horizontal no chatter */
+.oe_chatter {
+    overflow-x: visible !important;
+}
+
+/* Garantir que tabelas One2many no chatter não excedam largura */
+.oe_chatter .o_field_one2many,
+.oe_chatter .o_field_many2many {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* Corrigir largura de modais/popups do chatter */
+.oe_chatter .modal-dialog {
+    max-width: 90%;
+}
+
+/* Ajustar tabelas dentro do chatter para responsividade */
+.oe_chatter table {
+    table-layout: auto;
+    width: 100%;
+}
