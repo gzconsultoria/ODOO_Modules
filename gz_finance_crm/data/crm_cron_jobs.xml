@@ -45,5 +45,20 @@
             <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=3, minute=0)"/>
         </record>
         
+        <!-- ========================================= -->
+        <!-- CRON JOB: Detecção de Divergências        -->
+        <!-- ========================================= -->
+        <record id="cron_detect_data_divergence" model="ir.cron">
+            <field name="name">CRM: Detectar Divergências CRM↔Finance</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_detect_data_divergence()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+            <field name="priority">5</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=9, minute=0)"/>
+        </record>
+        
     </data>
 </odoo>

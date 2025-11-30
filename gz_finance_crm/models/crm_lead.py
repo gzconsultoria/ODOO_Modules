@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from datetime import timedelta
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
@@ -113,6 +114,43 @@ class CrmLead(models.Model):
         ('warm', '🟡 Morno'),
         ('hot', '🔴 Quente'),
     ], string='Temperatura', compute='_compute_lead_temperature', store=True)
+    
+    # ================================
+    # CAMPOS - Sincronização CRM ↔ Finance
+    # ================================
+    
+    last_synced_at = fields.Datetime(
+        string='Última Sincronização',
+        readonly=True,
+        help='Data/hora da última sincronização entre CRM e Finance Core'
+    )
+    
+    sync_source = fields.Selection([
+        ('crm_to_finance', 'CRM → Finance (Conversão)'),
+        ('finance_to_crm', 'Finance → CRM (Atualização)'),
+        ('manual', 'Manual'),
+    ], string='Origem da Última Sync', readonly=True)
+    
+    has_data_divergence = fields.Boolean(
+        string='Possui Divergências',
+        compute='_compute_data_divergence',
+        store=True,
+        help='Indica se há divergências entre dados CRM e Finance Core'
+    )
+    
+    divergence_count = fields.Integer(
+        string='Qtd Divergências',
+        compute='_compute_data_divergence',
+        store=True,
+        help='Número de campos com divergências detectadas'
+    )
+    
+    divergence_details = fields.Html(
+        string='Detalhes das Divergências',
+        compute='_compute_data_divergence',
+        store=False,
+        help='Lista formatada das divergências encontradas'
+    )
     
     # ================================
     # CAMPOS - Sprint 3: Divergência AUM
@@ -244,6 +282,119 @@ class CrmLead(models.Model):
             else:
                 lead.aum_divergence = 0.0
                 lead.aum_divergence_alert = 'none'
+    
+    @api.depends(
+        'partner_id.is_finance_client',
+        'partner_id.risk_profile',
+        'partner_id.annual_income',
+        'partner_id.management_fee',
+        'preliminary_risk_profile',
+        'estimated_income_range',
+        'proposed_fee',
+        'aum_divergence'
+    )
+    def _compute_data_divergence(self):
+        """
+        Detectar divergências entre dados preliminares (CRM) e definitivos (Finance Core)
+        
+        Compara:
+        - Perfil de risco: preliminary_risk_profile vs risk_profile
+        - Patrimônio: estimated_wealth vs aum (já calculado em aum_divergence)
+        - Fee: proposed_fee vs management_fee
+        - Renda: estimated_income_range vs annual_income
+        """
+        for lead in self:
+            divergences = []
+            
+            # Só verificar se já existe perfil financeiro
+            if not lead.has_finance_profile:
+                lead.has_data_divergence = False
+                lead.divergence_count = 0
+                lead.divergence_details = ''
+                continue
+            
+            partner = lead.partner_id
+            
+            # 1. PERFIL DE RISCO
+            if lead.preliminary_risk_profile and partner.risk_profile != 'not_defined':
+                if lead.preliminary_risk_profile != partner.risk_profile:
+                    divergences.append({
+                        'field': 'Perfil de Risco',
+                        'crm': dict(lead._fields['preliminary_risk_profile'].selection).get(lead.preliminary_risk_profile),
+                        'finance': dict(partner._fields['risk_profile'].selection).get(partner.risk_profile),
+                        'severity': 'high'
+                    })
+            
+            # 2. PATRIMÔNIO (AUM) - usa divergência já calculada
+            if lead.aum_divergence_alert in ['moderate', 'critical']:
+                divergences.append({
+                    'field': 'Patrimônio (AUM)',
+                    'crm': f'R$ {lead.estimated_wealth:,.2f}' if lead.estimated_wealth else 'N/A',
+                    'finance': f'R$ {partner.aum:,.2f}' if partner.aum else 'N/A',
+                    'severity': 'critical' if lead.aum_divergence_alert == 'critical' else 'medium'
+                })
+            
+            # 3. FEE DE GESTÃO
+            if lead.proposed_fee and partner.management_fee:
+                fee_diff = abs(lead.proposed_fee - partner.management_fee)
+                if fee_diff >= 0.5:  # Diferença de 0.5% ou mais
+                    divergences.append({
+                        'field': 'Fee de Gestão',
+                        'crm': f'{lead.proposed_fee:.2f}%',
+                        'finance': f'{partner.management_fee:.2f}%',
+                        'severity': 'high' if fee_diff >= 1.0 else 'medium'
+                    })
+            
+            # 4. RENDA ANUAL (conversão aproximada de faixa para valor)
+            if lead.estimated_income_range and partner.annual_income:
+                income_ranges = {
+                    '0-10k': 120000,     # R$ 10k/mês * 12 = R$ 120k/ano
+                    '10k-30k': 360000,   # R$ 30k/mês * 12 = R$ 360k/ano
+                    '30k-100k': 1200000, # R$ 100k/mês * 12 = R$ 1.2M/ano
+                    '100k+': 2400000     # Assume R$ 200k/mês * 12 = R$ 2.4M/ano
+                }
+                estimated_annual = income_ranges.get(lead.estimated_income_range, 0)
+                
+                if estimated_annual > 0:
+                    income_divergence = abs((estimated_annual - partner.annual_income) / partner.annual_income) * 100
+                    if income_divergence >= 30:  # Divergência de 30% ou mais
+                        divergences.append({
+                            'field': 'Renda Anual',
+                            'crm': dict(lead._fields['estimated_income_range'].selection).get(lead.estimated_income_range),
+                            'finance': f'R$ {partner.annual_income:,.2f}/ano',
+                            'severity': 'medium'
+                        })
+            
+            # Atualizar campos computados
+            lead.has_data_divergence = len(divergences) > 0
+            lead.divergence_count = len(divergences)
+            
+            # Gerar HTML formatado
+            if divergences:
+                html = '<div class="alert alert-warning"><h4>⚠️ Divergências Detectadas</h4><table class="table table-sm">'
+                html += '<thead><tr><th>Campo</th><th>Valor CRM</th><th>Valor Finance</th><th>Severidade</th></tr></thead><tbody>'
+                
+                for div in divergences:
+                    severity_colors = {
+                        'critical': 'danger',
+                        'high': 'warning',
+                        'medium': 'info'
+                    }
+                    color = severity_colors.get(div['severity'], 'secondary')
+                    
+                    html += f"<tr>"
+                    html += f"<td><strong>{div['field']}</strong></td>"
+                    html += f"<td>{div['crm']}</td>"
+                    html += f"<td>{div['finance']}</td>"
+                    html += f"<td><span class='badge badge-{color}'>{div['severity'].upper()}</span></td>"
+                    html += f"</tr>"
+                
+                html += '</tbody></table>'
+                html += f'<p><small>Última sincronização: {lead.last_synced_at or "Nunca"}</small></p>'
+                html += '</div>'
+                lead.divergence_details = html
+            else:
+                lead.divergence_details = '<div class="alert alert-success">✅ Nenhuma divergência detectada</div>'
     
     # ================================
     # OVERRIDE METHODS
@@ -394,6 +545,10 @@ class CrmLead(models.Model):
         
         transfer_data = {}
         
+        # Registrar origem do lead (rastreabilidade)
+        transfer_data['origin_lead_id'] = self.id
+        transfer_data['conversion_date'] = fields.Datetime.now()
+        
         # Transferir perfil de risco preliminar
         if self.preliminary_risk_profile:
             transfer_data['risk_profile'] = self.preliminary_risk_profile
@@ -414,6 +569,12 @@ class CrmLead(models.Model):
             self.partner_id.write(transfer_data)
             _logger.info(f"Dados transferidos CRM→Finance para {self.partner_id.name}: {list(transfer_data.keys())}")
         
+        # Registrar sincronização inicial
+        self.write({
+            'last_synced_at': fields.Datetime.now(),
+            'sync_source': 'crm_to_finance'
+        })
+        
         # Criar snapshot inicial se tiver estimativa de patrimônio
         if self.estimated_wealth and self.estimated_wealth > 0:
             # Validar se modelo existe
@@ -428,3 +589,236 @@ class CrmLead(models.Model):
                 _logger.info(f"Snapshot patrimônio criado: R$ {self.estimated_wealth:,.2f} para {self.partner_id.name}")
             else:
                 _logger.warning("Modelo finance.patrimony não encontrado - snapshot não criado")
+    
+    # ================================
+    # MÉTODOS DE SINCRONIZAÇÃO BIDIRECIONAL
+    # ================================
+    
+    def action_sync_from_finance(self):
+        """
+        AÇÃO MANUAL: Atualizar dados do CRM com Finance Core
+        
+        Sincroniza Finance → CRM:
+        - risk_profile → preliminary_risk_profile
+        - aum → estimated_wealth
+        - management_fee → proposed_fee
+        - annual_income → estimated_income_range (conversão)
+        """
+        self.ensure_one()
+        
+        if not self.has_finance_profile:
+            raise UserError(_('Este lead não possui perfil financeiro ativo.'))
+        
+        partner = self.partner_id
+        update_data = {}
+        
+        # 1. Perfil de Risco
+        if partner.risk_profile and partner.risk_profile != 'not_defined':
+            update_data['preliminary_risk_profile'] = partner.risk_profile
+        
+        # 2. Patrimônio (AUM)
+        if partner.aum:
+            update_data['estimated_wealth'] = partner.aum
+        
+        # 3. Fee de Gestão
+        if partner.management_fee:
+            update_data['proposed_fee'] = partner.management_fee
+        
+        # 4. Renda Anual (conversão de valor para faixa)
+        if partner.annual_income:
+            if partner.annual_income >= 1200000:
+                update_data['estimated_income_range'] = '100k+'
+            elif partner.annual_income >= 360000:
+                update_data['estimated_income_range'] = '30k-100k'
+            elif partner.annual_income >= 120000:
+                update_data['estimated_income_range'] = '10k-30k'
+            else:
+                update_data['estimated_income_range'] = '0-10k'
+        
+        # Registrar sincronização
+        update_data['last_synced_at'] = fields.Datetime.now()
+        update_data['sync_source'] = 'finance_to_crm'
+        
+        # Aplicar atualização
+        self.write(update_data)
+        
+        # Log
+        _logger.info(
+            f"Sincronização Finance→CRM executada para Lead #{self.id} ({self.name}). "
+            f"Campos atualizados: {list(update_data.keys())}"
+        )
+        
+        # Registrar audit log
+        if 'crm.audit.log' in self.env:
+            self.env['crm.audit.log'].log_action(
+                model_name='crm.lead',
+                res_id=self.id,
+                action_type='write',
+                severity='medium',
+                notes=f'Sincronização manual Finance→CRM: {len(update_data)} campos atualizados'
+            )
+        
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Sincronização Concluída'),
+                'message': f'{len(update_data)} campos atualizados com dados do Finance Core',
+                'type': 'success',
+                'sticky': False,
+            }
+        }
+    
+    def action_sync_to_finance(self):
+        """
+        AÇÃO MANUAL: Atualizar Finance Core com dados do CRM
+        
+        Sincroniza CRM → Finance:
+        - preliminary_risk_profile → risk_profile
+        - estimated_wealth → aum (via snapshot)
+        - proposed_fee → management_fee
+        """
+        self.ensure_one()
+        
+        if not self.has_finance_profile:
+            raise UserError(_('Este lead não possui perfil financeiro ativo.'))
+        
+        partner = self.partner_id
+        update_data = {}
+        
+        # 1. Perfil de Risco
+        if self.preliminary_risk_profile:
+            update_data['risk_profile'] = self.preliminary_risk_profile
+        
+        # 2. Fee de Gestão
+        if self.proposed_fee:
+            update_data['management_fee'] = self.proposed_fee
+        
+        # Registrar no Finance
+        partner.write(update_data)
+        
+        # 3. Patrimônio (criar snapshot se diferente do AUM atual)
+        if self.estimated_wealth and abs(self.estimated_wealth - partner.aum) > 1000:
+            if 'finance.patrimony' in self.env:
+                self.env['finance.patrimony'].create({
+                    'partner_id': partner.id,
+                    'date': fields.Date.today(),
+                    'total_value': self.estimated_wealth,
+                    'source': 'crm_update',
+                    'notes': f'Atualização via CRM (sincronização manual)\nLead: {self.name} (#{self.id})'
+                })
+                _logger.info(f"Snapshot AUM atualizado: R$ {self.estimated_wealth:,.2f}")
+        
+        # Registrar sincronização
+        self.write({
+            'last_synced_at': fields.Datetime.now(),
+            'sync_source': 'crm_to_finance'
+        })
+        
+        # Log
+        _logger.info(
+            f"Sincronização CRM→Finance executada para Lead #{self.id} ({self.name}). "
+            f"Partner {partner.name} atualizado."
+        )
+        
+        # Registrar audit log
+        if 'crm.audit.log' in self.env:
+            self.env['crm.audit.log'].log_action(
+                model_name='crm.lead',
+                res_id=self.id,
+                action_type='write',
+                severity='medium',
+                notes=f'Sincronização manual CRM→Finance: {len(update_data)} campos atualizados'
+            )
+        
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Sincronização Concluída'),
+                'message': f'Finance Core atualizado com dados do CRM',
+                'type': 'success',
+                'sticky': False,
+            }
+        }
+    
+    @api.model
+    def _cron_detect_data_divergence(self):
+        """
+        CRON DIÁRIO: Detectar divergências entre CRM e Finance Core
+        
+        Para leads com perfil financeiro ativo:
+        1. Buscar leads com divergências detectadas
+        2. Criar atividade para o assessor revisar
+        3. Enviar notificação se divergência crítica
+        """
+        _logger.info("🔍 === INICIANDO DETECÇÃO DE DIVERGÊNCIAS CRM↔FINANCE ===")
+        
+        # Buscar leads com perfil ativo E divergências detectadas
+        divergent_leads = self.search([
+            ('has_finance_profile', '=', True),
+            ('has_data_divergence', '=', True),
+            ('divergence_count', '>', 0)
+        ])
+        
+        _logger.info(f"Encontrados {len(divergent_leads)} leads com divergências")
+        
+        activities_created = 0
+        
+        for lead in divergent_leads:
+            # Verificar se já existe atividade aberta para este lead
+            existing_activity = self.env['mail.activity'].search([
+                ('res_model', '=', 'crm.lead'),
+                ('res_id', '=', lead.id),
+                ('summary', 'ilike', 'Divergência de Dados'),
+                ('user_id', '=', lead.user_id.id if lead.user_id else self.env.user.id)
+            ], limit=1)
+            
+            if existing_activity:
+                continue  # Já existe atividade pendente
+            
+            # Criar atividade para assessor
+            activity_type = self.env.ref('mail.mail_activity_data_todo', raise_if_not_found=False)
+            
+            if activity_type:
+                self.env['mail.activity'].create({
+                    'activity_type_id': activity_type.id,
+                    'summary': f'⚠️ Divergência de Dados CRM↔Finance ({lead.divergence_count} campos)',
+                    'note': f'''
+                        <p><strong>Lead:</strong> {lead.name}</p>
+                        <p><strong>Cliente:</strong> {lead.partner_id.name}</p>
+                        <p><strong>Divergências:</strong> {lead.divergence_count}</p>
+                        <hr/>
+                        {lead.divergence_details}
+                        <hr/>
+                        <p><strong>Ações sugeridas:</strong></p>
+                        <ul>
+                            <li>Revisar dados no Finance Core e CRM</li>
+                            <li>Sincronizar manualmente usando botões: "Atualizar do Finance" ou "Enviar para Finance"</li>
+                            <li>Validar informações com o cliente se necessário</li>
+                        </ul>
+                    ''',
+                    'res_model': 'crm.lead',
+                    'res_id': lead.id,
+                    'user_id': lead.user_id.id if lead.user_id else self.env.user.id,
+                    'date_deadline': fields.Date.today() + timedelta(days=7)
+                })
+                activities_created += 1
+                
+                # Se divergência crítica, enviar notificação também
+                if lead.aum_divergence_alert == 'critical':
+                    lead.message_post(
+                        body=f'''
+                            <p><strong>🚨 DIVERGÊNCIA CRÍTICA DETECTADA</strong></p>
+                            <p>Diferença de {lead.aum_divergence:.1f}% entre AUM estimado e real.</p>
+                            {lead.divergence_details}
+                        ''',
+                        subject=f'Divergência Crítica - {lead.name}',
+                        partner_ids=[lead.user_id.partner_id.id] if lead.user_id else [],
+                        subtype_xmlid='mail.mt_note'
+                    )
+        
+        _logger.info(f"=== DETECÇÃO CONCLUÍDA: {activities_created} atividades criadas ===")
+        
+        return True
+

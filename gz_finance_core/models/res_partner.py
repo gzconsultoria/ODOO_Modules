@@ -39,6 +39,30 @@ class ResPartner(models.Model):
     )
     
     # ================================
+    # FIELDS - Rastreamento de Origem
+    # ================================
+    origin_lead_id = fields.Many2one(
+        'crm.lead',
+        string='Lead de Origem',
+        readonly=True,
+        ondelete='set null',
+        help='Lead CRM que originou este perfil financeiro (rastreabilidade CRM→Finance)'
+    )
+    
+    origin_lead_name = fields.Char(
+        string='Nome do Lead Original',
+        related='origin_lead_id.name',
+        readonly=True,
+        store=False
+    )
+    
+    conversion_date = fields.Datetime(
+        string='Data de Conversão',
+        readonly=True,
+        help='Data/hora em que o lead foi convertido em perfil financeiro'
+    )
+    
+    # ================================
     # FIELDS - Patrimony (AUM)
     # ================================
     currency_id = fields.Many2one(

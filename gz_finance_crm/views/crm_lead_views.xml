@@ -112,6 +112,54 @@
                         </group>
                     </group>
                     
+                    <!-- NOVO: Widget de Divergências Completo -->
+                    <separator string="⚠️ Análise de Divergências CRM ↔ Finance" 
+                               invisible="not has_finance_profile or not has_data_divergence"/>
+                    <group invisible="not has_finance_profile or not has_data_divergence">
+                        <field name="has_data_divergence" invisible="1"/>
+                        <field name="divergence_count" invisible="1"/>
+                        
+                        <group colspan="2">
+                            <div class="alert alert-warning" role="alert">
+                                <h4>
+                                    <i class="fa fa-exclamation-triangle"/> 
+                                    <field name="divergence_count"/> Divergências Detectadas
+                                </h4>
+                                <p>Os dados preliminares do CRM diferem dos dados definitivos no Finance Core.</p>
+                            </div>
+                        </group>
+                        
+                        <!-- Detalhes HTML -->
+                        <group colspan="2">
+                            <field name="divergence_details" widget="html" nolabel="1"/>
+                        </group>
+                        
+                        <!-- Botões de Ação -->
+                        <group colspan="2">
+                            <div class="oe_button_box" style="margin-top: 10px;">
+                                <button name="action_sync_from_finance" 
+                                        type="object" 
+                                        string="⬇️ Atualizar do Finance" 
+                                        class="btn btn-primary"
+                                        help="Sincronizar Finance → CRM (sobrescreve dados do CRM)"/>
+                                <button name="action_sync_to_finance" 
+                                        type="object" 
+                                        string="⬆️ Enviar para Finance" 
+                                        class="btn btn-success"
+                                        help="Sincronizar CRM → Finance (sobrescreve dados do Finance)"/>
+                            </div>
+                        </group>
+                        
+                        <!-- Info de Última Sync -->
+                        <group>
+                            <field name="last_synced_at" readonly="1"/>
+                            <field name="sync_source" readonly="1" widget="badge"
+                                   decoration-info="sync_source == 'crm_to_finance'"
+                                   decoration-success="sync_source == 'finance_to_crm'"
+                                   decoration-warning="sync_source == 'manual'"/>
+                        </group>
+                    </group>
+                    
                     <!-- Sprint 4: Google Calendar -->
                     <separator string="Reunião Google Meet" invisible="not meeting_link"/>
                     <group invisible="not meeting_link">
