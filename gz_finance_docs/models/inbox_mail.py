@@ -90,7 +90,7 @@ class InboxMail(models.Model):
                                     'description': _("Email from: <b>%s</b>, Subject: <b>%s</b>") % (sender, subject),
                                     'folder_id': folder.id if folder else False,
                                     'file_ids': [(6, 0, [attachment.id])],
-                                    'tag_ids': [(6, 0, [self.env.ref('document_hub_main.tag_email').id])],
+                                    'tag_ids': [(6, 0, [self.env.ref('gz_finance_docs.tag_email').id])],
                                 })
 
                                 attachment.write({

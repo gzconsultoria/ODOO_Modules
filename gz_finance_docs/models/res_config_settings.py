@@ -11,7 +11,7 @@ class ResConfigSettings(models.TransientModel):
     imap_port = fields.Integer(string='Port', default=465)
     imap_user = fields.Char(string='User')
     imap_password = fields.Char(string='Password')
-    imap_folder = fields.Many2one('document_hub.folder', string="Folder", default=lambda lm: lm.env.ref('document_hub_main.folder_administration_inbox'))
+    imap_folder = fields.Many2one('document_hub.folder', string="Folder", default=lambda lm: lm.env.ref('gz_finance_docs.folder_administration_inbox'))
     
     def set_values(self):
         res = super(ResConfigSettings, self).set_values()

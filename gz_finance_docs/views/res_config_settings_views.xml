@@ -50,9 +50,9 @@
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
         <field name="target">current</field>
-        <field name="context">{'module' : 'document_hub_main'}</field>
+        <field name="context">{'module' : 'gz_finance_docs'}</field>
     </record>
 
-    <menuitem name="Settings" id="menu_config_settings" parent="document_hub_main.menu_config" sequence="1" action="document_hub_settings_action" groups="base.group_system"/>
+    <menuitem name="Settings" id="menu_config_settings" parent="gz_finance_docs.menu_config" sequence="1" action="document_hub_settings_action" groups="base.group_system"/>
 
 </odoo>
