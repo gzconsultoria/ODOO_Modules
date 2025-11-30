@@ -53,6 +53,6 @@
         <field name="context">{'module' : 'document_hub'}</field>
     </record>
 
-    <menuitem name="Settings" id="menu_config_settings" parent="document_hub.menu_config" sequence="1" action="document_hub_settings_action" groups="base.group_system"/>
+    <menuitem name="Settings" id="menu_config_settings" parent="document_hub_main.menu_config" sequence="1" action="document_hub_settings_action" groups="base.group_system"/>
 
 </odoo>
