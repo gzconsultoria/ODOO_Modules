@@ -95,27 +95,11 @@
                 <field name="partner_id"/>
                 <field name="snapshot_date"/>
                 <field name="source"/>
-                
-                <filter string="Automático" name="auto"
-                        domain="[('source', '=', 'auto')]"/>
-                <filter string="Manual" name="manual"
-                        domain="[('source', '=', 'manual')]"/>
-                <filter string="Conversão CRM" name="crm"
-                        domain="[('source', '=', 'crm_conversion')]"/>
-                
-                <separator/>
-                <filter string="Crescimento Positivo" name="growth" 
-                        domain="[('aum_variation_percent', '&gt;', 0)]"/>
-                <filter string="Declínio" name="decline" 
-                        domain="[('aum_variation_percent', '&lt;', 0)]"/>
-                
+                <filter string="Automático" name="auto" domain="[('source', '=', 'auto')]"/>
+                <filter string="Manual" name="manual" domain="[('source', '=', 'manual')]"/>
                 <group expand="0" string="Agrupar Por">
-                    <filter string="Cliente" name="group_partner" 
-                            context="{'group_by': 'partner_id'}"/>
-                    <filter string="Mês" name="group_month" 
-                            context="{'group_by': 'snapshot_date:month'}"/>
-                    <filter string="Origem" name="group_source" 
-                            context="{'group_by': 'source'}"/>
+                    <filter string="Cliente" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Mês" name="group_month" context="{'group_by': 'snapshot_date:month'}"/>
                 </group>
             </search>
         </field>
