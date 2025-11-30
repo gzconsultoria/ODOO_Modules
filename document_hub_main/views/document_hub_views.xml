@@ -91,7 +91,7 @@
                     <field name="partner_id" />
                     <field name="tag_ids" />
                     <group expand="1" string="Group By">
-                        <filter name="group_by_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
+                        <filter name="group_by_folder_id" string="Folder" context="{'group_by': ['folder_id']}" />
                     </group>
                 </search>
             </field>
@@ -100,7 +100,7 @@
         <record id="document_hub_mail_document_act" model="ir.actions.act_window">
             <field name="name">Mail</field>
             <field name="res_model">document_hub.document</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="domain">[('privacy_doc', '=', 'mail')]</field>
             <field name="context">{
                     "default_privacy_doc": "mail",
@@ -116,7 +116,7 @@
         <record id="document_hub_company_document_act" model="ir.actions.act_window">
             <field name="name">Company documents</field>
             <field name="res_model">document_hub.document</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="domain">[('privacy_doc', '=', 'company')]</field>
             <field name="context">{
                 "default_privacy_doc": 'company',
