@@ -28,8 +28,8 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string='Lock' name='action_lock_document' class="btn btn-secondary" type='object' invisible="state == 'lock'"/>
-                        <button string='Unlock' name='action_open_document' class="btn btn-secondary" type='object' invisible="state == 'open'"/>
+                        <button string='Bloquear' name='action_lock_document' class="btn btn-secondary" type='object' invisible="state == 'lock'"/>
+                        <button string='Desbloquear' name='action_open_document' class="btn btn-secondary" type='object' invisible="state == 'open'"/>
                         <field name="state" widget="statusbar" statusbar_visible="lock" />
                     </header>
                     <sheet>
@@ -66,7 +66,7 @@
                             <field name="file_ids" widget="many2many_binary" readonly="state == 'lock'"/>
                         </group>
                         <group>
-                            <field name="description" nolabel="1" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
+                            <field name="description" nolabel="1" placeholder="Digite uma descrição dos documentos para que possam ser facilmente identificados.." readonly="state == 'lock'"/>
                         </group>
 
                     </sheet>

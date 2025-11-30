@@ -103,17 +103,17 @@ msgstr "E-mail"
 
 #. module: gz_finance_docs
 #: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_form
-msgid "Lock"
+msgid "Bloquear"
 msgstr "Bloquear"
 
 #. module: gz_finance_docs
 #: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_form
-msgid "Unlock"
+msgid "Desbloquear"
 msgstr "Desbloquear"
 
 #. module: gz_finance_docs
 #: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_form
-msgid "Enter a description of the documents so they can be more easily identified.."
+msgid "Digite uma descrição dos documentos para que possam ser facilmente identificados.."
 msgstr "Digite uma descrição dos documentos para que possam ser facilmente identificados.."
 
 #. module: gz_finance_docs
