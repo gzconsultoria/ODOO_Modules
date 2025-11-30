@@ -1112,8 +1112,10 @@ class ResPartner(models.Model):
                 'visibility_salesman': True,
             })
         
-        # Vincula pasta ao partner
-        self.client_folder_id = client_folder.id
+        # Vincula pasta ao partner E FAZ COMMIT IMEDIATAMENTE
+        # Isso evita race condition se o método for chamado 2x rapidamente
+        self.write({'client_folder_id': client_folder.id})
+        self.env.cr.commit()  # Força commit para evitar duplicatas
         
         # Notifica no chatter
         self.message_post(
