@@ -111,11 +111,11 @@
                 
                 <group expand="0" string="Agrupar Por">
                     <filter string="Cliente" name="group_partner" 
-                            context="{'group_by': ['partner_id']}"/>
-                    <filter string="Data" name="group_date" 
-                            context="{'group_by': ['snapshot_date']}"/>
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter string="Mês" name="group_month" 
+                            context="{'group_by': 'snapshot_date:month'}"/>
                     <filter string="Origem" name="group_source" 
-                            context="{'group_by': ['source']}"/>
+                            context="{'group_by': 'source'}"/>
                 </group>
             </search>
         </field>
