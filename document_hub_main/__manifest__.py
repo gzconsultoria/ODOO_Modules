@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 {
-    'name': 'Document Hub',
+    'name': 'Document Hub Main',
     'version': '19.0.1.0.0',
     'author': 'Daniel Demedziuk (Adapted to Odoo 19 by GZ Consultoria)',
     'license': 'GPL-2',
     'sequence': 55,
     'category': 'Productivity/Documents',
-    'summary': 'Advanced document management system for Odoo 19 Community',
+    'summary': 'Advanced document management system for Odoo Community',
     'description': """
 Document hub
 ==================
