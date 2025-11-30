@@ -67,7 +67,9 @@
 
                         <group name='description' string='Description'>
                             <field name="description" nolabel="1" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
-                        </group>                    </sheet>
+                        </group>
+
+                    </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
                         <field name="activity_ids" widget="mail_activity" />
