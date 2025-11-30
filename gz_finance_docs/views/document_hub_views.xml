@@ -39,7 +39,7 @@
                             </h1>
                             <label for="topic"/>
                             <h2>
-                                <field name="topic" placeholder="e.g. Project contract" readonly="state == 'lock'"/>
+                                <field name="topic" placeholder="ex: Contrato de projeto" required="1" readonly="state == 'lock'"/>
                             </h2>
                         </div>
                         <div>

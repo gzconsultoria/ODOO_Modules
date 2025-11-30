@@ -117,6 +117,11 @@ msgid "Enter a description of the documents so they can be more easily identifie
 msgstr "Digite uma descrição dos documentos para que possam ser facilmente identificados.."
 
 #. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_form
+msgid "ex: Contrato de projeto"
+msgstr "ex: Contrato de projeto"
+
+#. module: gz_finance_docs
 #: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_tree
 msgid "Documents"
 msgstr "Documentos"
@@ -214,6 +219,11 @@ msgstr "Configuração"
 #, python-format
 msgid "New"
 msgstr "Novo"
+
+#. module: gz_finance_docs
+#: model:ir.ui.view,arch_db:gz_finance_docs.view_document_hub_document_form
+msgid "e.g. Project contract"
+msgstr "ex: Contrato de projeto"
 
 #. module: gz_finance_docs
 #: model:ir.model.fields,field_description:gz_finance_docs.field_document_hub_folder__parent_folder_id
