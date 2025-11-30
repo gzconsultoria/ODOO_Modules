@@ -11,7 +11,7 @@ class Document(models.Model):
     _name = 'document_hub.document'
     _description = 'Document hub: Document'
     _order = 'id desc'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = ['mail.thread']
     
     name = fields.Char(string='Name', default=lambda self: _('New'), copy=False, readonly=True, tracking=True)
     topic = fields.Char(string='Topic', required=True, tracking=True)
