@@ -53,7 +53,7 @@ This module is fully open source under the GPL-2 license.
     ],
     'assets': {
         'web.assets_backend': [
-            'document_hub_main/static/src/css/document_hub.css',
+            'document_hub_main/static/src/css/document_hub_fix.css',
         ],
     },
     'auto_install': False,
