@@ -12,6 +12,7 @@ _logger = logging.getLogger(__name__)
 class FinanceAumSnapshot(models.Model):
     _name = 'finance.aum.snapshot'
     _description = 'Snapshot Mensal de AUM'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'snapshot_date desc, partner_id'
     _rec_name = 'display_name'
     
@@ -50,6 +51,7 @@ class FinanceAumSnapshot(models.Model):
         string='AUM (Patrimônio sob Gestão)',
         required=True,
         currency_field='currency_id',
+        tracking=True,
         help='Valor do AUM nesta data'
     )
     
