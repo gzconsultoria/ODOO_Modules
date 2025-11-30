@@ -1079,6 +1079,42 @@ class ResPartner(models.Model):
             return
         
         # ============================================================
+        # BUSCA OU CRIA PASTA RAIZ "CLIENTES"
+        # ============================================================
+        
+        root_folder = None
+        
+        # Tenta buscar por XML ID primeiro
+        try:
+            root_folder = self.env.ref('gz_finance_docs.folder_clientes', raise_if_not_found=False)
+        except:
+            pass
+        
+        # Se não encontrou, busca por nome
+        if not root_folder:
+            root_folder = folder_model.search([
+                ('name', 'ilike', 'Clientes'),
+                ('parent_folder_id', '=', False)
+            ], limit=1)
+        
+        # Se ainda não existe, CRIA a pasta raiz "Clientes"
+        if not root_folder:
+            _logger.info("Pasta raiz 'Clientes' não encontrada - criando automaticamente...")
+            try:
+                root_folder = folder_model.create({
+                    'name': '📁 Clientes',
+                    'description': 'Pastas individuais de cada cliente, criadas automaticamente ao ativar perfil financeiro.',
+                    'parent_folder_id': False,
+                    'visibility_administration': True,
+                    'visibility_salesman': True,
+                    'active': True,
+                })
+                _logger.info(f"✅ Pasta raiz 'Clientes' criada com ID {root_folder.id}")
+            except Exception as e:
+                _logger.error(f"❌ Erro ao criar pasta raiz 'Clientes': {e}")
+                return
+        
+        # ============================================================
         # PROTEÇÃO ANTI-DUPLICAÇÃO: Verifica se já existe pasta com mesmo nome
         # ============================================================
         
@@ -1087,7 +1123,7 @@ class ResPartner(models.Model):
         existing_folder = folder_model.search([
             ('name', '=', client_folder_name),
             ('client_folder', '=', True),
-            ('parent_folder_id', '=', False)  # Apenas pastas raiz
+            ('parent_folder_id', '=', root_folder.id)  # Dentro de "Clientes"
         ], limit=1)
         
         if existing_folder:
@@ -1109,7 +1145,7 @@ class ResPartner(models.Model):
             client_folder = folder_model.create({
                 'name': client_folder_name,
                 'description': f"Documentos do cliente {self.name}. Criada automaticamente.",
-                'parent_folder_id': False,  # Pasta raiz
+                'parent_folder_id': root_folder.id,  # Dentro de "Clientes"
                 'partner_id': self.id,
                 'client_folder': True,
                 'visibility_administration': True,
@@ -1117,7 +1153,7 @@ class ResPartner(models.Model):
                 'active': True,
             })
             
-            _logger.info(f"✅ Pasta raiz criada: {client_folder_name} (ID {client_folder.id})")
+            _logger.info(f"✅ Pasta criada dentro de 'Clientes': {client_folder_name} (ID {client_folder.id})")
             
         except Exception as e:
             _logger.error(f"❌ Erro ao criar pasta raiz para {self.name}: {e}")

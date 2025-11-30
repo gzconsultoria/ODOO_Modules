@@ -41,7 +41,7 @@ This module is fully open source under the GPL-2 license.
     ],
     'data': [
         'data/document_sequence.xml',
-        # 'data/folders_data.xml',  # Desabilitado - pastas criadas dinamicamente
+        'data/folders_data.xml',  # Cria pastas padrão: Clientes + Escritório
         'data/tags_data.xml',
         'data/cron_data.xml',
         'security/document_hub_security.xml',
