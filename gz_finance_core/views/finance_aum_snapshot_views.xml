@@ -91,14 +91,16 @@
         <field name="name">finance.aum.snapshot.search</field>
         <field name="model">finance.aum.snapshot</field>
         <field name="arch" type="xml">
-            <search>
+            <search string="Buscar Snapshots">
                 <field name="partner_id"/>
                 <field name="snapshot_date"/>
-                <filter name="auto" string="Automático" domain="[('source', '=', 'auto')]"/>
-                <filter name="manual" string="Manual" domain="[('source', '=', 'manual')]"/>
-                <group expand="0" string="Group By">
-                    <filter name="group_partner" string="Cliente" context="{'group_by': 'partner_id'}"/>
-                    <filter name="group_month" string="Mês" context="{'group_by': 'snapshot_date:month'}"/>
+                <separator/>
+                <filter string="Automático" name="auto" domain="[('source', '=', 'auto')]"/>
+                <filter string="Manual" name="manual" domain="[('source', '=', 'manual')]"/>
+                <separator/>
+                <group>
+                    <filter string="Cliente" name="group_partner" domain="[]" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Mês" name="group_month" domain="[]" context="{'group_by': 'snapshot_date:month'}"/>
                 </group>
             </search>
         </field>
