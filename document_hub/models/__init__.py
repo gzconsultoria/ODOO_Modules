@@ -4,5 +4,5 @@ from . import project
 from . import document
 from . import res_config_settings
 from . import inbox_mail
-from . import sale_offer
+# from . import sale_offer  # Comentado - módulo sale_offer não padrão
 
