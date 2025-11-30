@@ -1039,58 +1039,103 @@ class ResPartner(models.Model):
         """
         Cria estrutura de pastas de documentos ao ativar toggle Cliente Consultoria.
         
-        **Trigger:** 
-        - Partner.is_finance_client = True
-        - Partner.finance_profile_id exists
-        - Partner.client_folder_id not exists
+        **ESTRUTURA CRIADA:**
         
-        **Estrutura criada:**
+        (RAIZ)
+        └─ 📁 Nome do Cliente (FIN-DD.MM.AAAA-XXXX)
+            ├─ ✅ Suitability
+            ├─ 📋 Cadastro e Documentação
+            ├─ 📜 Política de Investimento
+            ├─ 🤝 Atas de Reunião
+            ├─ 💰 Financeiro
+            ├─ 📊 Relatórios
+            └─ 📝 Contratos
         
-        📁 Clientes
-          └─ 📁 João da Silva (FIN-29.11.2025-0008)
-              ├─ ✅ Suitability
-              ├─ 📋 Cadastro e Documentação
-              ├─ 📜 Política de Investimento
-              ├─ 🤝 Atas de Reunião
-              ├─ 💰 Financeiro
-              ├─ 📊 Relatórios
-              └─ 📝 Contratos
-        
-        **Idempotência:** Pode chamar N vezes, cria apenas 1 vez.
-        **Módulo:** Requer gz_finance_docs instalado.
+        **PROTEÇÕES:**
+        - Idempotente: pode chamar N vezes, cria apenas 1 vez
+        - Commit imediato após criar para evitar race conditions
+        - Validação de duplicatas por nome de pasta
+        - Logs detalhados para debugging
         """
         self.ensure_one()
         
-        # Validações
+        # ============================================================
+        # VALIDAÇÕES INICIAIS
+        # ============================================================
+        
         if not self.finance_profile_id:
+            _logger.debug(f"Partner {self.id} sem finance_profile_id - pulando criação de pastas")
             return
         
         if self.client_folder_id:
-            return  # Já tem pasta criada
+            _logger.debug(f"Partner {self.id} já tem pasta (ID {self.client_folder_id.id}) - pulando criação")
+            return
         
         # Verifica se módulo gz_finance_docs está instalado
         try:
             folder_model = self.env['document_hub.folder']
         except KeyError:
-            # Módulo não instalado
-            _logger.warning("gz_finance_docs não instalado - pulando criação de pastas")
+            _logger.warning(f"gz_finance_docs não instalado - pulando criação de pastas para {self.name}")
             return
         
-        # Cria pasta principal do cliente (direto na raiz, sem pasta "Clientes" intermediária)
+        # ============================================================
+        # PROTEÇÃO ANTI-DUPLICAÇÃO: Verifica se já existe pasta com mesmo nome
+        # ============================================================
+        
         client_folder_name = f"{self.name} ({self.finance_profile_id})"
         
-        client_folder = folder_model.create({
-            'name': client_folder_name,
-            'description': f"Documentos do cliente {self.name}. "
-                          f"Criada automaticamente ao ativar Cliente Consultoria.",
-            'parent_folder_id': False,  # Cria na raiz, sem pasta pai
-            'partner_id': self.id,
-            'client_folder': True,
-            'visibility_administration': True,
-            'visibility_salesman': True,
-        })
+        existing_folder = folder_model.search([
+            ('name', '=', client_folder_name),
+            ('client_folder', '=', True),
+            ('parent_folder_id', '=', False)  # Apenas pastas raiz
+        ], limit=1)
         
-        # Define subpastas padrão
+        if existing_folder:
+            _logger.warning(
+                f"Pasta '{client_folder_name}' já existe (ID {existing_folder.id}) "
+                f"- vinculando ao partner {self.id} ao invés de criar duplicata"
+            )
+            self.client_folder_id = existing_folder.id
+            self.env.cr.commit()
+            return
+        
+        _logger.info(f"Criando estrutura de pastas para {client_folder_name}...")
+        
+        # ============================================================
+        # CRIAÇÃO DA PASTA RAIZ DO CLIENTE
+        # ============================================================
+        
+        try:
+            client_folder = folder_model.create({
+                'name': client_folder_name,
+                'description': f"Documentos do cliente {self.name}. Criada automaticamente.",
+                'parent_folder_id': False,  # Pasta raiz
+                'partner_id': self.id,
+                'client_folder': True,
+                'visibility_administration': True,
+                'visibility_salesman': True,
+                'active': True,
+            })
+            
+            _logger.info(f"✅ Pasta raiz criada: {client_folder_name} (ID {client_folder.id})")
+            
+        except Exception as e:
+            _logger.error(f"❌ Erro ao criar pasta raiz para {self.name}: {e}")
+            return
+        
+        # ============================================================
+        # VINCULA PASTA AO PARTNER IMEDIATAMENTE (Anti-duplicação)
+        # ============================================================
+        
+        self.client_folder_id = client_folder.id
+        self.env.cr.commit()  # Commit forçado para evitar race conditions
+        
+        _logger.info(f"✅ Pasta vinculada ao partner {self.id}")
+        
+        # ============================================================
+        # CRIAÇÃO DAS 7 SUBPASTAS
+        # ============================================================
+        
         subfolders = [
             ('✅ Suitability', 'Questionários API, análises de perfil de risco e adequação de produtos.'),
             ('📋 Cadastro e Documentação', 'Documentos pessoais, comprovantes, procurações e ficha cadastral.'),
@@ -1101,30 +1146,35 @@ class ResPartner(models.Model):
             ('📝 Contratos', 'Contratos de assessoria, termos de adesão e acordos de gestão.'),
         ]
         
-        # Cria cada subpasta
+        created_count = 0
         for subfolder_name, subfolder_description in subfolders:
-            folder_model.create({
-                'name': subfolder_name,
-                'description': subfolder_description,
-                'parent_folder_id': client_folder.id,
-                'partner_id': self.id,
-                'visibility_administration': True,
-                'visibility_salesman': True,
-            })
+            try:
+                folder_model.create({
+                    'name': subfolder_name,
+                    'description': subfolder_description,
+                    'parent_folder_id': client_folder.id,  # Filho da pasta raiz
+                    'partner_id': self.id,
+                    'visibility_administration': True,
+                    'visibility_salesman': True,
+                    'active': True,
+                })
+                created_count += 1
+            except Exception as e:
+                _logger.error(f"❌ Erro ao criar subpasta '{subfolder_name}': {e}")
         
-        # Vincula pasta ao partner E FAZ COMMIT IMEDIATAMENTE
-        # Isso evita race condition se o método for chamado 2x rapidamente
-        self.write({'client_folder_id': client_folder.id})
-        self.env.cr.commit()  # Força commit para evitar duplicatas
+        _logger.info(f"✅ {created_count}/7 subpastas criadas para {client_folder_name}")
         
-        # Notifica no chatter
+        # ============================================================
+        # NOTIFICAÇÃO NO CHATTER
+        # ============================================================
+        
         self.message_post(
             body=_(
-                "📁 <strong>Estrutura de documentos criada automaticamente</strong><br/>"
-                "Pasta principal: <b>%s</b><br/>"
-                "Subpastas criadas: 7 (Suitability, Cadastro, Política, Atas, Financeiro, Relatórios, Contratos)<br/>"
-                "<a href='/web#model=document_hub.folder&id=%s'>📂 Abrir Pasta do Cliente</a>"
-            ) % (client_folder_name, client_folder.id)
+                "📁 <strong>Estrutura de documentos criada</strong><br/>"
+                "📂 Pasta principal: <b>%s</b><br/>"
+                "📋 Subpastas: %d/%d criadas<br/>"
+                "<a href='/web#model=document_hub.folder&id=%s' target='_blank'>🔗 Abrir Pasta</a>"
+            ) % (client_folder_name, created_count, len(subfolders), client_folder.id)
         )
         
-        _logger.info(f"Pastas criadas para cliente {self.name} ({self.finance_profile_id})")
+        _logger.info(f"🎉 Estrutura completa criada para {client_folder_name}")
