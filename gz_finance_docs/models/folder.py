@@ -27,6 +27,32 @@ class Folder(models.Model):
     visibility_hr = fields.Boolean(string='HR', default=False)
     visibility_salesman = fields.Boolean(string='Sales', default=False)
     is_project = fields.Boolean(string="Is project", default=False, help='Mark this option if you are sure this folder is for projects.')
+    
+    # Campos para automação de pastas de clientes
+    client_folder = fields.Boolean(
+        string='Pasta de Cliente', 
+        default=False, 
+        index=True,
+        help='Indica que esta pasta foi criada automaticamente para um cliente específico.'
+    )
+    partner_id = fields.Many2one(
+        'res.partner', 
+        string='Cliente Vinculado', 
+        index=True,
+        help='Cliente ao qual esta pasta está vinculada (se aplicável).'
+    )
+    client_code = fields.Char(
+        string='Código do Cliente',
+        related='partner_id.x_client_code',
+        store=True,
+        help='Código único do cliente (ex: CLI-00123).'
+    )
+    is_client_subfolder = fields.Boolean(
+        string='É Subpasta de Cliente',
+        compute='_compute_is_client_subfolder',
+        store=True,
+        help='Indica se esta pasta é uma subpasta de uma pasta de cliente.'
+    )
 
     @api.depends('parent_folder_id', 'name')
     def _compute_parent_path(self):
@@ -38,4 +64,13 @@ class Folder(models.Model):
                 rec.parent_path = F"{parent_folder}: {name}"
             else:
                 rec.parent_path = name
+    
+    @api.depends('parent_folder_id', 'parent_folder_id.client_folder')
+    def _compute_is_client_subfolder(self):
+        """Identifica se a pasta é subpasta de uma pasta de cliente"""
+        for rec in self:
+            if rec.parent_folder_id and rec.parent_folder_id.client_folder:
+                rec.is_client_subfolder = True
+            else:
+                rec.is_client_subfolder = False
 

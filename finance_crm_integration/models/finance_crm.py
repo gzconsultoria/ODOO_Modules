@@ -217,8 +217,103 @@ class CrmLead(models.Model):
                 # AUTO-CRIAÇÃO: Apenas quando lead é marcado como GANHO (is_won=True)
                 if lead.stage_id and lead.stage_id.is_won:
                     lead._sync_to_finance_profile()
+                    lead._create_client_folder_structure()  # NOVA AUTOMAÇÃO
         
         return result
+    
+    # ============================================================
+    # AUTOMAÇÃO: CRIAÇÃO DE PASTAS DE DOCUMENTOS
+    # ============================================================
+    
+    def _create_client_folder_structure(self):
+        """
+        Cria estrutura de pastas de documentos ao ganhar lead.
+        
+        **Estrutura criada:**
+        
+        📁 Clientes
+          └─ 📁 João da Silva (CLI-00123)
+              ├─ ✅ Suitability
+              ├─ 📋 Cadastro e Documentação
+              ├─ 📜 Política de Investimento
+              ├─ 🤝 Atas de Reunião
+              ├─ 💰 Financeiro
+              ├─ 📊 Relatórios
+              └─ 📝 Contratos
+        
+        **Idempotência:** Pode chamar N vezes, cria apenas 1 vez.
+        **Vinculação:** Partner.client_folder_id aponta para pasta criada.
+        """
+        self.ensure_one()
+        
+        # Validações
+        if not self.partner_id:
+            return
+        
+        # Se já tem pasta criada, não duplica
+        if self.partner_id.client_folder_id:
+            return
+        
+        # Gera código único do cliente
+        if not self.partner_id.x_client_code:
+            self.partner_id.x_client_code = self.env['ir.sequence'].next_by_code('finance.client.code')
+        
+        # Busca pasta raiz "Clientes"
+        try:
+            root_folder = self.env.ref('gz_finance_docs.folder_clientes')
+        except:
+            # Módulo gz_finance_docs não instalado ou pasta não existe
+            return
+        
+        # Cria pasta principal do cliente
+        client_folder_name = f"{self.partner_id.name} ({self.partner_id.x_client_code})"
+        
+        client_folder = self.env['document_hub.folder'].create({
+            'name': client_folder_name,
+            'description': f"Documentos do cliente {self.partner_id.name}. "
+                          f"Criada automaticamente ao converter Lead #{self.id}.",
+            'parent_folder_id': root_folder.id,
+            'partner_id': self.partner_id.id,
+            'client_folder': True,
+            'visibility_administration': True,
+            'visibility_salesman': True,
+        })
+        
+        # Define subpastas padrão
+        subfolders = [
+            ('✅ Suitability', 'Questionários API, análises de perfil de risco e adequação de produtos.'),
+            ('📋 Cadastro e Documentação', 'Documentos pessoais, comprovantes, procurações e ficha cadastral.'),
+            ('📜 Política de Investimento', 'IPS (Investment Policy Statement) e diretrizes personalizadas.'),
+            ('🤝 Atas de Reunião', 'Registros de reuniões, decisões de investimento e follow-ups.'),
+            ('💰 Financeiro', 'Notas fiscais, recibos e documentação financeira do cliente.'),
+            ('📊 Relatórios', 'Relatórios de performance, análises e rebalanceamentos de carteira.'),
+            ('📝 Contratos', 'Contratos de assessoria, termos de adesão e acordos de gestão.'),
+        ]
+        
+        # Cria cada subpasta
+        for subfolder_name, subfolder_description in subfolders:
+            self.env['document_hub.folder'].create({
+                'name': subfolder_name,
+                'description': subfolder_description,
+                'parent_folder_id': client_folder.id,
+                'partner_id': self.partner_id.id,
+                'visibility_administration': True,
+                'visibility_salesman': True,
+            })
+        
+        # Vincula pasta ao partner
+        self.partner_id.client_folder_id = client_folder.id
+        
+        # Notifica no chatter do Lead
+        self.message_post(
+            body=_(
+                "📁 <strong>Estrutura de documentos criada automaticamente</strong><br/>"
+                "Pasta principal: <b>%s</b><br/>"
+                "Subpastas criadas: 7 (Suitability, Cadastro, Política, Atas, Financeiro, Relatórios, Contratos)<br/>"
+                "<a href='/web#model=document_hub.folder&id=%s'>📂 Abrir Pasta do Cliente</a>"
+            ) % (client_folder_name, client_folder.id)
+        )
+
     
     def _sync_to_finance_profile(self):
         """
