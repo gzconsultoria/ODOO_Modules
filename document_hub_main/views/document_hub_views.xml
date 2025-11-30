@@ -68,14 +68,13 @@
                         <group>
                             <field name="description" nolabel="1" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
                         </group>
-                        
-                        <div class="oe_chatter">
-                            <field name="message_follower_ids" widget="mail_followers"/>
-                            <field name="activity_ids" widget="mail_activity"/>
-                            <field name="message_ids" widget="mail_thread"/>
-                        </div>
 
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
