@@ -90,8 +90,8 @@
                     <field name="project_id" />
                     <field name="partner_id" />
                     <field name="tag_ids" />
-                    <group expand="1" string="Group By">
-                        <filter name="group_by_folder_id" string="Folder" context="{'group_by': 'folder_id'}" />
+                    <group>
+                        <filter string="Folder" name="group_by_folder_id" context="{'group_by': 'folder_id'}" />
                     </group>
                 </search>
             </field>
