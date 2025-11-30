@@ -66,12 +66,12 @@
         <field name="model">document_hub.folder</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" />
-                <field name="description" />
-                <field name="parent_folder_id" />
-                <group expand="1" string="Group By">
-                    <filter name="group_parent_folder_id" string="Parent folder" context="{'group_by':'parent_folder_id'}" />
-                </group>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="parent_folder_id"/>
+                
+                <separator/>
+                <filter name="group_parent_folder_id" string="Parent Folder" context="{'group_by':'parent_folder_id'}"/>
             </search>
         </field>
     </record>

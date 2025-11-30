@@ -84,16 +84,17 @@
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="name" />
-                    <field name="description" />
-                    <field name="folder_id" />
-                    <field name="project_id" />
-                    <field name="partner_id" />
-                    <field name="tag_ids" />
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="folder_id"/>
+                    <field name="project_id"/>
+                    <field name="partner_id"/>
+                    <field name="tag_ids"/>
+                    
                     <separator/>
-                    <group string="Group By">
-                        <filter name="group_by_folder_id" string="Folder" domain="[]" context="{'group_by':'folder_id'}" />
-                    </group>
+                    <filter name="group_by_folder" string="Folder" context="{'group_by':'folder_id'}"/>
+                    <filter name="group_by_partner" string="Partner" context="{'group_by':'partner_id'}"/>
+                    <filter name="group_by_project" string="Project" context="{'group_by':'project_id'}"/>
                 </search>
             </field>
         </record>
