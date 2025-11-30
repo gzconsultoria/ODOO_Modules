@@ -49,8 +49,8 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
-        <field name="target">inline</field>
-        <field name="context">{'module' : 'document_hub'}</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'document_hub'}</field>
     </record>
 
     <menuitem name="Settings" id="menu_config_settings" parent="document_hub.menu_config" sequence="1" action="document_hub_settings_action" groups="base.group_system"/>
