@@ -3,8 +3,8 @@
     <record id="document_hub_folder_tree_view" model="ir.ui.view">
         <field name="name">Document hub folder tree view</field>
         <field name="model">document_hub.folder</field>
-        <field name="arch" type="xml">
-            <tree string="Folders">
+            <field name="arch" type="xml">
+            <list string="Folders">
                 <field name="sequence" widget="handle"/>
                 <field name="name" />
                 <field name="parent_path" optional="show" />
@@ -93,8 +93,8 @@
     <record id="document_hub_tag_tree_view" model="ir.ui.view">
         <field name="name">Document hub tag tree view</field>
         <field name="model">document_hub.tag</field>
-        <field name="arch" type="xml">
-            <tree string="Tags" editable="bottom">
+            <field name="arch" type="xml">
+            <list string="Tags" editable="bottom">
                 <field name="sequence" widget="handle" />
                 <field name="name" />
             </list>

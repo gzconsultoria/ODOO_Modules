@@ -6,7 +6,7 @@
             <field name="name">Document hub document tree view</field>
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
-                <tree string="Documents">
+                <list string="Documents">
                     <field name="name" />
                     <field name="topic" optional="show" />
                     <field name="folder_id" optional="show" />
