@@ -59,7 +59,7 @@ class Document(models.Model):
     
     @api.onchange('owner_id')
     def compute_admin_group(self):
-        if self.env.user.has_group('document_hub.group_document_hub_document_administrator'):
+        if self.env.user.has_group('document_hub_main.group_document_hub_document_administrator'):
             self.is_admin = True
         else:
             self.is_admin = False
