@@ -1076,12 +1076,33 @@ class ResPartner(models.Model):
             _logger.warning("gz_finance_docs não instalado - pulando criação de pastas")
             return
         
-        # Busca pasta raiz "Clientes"
+        # Busca ou cria pasta raiz "Clientes"
+        root_folder = None
+        
+        # Primeiro tenta buscar por XML ID
         try:
-            root_folder = self.env.ref('gz_finance_docs.folder_clientes')
+            root_folder = self.env.ref('gz_finance_docs.folder_clientes', raise_if_not_found=False)
         except:
-            _logger.warning("Pasta raiz 'Clientes' não encontrada - pulando criação de pastas")
-            return
+            pass
+        
+        # Se não encontrou por XML ID, busca por nome
+        if not root_folder:
+            root_folder = folder_model.search([('name', 'ilike', 'Clientes'), ('parent_folder_id', '=', False)], limit=1)
+        
+        # Se ainda não existe, CRIA a pasta raiz
+        if not root_folder:
+            _logger.info("Pasta raiz 'Clientes' não encontrada - criando automaticamente...")
+            try:
+                root_folder = folder_model.create({
+                    'name': '📁 Clientes',
+                    'description': 'Pastas individuais de cada cliente, criadas automaticamente ao ativar perfil financeiro.',
+                    'visibility_administration': True,
+                    'visibility_salesman': True,
+                })
+                _logger.info(f"✅ Pasta raiz 'Clientes' criada com ID {root_folder.id}")
+            except Exception as e:
+                _logger.error(f"❌ Erro ao criar pasta raiz 'Clientes': {e}")
+                return
         
         # Cria pasta principal do cliente
         client_folder_name = f"{self.name} ({self.finance_profile_id})"
