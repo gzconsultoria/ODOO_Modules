@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="document_hub_folder_tree_view" model="ir.ui.view">
-        <field name="name">Document hub folder tree view</field>
+        <field name="name">Document hub folder list view</field>
         <field name="model">document_hub.folder</field>
         <field name="arch" type="xml">
-            <tree string="Folders">
+            <list string="Folders">
                 <field name="sequence" widget="handle"/>
-                <field name="name" />
-                <field name="parent_path" optional="show" />
-                <field name="description" optional="show" />
-                <field name="parent_folder_id" optional="show" />
-                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="show" />
-                <field name="children_folder_ids" optional="hide" />
-                <field name="document_ids" optional="hide" />
-            </tree>
+                <field name="name"/>
+                <field name="parent_path" optional="show"/>
+                <field name="description" optional="show"/>
+                <field name="parent_folder_id" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="show"/>
+                <field name="children_folder_ids" optional="hide"/>
+                <field name="document_ids" optional="hide"/>
+            </list>
         </field>
     </record>
 
@@ -91,13 +91,13 @@
     </record>
 
     <record id="document_hub_tag_tree_view" model="ir.ui.view">
-        <field name="name">Document hub tag tree view</field>
+        <field name="name">Document hub tag list view</field>
         <field name="model">document_hub.tag</field>
         <field name="arch" type="xml">
-            <tree string="Tags" editable="bottom">
-                <field name="sequence" widget="handle" />
-                <field name="name" />
-            </tree>
+            <list string="Tags" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </list>
         </field>
     </record>
 
