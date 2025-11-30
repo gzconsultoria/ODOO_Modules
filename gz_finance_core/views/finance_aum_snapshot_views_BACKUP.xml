@@ -2,7 +2,7 @@
 <odoo>
     
     <!-- ====================================== -->
-    <!-- FINANCE AUM SNAPSHOT VIEWS             -->
+    <!-- FINANCE AUM SNAPSHOT VIEWS - BACKUP   -->
     <!-- ====================================== -->
     
     <!-- List View (Odoo 19 - tree foi substituído por list) -->
@@ -86,8 +86,7 @@
         </field>
     </record>
     
-    <!-- Search View - COMENTADA TEMPORARIAMENTE PARA TESTE -->
-    <!--
+    <!-- Search View -->
     <record id="view_finance_aum_snapshot_search" model="ir.ui.view">
         <field name="name">finance.aum.snapshot.search</field>
         <field name="model">finance.aum.snapshot</field>
@@ -98,8 +97,6 @@
             </search>
         </field>
     </record>
-    -->
-    
     
     <!-- Graph View -->
     <record id="view_finance_aum_snapshot_graph" model="ir.ui.view">
