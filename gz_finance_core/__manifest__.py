@@ -38,6 +38,11 @@
         'crm',            # Necessário para origin_lead_id
     ],
     
+    # Módulos opcionais (auto_install se disponíveis)
+    'external_dependencies': {
+        'odoo': ['gz_finance_docs'],  # Sistema de documentos (opcional)
+    },
+    
     'data': [
         # Security - ALWAYS FIRST
         'security/finance_security.xml',

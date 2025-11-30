@@ -810,7 +810,17 @@ class ResPartner(models.Model):
             vals = dict(vals)  # Copy to avoid modifying original
             vals.pop('finance_profile_id', None)
         
-        return super().write(vals)
+        result = super().write(vals)
+        
+        # ============================================================
+        # AUTOMAÇÃO: Cria pastas de documentos ao ativar toggle
+        # ============================================================
+        if vals.get('is_finance_client'):
+            for partner in self:
+                if partner.finance_profile_id and not partner.client_folder_id:
+                    partner._create_client_folder_structure()
+        
+        return result
     
     # ================================
     # ACTION METHODS
@@ -1020,3 +1030,106 @@ class ResPartner(models.Model):
                     partner_ids=[partner.advisor_id.partner_id.id],
                     subtype_xmlid='mail.mt_note'
                 )
+    
+    # ============================================================
+    # INTEGRAÇÃO COM SISTEMA DE DOCUMENTOS (gz_finance_docs)
+    # ============================================================
+    
+    def _create_client_folder_structure(self):
+        """
+        Cria estrutura de pastas de documentos ao ativar toggle Cliente Consultoria.
+        
+        **Trigger:** 
+        - Partner.is_finance_client = True
+        - Partner.finance_profile_id exists
+        - Partner.client_folder_id not exists
+        
+        **Estrutura criada:**
+        
+        📁 Clientes
+          └─ 📁 João da Silva (FIN-29.11.2025-0008)
+              ├─ ✅ Suitability
+              ├─ 📋 Cadastro e Documentação
+              ├─ 📜 Política de Investimento
+              ├─ 🤝 Atas de Reunião
+              ├─ 💰 Financeiro
+              ├─ 📊 Relatórios
+              └─ 📝 Contratos
+        
+        **Idempotência:** Pode chamar N vezes, cria apenas 1 vez.
+        **Módulo:** Requer gz_finance_docs instalado.
+        """
+        self.ensure_one()
+        
+        # Validações
+        if not self.finance_profile_id:
+            return
+        
+        if self.client_folder_id:
+            return  # Já tem pasta criada
+        
+        # Verifica se módulo gz_finance_docs está instalado
+        try:
+            folder_model = self.env['document_hub.folder']
+        except KeyError:
+            # Módulo não instalado
+            _logger.warning("gz_finance_docs não instalado - pulando criação de pastas")
+            return
+        
+        # Busca pasta raiz "Clientes"
+        try:
+            root_folder = self.env.ref('gz_finance_docs.folder_clientes')
+        except:
+            _logger.warning("Pasta raiz 'Clientes' não encontrada - pulando criação de pastas")
+            return
+        
+        # Cria pasta principal do cliente
+        client_folder_name = f"{self.name} ({self.finance_profile_id})"
+        
+        client_folder = folder_model.create({
+            'name': client_folder_name,
+            'description': f"Documentos do cliente {self.name}. "
+                          f"Criada automaticamente ao ativar Cliente Consultoria.",
+            'parent_folder_id': root_folder.id,
+            'partner_id': self.id,
+            'client_folder': True,
+            'visibility_administration': True,
+            'visibility_salesman': True,
+        })
+        
+        # Define subpastas padrão
+        subfolders = [
+            ('✅ Suitability', 'Questionários API, análises de perfil de risco e adequação de produtos.'),
+            ('📋 Cadastro e Documentação', 'Documentos pessoais, comprovantes, procurações e ficha cadastral.'),
+            ('📜 Política de Investimento', 'IPS (Investment Policy Statement) e diretrizes personalizadas.'),
+            ('🤝 Atas de Reunião', 'Registros de reuniões, decisões de investimento e follow-ups.'),
+            ('💰 Financeiro', 'Notas fiscais, recibos e documentação financeira do cliente.'),
+            ('📊 Relatórios', 'Relatórios de performance, análises e rebalanceamentos de carteira.'),
+            ('📝 Contratos', 'Contratos de assessoria, termos de adesão e acordos de gestão.'),
+        ]
+        
+        # Cria cada subpasta
+        for subfolder_name, subfolder_description in subfolders:
+            folder_model.create({
+                'name': subfolder_name,
+                'description': subfolder_description,
+                'parent_folder_id': client_folder.id,
+                'partner_id': self.id,
+                'visibility_administration': True,
+                'visibility_salesman': True,
+            })
+        
+        # Vincula pasta ao partner
+        self.client_folder_id = client_folder.id
+        
+        # Notifica no chatter
+        self.message_post(
+            body=_(
+                "📁 <strong>Estrutura de documentos criada automaticamente</strong><br/>"
+                "Pasta principal: <b>%s</b><br/>"
+                "Subpastas criadas: 7 (Suitability, Cadastro, Política, Atas, Financeiro, Relatórios, Contratos)<br/>"
+                "<a href='/web#model=document_hub.folder&id=%s'>📂 Abrir Pasta do Cliente</a>"
+            ) % (client_folder_name, client_folder.id)
+        )
+        
+        _logger.info(f"Pastas criadas para cliente {self.name} ({self.finance_profile_id})")
