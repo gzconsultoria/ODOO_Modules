@@ -32,6 +32,7 @@ Sincronização automática entre CRM nativo do Odoo e Finance Core:
     "depends": [
         "crm",          # CRM nativo do Odoo
         "finance_core", # Perfis financeiros
+        "gz_finance_core", # Profile ID (FIN-DD.MM.YYYY-XXXX)
         "gz_finance_docs", # Sistema de documentos
     ],
     "data": [

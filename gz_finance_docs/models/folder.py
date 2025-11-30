@@ -43,9 +43,9 @@ class Folder(models.Model):
     )
     client_code = fields.Char(
         string='Código do Cliente',
-        related='partner_id.x_client_code',
+        related='partner_id.finance_profile_id',
         store=True,
-        help='Código único do cliente (ex: CLI-00123).'
+        help='ID único do perfil financeiro (ex: FIN-29.11.2025-0008).'
     )
     is_client_subfolder = fields.Boolean(
         string='É Subpasta de Cliente',

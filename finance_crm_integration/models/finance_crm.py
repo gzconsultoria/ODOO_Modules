@@ -254,9 +254,10 @@ class CrmLead(models.Model):
         if self.partner_id.client_folder_id:
             return
         
-        # Gera código único do cliente
-        if not self.partner_id.x_client_code:
-            self.partner_id.x_client_code = self.env['ir.sequence'].next_by_code('finance.client.code')
+        # Garante que tem finance_profile_id (vem do gz_finance_core)
+        if not self.partner_id.finance_profile_id:
+            # Partner sem finance_profile_id ainda - espera ser criado
+            return
         
         # Busca pasta raiz "Clientes"
         try:
@@ -266,7 +267,7 @@ class CrmLead(models.Model):
             return
         
         # Cria pasta principal do cliente
-        client_folder_name = f"{self.partner_id.name} ({self.partner_id.x_client_code})"
+        client_folder_name = f"{self.partner_id.name} ({self.partner_id.finance_profile_id})"
         
         client_folder = self.env['document_hub.folder'].create({
             'name': client_folder_name,

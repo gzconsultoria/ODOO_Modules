@@ -6,13 +6,8 @@ from odoo import fields, models, api
 class ResPartner(models.Model):
     _inherit = 'res.partner'
     
-    x_client_code = fields.Char(
-        string='Código do Cliente',
-        copy=False,
-        readonly=True,
-        index=True,
-        help='Código único gerado automaticamente ao converter lead em cliente (ex: CLI-00123).'
-    )
+    # Nota: finance_profile_id já existe em gz_finance_core (ex: FIN-29.11.2025-0008)
+    # Não precisamos criar outro código, vamos reutilizar
     
     client_folder_id = fields.Many2one(
         'document_hub.folder',
