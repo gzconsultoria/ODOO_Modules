@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
-
     <record id="folder_escritorio" model="document_hub.folder">
         <field name="name">🏢 Escritório</field>
         <field name="description">Documentos e operações internas do escritório de consultoria.</field>
