@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
     <record id="document_hub_folder_tree_view" model="ir.ui.view">
         <field name="name">Document hub folder tree view</field>
         <field name="model">document_hub.folder</field>
@@ -117,4 +118,5 @@
     <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />
     </menuitem>
 
+    </data>
 </odoo>
