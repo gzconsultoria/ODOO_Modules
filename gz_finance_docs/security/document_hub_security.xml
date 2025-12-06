@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <!-- ir.module.category REMOVIDO no Odoo 19 -->
-
+    <!-- Security Groups (loose, not wrapped) -->
     <record id="group_document_hub_document_administration" model="res.groups">
         <field name="name">Document Hub - Administration</field>
     </record>
@@ -43,9 +41,9 @@
     <record id="group_document_hub_document_administrator" model="res.groups">
         <field name="name">Document Hub - Administrator</field>
         <field name="implied_ids" eval="[(4, ref('group_document_hub_document_manager'))]" />
-        <!-- users field REMOVIDO no Odoo 19 - atribuir via Settings → Users -->
     </record>
 
+    <!-- Security Rules (wrapped in data noupdate) -->
     <data noupdate="1">
 
         <record id="document_hub_document_multi_company" model="ir.rule">
