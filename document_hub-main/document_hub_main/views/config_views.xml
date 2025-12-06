@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="document_hub_folder_tree_view" model="ir.ui.view">
         <field name="name">Document hub folder tree view</field>
         <field name="model">document_hub.folder</field>
-            <field name="arch" type="xml">
-            <list string="Folders">
+        <field name="arch" type="xml">
+            <tree string="Folders">
                 <field name="sequence" widget="handle"/>
                 <field name="name" />
                 <field name="parent_path" optional="show" />
@@ -13,9 +13,10 @@
                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="show" />
                 <field name="children_folder_ids" optional="hide" />
                 <field name="document_ids" optional="hide" />
-            </list>
+            </tree>
         </field>
     </record>
+
     <record id="document_hub_folder_form_view" model="ir.ui.view">
         <field name="name">Document hub folder form view</field>
         <field name="model">document_hub.folder</field>
@@ -59,6 +60,7 @@
             </form>
         </field>
     </record>
+
     <record id="document_hub_folder_view_search" model="ir.ui.view">
         <field name="name">document_hub_folder_view.search</field>
         <field name="model">document_hub.folder</field>
@@ -67,16 +69,17 @@
                 <field name="name" />
                 <field name="description" />
                 <field name="parent_folder_id" />
-                <group>
+                <group expand="1" string="Group By">
                     <filter name="group_parent_folder_id" string="Parent folder" context="{'group_by':'parent_folder_id'}" />
                 </group>
             </search>
         </field>
     </record>
+
     <record id="document_hub_folder_act" model="ir.actions.act_window">
         <field name="name">Folders</field>
         <field name="res_model">document_hub.folder</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="context">{
             'search_default_group_parent_folder_id': 1,
         }</field>
@@ -86,35 +89,32 @@
             </p>
         </field>
     </record>
+
     <record id="document_hub_tag_tree_view" model="ir.ui.view">
         <field name="name">Document hub tag tree view</field>
         <field name="model">document_hub.tag</field>
-            <field name="arch" type="xml">
-            <list string="Tags" editable="bottom">
+        <field name="arch" type="xml">
+            <tree string="Tags" editable="bottom">
                 <field name="sequence" widget="handle" />
                 <field name="name" />
-            </list>
+            </tree>
         </field>
     </record>
+
     <record id="document_hub_tag_act" model="ir.actions.act_window">
         <field name="name">Tags</field>
         <field name="res_model">document_hub.tag</field>
-        <field name="view_mode">list</field>
+        <field name="view_mode">tree</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Let's create new tag!
             </p>
         </field>
     </record>
-    <!-- Configurações dentro de Documentos Financeiros -->
-    <menuitem id="menu_config" 
-              name="Configurações" 
-              parent="gz_finance_docs.menu_document_hub" 
-              sequence="50" 
-              groups="gz_finance_docs.group_document_hub_document_manager"/>
-    <menuitem name="Geral" id="menu_config_general" parent="gz_finance_docs.menu_config" sequence="10">
-    <menuitem name="Pastas" id="menu_config_folder" action="document_hub_folder_act" sequence="1" />
-    <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />
-    </menuitem>
 
+    <menuitem name="Configuration" id="menu_config" parent="document_hub.menu_root" sequence="50" groups="document_hub.group_document_hub_document_manager"/>
+    <menuitem name="General" id="menu_config_general" parent="document_hub.menu_config" sequence="10">
+        <menuitem name="Folders" id="menu_config_folder" action="document_hub_folder_act" sequence="1" />
+        <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />
+    </menuitem>
 </odoo>

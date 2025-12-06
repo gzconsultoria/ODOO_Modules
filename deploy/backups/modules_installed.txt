@@ -1,0 +1,11 @@
+ finance_calendar_integration | uninstalled | 
+ finance_compliance           | uninstalled | 
+ finance_core                 | uninstalled | 
+ finance_crm_integration      | uninstalled | 
+ finance_investments          | uninstalled | 
+ finance_planning             | uninstalled | 
+ finance_portal               | uninstalled | 
+ finance_reports              | uninstalled | 
+ gz_finance_core              | installed   | 19.0.1.0.0
+ gz_finance_crm               | installed   | 19.0.1.0.0
+

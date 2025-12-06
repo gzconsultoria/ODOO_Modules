@@ -6,7 +6,7 @@
             <field name="name">Document hub document tree view</field>
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
-                <tree string="Documents">
+                <list string="Documents">
                     <field name="name" />
                     <field name="topic" optional="show" />
                     <field name="folder_id" optional="show" />
@@ -18,7 +18,7 @@
                     <field name="owner_id" optional="show" widget="many2one_avatar_user" />
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="hide" />
                     <field name="is_admin" column_invisible="1"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -28,8 +28,8 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string='Lock' name='action_lock_document' class="btn btn-secondary" type='object' invisible="state == 'lock'"/>
-                        <button string='Unlock' name='action_open_document' class="btn btn-secondary" type='object' invisible="state == 'open'"/>
+                        <button string="Bloquear" name="action_lock_document" class="btn btn-secondary" type="object" invisible="state == 'lock'"/>
+                        <button string="Desbloquear" name="action_open_document" class="btn btn-secondary" type="object" invisible="state == 'open'"/>
                         <field name="state" widget="statusbar" statusbar_visible="lock" />
                     </header>
                     <sheet>
@@ -39,7 +39,7 @@
                             </h1>
                             <label for="topic"/>
                             <h2>
-                                <field name="topic" placeholder="e.g. Project contract" readonly="state == 'lock'"/>
+                                <field name="topic" placeholder="ex: Contrato de projeto" required="1" readonly="state == 'lock'"/>
                             </h2>
                         </div>
                         <div>
@@ -49,31 +49,29 @@
                         </div>
                         <group name="basic" col="4">
                             <field name="tag_ids" widget="many2many_tags" />
-                            <field name="folder_id" readonly="state == 'lock'" options="{'no_create_edit': True, 'no_create': True,}"/>
+                            <field name="folder_id" readonly="state == 'lock'" options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="rel_is_project" invisible="1"/>
                             <field name="rel_is_parent_folder_project" invisible="1"/>
-                            <field name="project_id" readonly="state == 'lock'" invisible='not folder_id or rel_is_project != True' options="{'no_create_edit': True, 'no_create': True,}"/>
+                            <field name="project_id" readonly="state == 'lock'" invisible="not folder_id or rel_is_project != True" options="{'no_create_edit': True, 'no_create': True}"/>
                         </group>
-                        <group name='general' string='General' col="2">
-                            <group col='2'>
+                        <group name="general" string="Geral" col="2">
+                            <group col="2">
                                 <field name="file_ids" widget="many2many_binary" colspan="2" readonly="state == 'lock'"/>
                             </group>
-                            <group col='2'>
-                                <field name="owner_id" options="{'no_create_edit': True, 'no_create': True,}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
-                                <field name="partner_id" widget="res_partner_many2one" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}" readonly="state == 'lock'" />
+                            <group col="2">
+                                <field name="owner_id" options="{'no_create_edit': True, 'no_create': True}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
+                                <field name="partner_id" widget="res_partner_many2one" context="{'search_default_customer': 1, 'show_address': 1}" options="{'always_reload': True}" readonly="state == 'lock'" />
                                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" readonly="state == 'lock'"/>
                             </group>
                         </group>
-
-                        <group name='description' string='Description' col="2">
-                            <field name="description" nolabel="1" colspan="2" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
+                        <group name="description" string="Descrição" col="2">
+                            <field name="description" nolabel="1" colspan="2" placeholder="Digite uma descrição dos documentos para que possam ser facilmente identificados.." readonly="state == 'lock'"/>
                         </group>
-
                     </sheet>
                     <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
-                        <field name="activity_ids" widget="mail_activity" />
-                        <field name="message_ids" widget="mail_thread" />
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
                     </div>
                 </form>
             </field>
@@ -90,8 +88,8 @@
                     <field name="project_id" />
                     <field name="partner_id" />
                     <field name="tag_ids" />
-                    <group expand="1" string="Group By">
-                        <filter name="group_by_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
+                    <group expand="1" string="Agrupar Por">
+                        <filter name="group_by_folder_id" string="Pasta" context="{'group_by': 'folder_id'}" />
                     </group>
                 </search>
             </field>
@@ -100,41 +98,46 @@
         <record id="document_hub_mail_document_act" model="ir.actions.act_window">
             <field name="name">Mail</field>
             <field name="res_model">document_hub.document</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="domain">[('privacy_doc', '=', 'mail')]</field>
-            <field name="context">{
-                    "default_privacy_doc": "mail",
-                }
-            </field>
+            <field name="context">{"default_privacy_doc": "mail"}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-                    Let's get start. Upload new document!
+                    Vamos começar! Envie um novo documento.
                 </p>
             </field>
         </record>
 
         <record id="document_hub_company_document_act" model="ir.actions.act_window">
-            <field name="name">Company documents</field>
+            <field name="name">Documentos da Empresa</field>
             <field name="res_model">document_hub.document</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="domain">[('privacy_doc', '=', 'company')]</field>
-            <field name="context">{
-                "default_privacy_doc": 'company',
-                }
-            </field>
+            <field name="context">{"default_privacy_doc": "company"}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-                    Let's get start. Upload new document!
+                    Vamos começar! Envie um novo documento.
                 </p>
             </field>
         </record>
-
     </data>
 
-    <menuitem name="Document hub" id="menu_root" web_icon="document_hub,static/description/icon.png" />
-    <menuitem name="Documents" id="menu_document_hub" parent="menu_root" sequence="10">
-        <menuitem name="Mail" id="menu_document_hub_mail_documents" sequence="10" action="document_hub_mail_document_act" />
-        <menuitem name="Company documents" id="menu_document_hub_company_documents" sequence="20" action="document_hub_company_document_act" groups="document_hub.group_document_hub_document_manager"/>
-    </menuitem>
+    <menuitem id="menu_document_hub"
+              name="Documentos Financeiros"
+              parent="gz_finance_core.menu_finance_root"
+              sequence="15"
+              web_icon="gz_finance_docs,static/description/icon.png"/>
 
+    <menuitem id="menu_document_hub_mail_documents"
+              name="Email"
+              parent="menu_document_hub"
+              sequence="10"
+              action="document_hub_mail_document_act"/>
+
+    <menuitem id="menu_document_hub_company_documents"
+              name="Documentos Empresariais"
+              parent="menu_document_hub"
+              sequence="20"
+              action="document_hub_company_document_act"
+              groups="gz_finance_docs.group_document_hub_document_manager"/>
 </odoo>
