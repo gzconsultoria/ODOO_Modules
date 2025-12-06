@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<data>
-
-<record id="document_hub_document_tree_view" model="ir.ui.view">
-    <field name="name">Document hub document tree view</field>
-    <field name="model">document_hub.document</field>
+    <data>
+    
+    <record id="document_hub_document_tree_view" model="ir.ui.view">
+        <field name="name">Document hub document tree view</field>
+        <field name="model">document_hub.document</field>
         <field name="arch" type="xml">
                 <list string="Documents">
                     <field name="name" />
@@ -150,5 +150,5 @@
               action="document_hub_company_document_act" 
               groups="gz_finance_docs.group_document_hub_document_manager"/>
 
-</data>
+    </data>
 </odoo>
