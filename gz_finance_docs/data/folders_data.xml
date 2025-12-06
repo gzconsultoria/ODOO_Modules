@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
-    <!-- ====================================================================== -->
-        <!-- ESTRUTURA COMPLETA: ESCRITÓRIO + CLIENTES                             -->
-        <!-- ====================================================================== -->
-        
-        <!-- ══════════════════════════════════════════════════════════════════════ -->
-        <!-- RAIZ 1: ESCRITÓRIO - Documentos internos organizados                   -->
-        <!-- ══════════════════════════════════════════════════════════════════════ -->
-        
-        <record id="folder_escritorio" model="document_hub.folder">
-            <field name="name">🏢 Escritório</field>
-            <field name="description">Documentos e operações internas do escritório de consultoria.</field>
-            <field name="visibility_administration">True</field>
-        </record>
+    
+    <record id="folder_escritorio" model="document_hub.folder">
+        <field name="name">🏢 Escritório</field>
+        <field name="description">Documentos e operações internas do escritório de consultoria.</field>
+        <field name="visibility_administration">True</field>
+    </record>
 
         <!-- ====================================================================== -->
         <!-- FINANCEIRO                                                             -->
