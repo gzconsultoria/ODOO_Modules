@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
+        
     <record id="res_config_settings_view_form_document_hub_settings" model="ir.ui.view">
         <field name="name">res.config.settings.view.form.document_hub_settings</field>
         <field name="model">res.config.settings</field>
@@ -55,4 +57,5 @@
 
     <menuitem name="Definições" id="menu_config_settings" parent="gz_finance_docs.menu_config" sequence="1" action="document_hub_settings_action" groups="base.group_system"/>
 
+    </data>
 </odoo>
