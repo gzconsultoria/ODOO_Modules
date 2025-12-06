@@ -1,0 +1,75 @@
+# ============================================
+# ODOO 19 - GitIgnore para Deploy Seguro
+# ============================================
+
+# ❌ NUNCA COMMITAR SENHAS E DADOS SENSÍVEIS!
+# ============================================
+deploy/config/.env.production
+deploy/config/.env
+.env
+*.env
+!.env.production.template
+
+# Backups de Banco de Dados
+deploy/backups/*.dump
+deploy/backups/*.sql
+deploy/backups/*.tar.gz
+deploy/backups/database/
+deploy/backups/filestore/
+
+# SSL Certificates (privados)
+deploy/config/ssl/
+*.pem
+*.key
+*.crt
+
+# Logs
+*.log
+logs/
+deploy/logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Odoo specific
+filestore/
+sessions/
+.odoo_history
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+.git-backup/
+
+# Node modules (se usar JS customizado)
+node_modules/
+package-lock.json
+
+# ============================================
+# PERMITIR (commitar no Git):
+# ============================================
+# ✅ Módulos customizados: gz_finance_*/
+# ✅ Configurações template: *.template
+# ✅ Scripts de deploy: *.sh
+# ✅ Documentação: *.md
+# ✅ Docker compose: docker-compose*.yml
+# ============================================
