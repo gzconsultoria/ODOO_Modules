@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <odoo>
-    <data>
-        
     <record id="res_config_settings_view_form_document_hub_settings" model="ir.ui.view">
         <field name="name">res.config.settings.view.form.document_hub_settings</field>
         <field name="model">res.config.settings</field>
@@ -10,13 +8,11 @@
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
                 <app data-string="Document hub settings" string="Document hub" name="document_hub">
-
                     <block title="Active IMAP" name="document_hub_imap_active_settings">
                         <setting title="Active IMAP settings for getting attachments from email" string="Active" help="Active IMAP settings for getting attachments from email.">
                             <field name="imap_active"/>
                         </setting>
                     </block>
-
                     <block title="IMAP Host settings" name="document_hub_imap_host_settings" invisible="not imap_active">
                         <setting string="Host" help="Use the hostname for your mail.">
                             <field name="imap_host"/>
@@ -25,7 +21,6 @@
                             <field name="imap_port"/>
                         </setting>
                     </block>
-
                     <block title="Detail settings" name="document_hub_imap_detail_settings" invisible="not imap_active">
                         <div class="text-muted">
                             This is the section for determining the primary user who will be sending most emails for internal purposes
@@ -40,12 +35,10 @@
                             <field name="imap_folder"/>
                         </setting>
                     </block>
-
                 </app>
             </xpath>
         </field>
     </record>
-
     <record id="document_hub_settings_action" model="ir.actions.act_window">
         <field name="name">Settings</field>
         <field name="type">ir.actions.act_window</field>
@@ -54,8 +47,5 @@
         <field name="target">current</field>
         <field name="context">{'module' : 'gz_finance_docs'}</field>
     </record>
-
     <menuitem name="Definições" id="menu_config_settings" parent="gz_finance_docs.menu_config" sequence="1" action="document_hub_settings_action" groups="base.group_system"/>
-
-    </data>
 </odoo>
