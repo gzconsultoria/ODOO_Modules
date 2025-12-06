@@ -81,15 +81,14 @@
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="name" />
-                    <field name="description" />
-                    <field name="folder_id" />
-                    <field name="project_id" />
-                    <field name="partner_id" />
-                    <field name="tag_ids" />
-                    <group expand="1" string="Agrupar Por">
-                        <filter name="group_by_folder_id" string="Pasta" context="{'group_by': 'folder_id'}" />
-                    </group>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="folder_id"/>
+                    <field name="project_id"/>
+                    <field name="partner_id"/>
+                    <field name="tag_ids"/>
+                    <separator/>
+                    <filter name="group_by_folder_id" string="Pasta" context="{'group_by': 'folder_id'}"/>
                 </search>
             </field>
         </record>
@@ -119,24 +118,5 @@
                 </p>
             </field>
         </record>
-
-        <menuitem id="menu_document_hub"
-                  name="Documentos Financeiros"
-                  parent="gz_finance_core.menu_finance_root"
-                  sequence="15"
-                  web_icon="gz_finance_docs,static/description/icon.png"/>
-
-        <menuitem id="menu_document_hub_mail_documents"
-                  name="Email"
-                  parent="menu_document_hub"
-                  sequence="10"
-                  action="document_hub_mail_document_act"/>
-
-        <menuitem id="menu_document_hub_company_documents"
-                  name="Documentos Empresariais"
-                  parent="menu_document_hub"
-                  sequence="20"
-                  action="document_hub_company_document_act"
-                  groups="gz_finance_docs.group_document_hub_document_manager"/>
     </data>
 </odoo>

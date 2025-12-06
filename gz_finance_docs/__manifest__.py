@@ -49,6 +49,7 @@ This module is fully open source under the GPL-2 license.
         'security/ir.model.access.csv',
         'views/project_views.xml',
         'views/document_hub_views.xml',
+        'views/menu_views.xml',
         'views/config_views.xml',
         'views/res_config_settings_views.xml',
     ],
