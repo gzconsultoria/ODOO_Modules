@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-    
+
+    <!-- ====================================== -->
+    <!-- DOCUMENT HUB VIEWS                     -->
+    <!-- ====================================== -->
     <record id="document_hub_document_tree_view" model="ir.ui.view">
-        <field name="name">Document hub document tree view</field>
-        <field name="model">document_hub.document</field>
-        <field name="arch" type="xml">
+            <field name="name">Document hub document tree view</field>
+            <field name="model">document_hub.document</field>
+            <field name="arch" type="xml">
                 <list string="Documents">
                     <field name="name" />
                     <field name="topic" optional="show" />
@@ -16,20 +18,25 @@
                     <field name="project_id" optional="hide" />
                     <field name="create_date" optional="hide" />
                     <field name="owner_id" optional="show" widget="many2one_avatar_user" />
-                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="hide" />
+                    <field name="company_id" groups="base.group_multi_company"
+                           options="{'no_create': True}" optional="hide" />
                     <field name="is_admin" column_invisible="1"/>
                 </list>
             </field>
         </record>
 
-    <record id="document_hub_document_form_view" model="ir.ui.view">
+        <record id="document_hub_document_form_view" model="ir.ui.view">
             <field name="name">Document hub document form view</field>
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string='Bloquear' name='action_lock_document' class="btn btn-secondary" type='object' invisible="state == 'lock'"/>
-                        <button string='Desbloquear' name='action_open_document' class="btn btn-secondary" type='object' invisible="state == 'open'"/>
+                        <button string="Bloquear" name="action_lock_document"
+                                class="btn btn-secondary" type="object"
+                                invisible="state == 'lock'"/>
+                        <button string="Desbloquear" name="action_open_document"
+                                class="btn btn-secondary" type="object"
+                                invisible="state == 'open'"/>
                         <field name="state" widget="statusbar" statusbar_visible="lock" />
                     </header>
                     <sheet>
@@ -39,43 +46,68 @@
                             </h1>
                             <label for="topic"/>
                             <h2>
-                                <field name="topic" placeholder="ex: Contrato de projeto" required="1" readonly="state == 'lock'"/>
+                                <field name="topic"
+                                       placeholder="ex: Contrato de projeto"
+                                       required="1"
+                                       readonly="state == 'lock'"/>
                             </h2>
                         </div>
                         <div>
                             <field name="is_admin" invisible="1"/>
-                            <label for="privacy_doc" class="oe_edit_only" invisible="is_admin != True"/>
-                            <field name="privacy_doc" readonly="state == 'lock'" invisible="is_admin != True"/>
+                            <label for="privacy_doc" class="oe_edit_only"
+                                   invisible="is_admin != True"/>
+                            <field name="privacy_doc"
+                                   readonly="state == 'lock'"
+                                   invisible="is_admin != True"/>
                         </div>
                         <group>
                             <group>
                                 <field name="tag_ids" widget="many2many_tags" />
-                                <field name="folder_id" readonly="state == 'lock'" options="{'no_create_edit': True, 'no_create': True,}"/>
+                                <field name="folder_id"
+                                       readonly="state == 'lock'"
+                                       options="{'no_create_edit': True, 'no_create': True}"/>
                                 <field name="rel_is_project" invisible="1"/>
                                 <field name="rel_is_parent_folder_project" invisible="1"/>
-                                <field name="project_id" readonly="state == 'lock'" invisible='not folder_id or rel_is_project != True' options="{'no_create_edit': True, 'no_create': True,}"/>
+                                <field name="project_id"
+                                       readonly="state == 'lock'"
+                                       invisible="not folder_id or rel_is_project != True"
+                                       options="{'no_create_edit': True, 'no_create': True}"/>
                             </group>
                             <group>
-                                <field name="owner_id" options="{'no_create_edit': True, 'no_create': True,}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
-                                <field name="partner_id" widget="res_partner_many2one" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}" readonly="state == 'lock'" />
-                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" readonly="state == 'lock'"/>
+                                <field name="owner_id"
+                                       options="{'no_create_edit': True, 'no_create': True}"
+                                       widget="many2one_avatar_user"
+                                       readonly="state == 'lock'"/>
+                                <field name="partner_id"
+                                       widget="res_partner_many2one"
+                                       context="{'search_default_customer': 1, 'show_address': 1}"
+                                       options="{'always_reload': True}"
+                                       readonly="state == 'lock'" />
+                                <field name="company_id"
+                                       groups="base.group_multi_company"
+                                       options="{'no_create': True}"
+                                       readonly="state == 'lock'"/>
                             </group>
                         </group>
-                        
-                        <group>
-                            <field name="file_ids" widget="many2many_binary" readonly="state == 'lock'"/>
-                        </group>
-                        <group>
-                            <field name="description" nolabel="1" placeholder="Digite uma descrição dos documentos para que possam ser facilmente identificados.." readonly="state == 'lock'"/>
-                        </group>
 
+                        <group>
+                            <field name="file_ids"
+                                   widget="many2many_binary"
+                                   readonly="state == 'lock'"/>
+                        </group>
+                        <group>
+                            <field name="description"
+                                   nolabel="1"
+                                   placeholder="Digite uma descrição dos documentos para que possam ser facilmente identificados.."
+                                   readonly="state == 'lock'"/>
+                        </group>
                     </sheet>
                     <chatter/>
                 </form>
             </field>
         </record>
 
-    <record id="document_hub_document_view_search" model="ir.ui.view">
+        <record id="document_hub_document_view_search" model="ir.ui.view">
             <field name="name">document_hub_document_view.search</field>
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
@@ -87,21 +119,22 @@
                     <field name="partner_id" />
                     <field name="tag_ids" />
                     <group>
-                        <filter string="Folder" name="group_by_folder_id" context="{'group_by': 'folder_id'}" />
+                        <filter string="Folder"
+                                name="group_by_folder_id"
+                                context="{'group_by': 'folder_id'}" />
                     </group>
                 </search>
             </field>
         </record>
 
-    <record id="document_hub_mail_document_act" model="ir.actions.act_window">
+        <record id="document_hub_mail_document_act" model="ir.actions.act_window">
             <field name="name">Mail</field>
             <field name="res_model">document_hub.document</field>
             <field name="view_mode">list,form</field>
             <field name="domain">[('privacy_doc', '=', 'mail')]</field>
             <field name="context">{
-                    "default_privacy_doc": "mail",
-                }
-            </field>
+                "default_privacy_doc": "mail",
+            }</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Let's get start. Upload new document!
@@ -109,15 +142,14 @@
             </field>
         </record>
 
-    <record id="document_hub_company_document_act" model="ir.actions.act_window">
+        <record id="document_hub_company_document_act" model="ir.actions.act_window">
             <field name="name">Company documents</field>
             <field name="res_model">document_hub.document</field>
             <field name="view_mode">list,form</field>
             <field name="domain">[('privacy_doc', '=', 'company')]</field>
             <field name="context">{
-                "default_privacy_doc": 'company',
-                }
-            </field>
+                "default_privacy_doc": "company",
+            }</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Let's get start. Upload new document!
@@ -128,27 +160,24 @@
         <!-- ====================================================================== -->
         <!-- MENUS - Integrado ao menu Consultoria (gz_finance_core)               -->
         <!-- ====================================================================== -->
-        
-        <!-- Menu principal dentro de Consultoria -->
-    <menuitem id="menu_document_hub" 
-                  name="Documentos Financeiros" 
+
+        <menuitem id="menu_document_hub"
+                  name="Documentos Financeiros"
                   parent="gz_finance_core.menu_finance_root"
                   sequence="15"
                   web_icon="document_hub,static/description/icon.png"/>
-        
-        <!-- Submenus -->
-    <menuitem id="menu_document_hub_mail_documents"
-                  name="Email" 
-                  parent="menu_document_hub" 
-                  sequence="10" 
-                  action="document_hub_mail_document_act"/>
-        
-    <menuitem id="menu_document_hub_company_documents"
-                  name="Documentos Empresariais" 
-                  parent="menu_document_hub" 
-                  sequence="20" 
-              action="document_hub_company_document_act" 
-              groups="gz_finance_docs.group_document_hub_document_manager"/>
 
-    </data>
+        <menuitem id="menu_document_hub_mail_documents"
+                  name="Email"
+                  parent="menu_document_hub"
+                  sequence="10"
+                  action="document_hub_mail_document_act"/>
+
+        <menuitem id="menu_document_hub_company_documents"
+                  name="Documentos Empresariais"
+                  parent="menu_document_hub"
+                  sequence="20"
+                  action="document_hub_company_document_act"
+                  groups="gz_finance_docs.group_document_hub_document_manager"/>
+
 </odoo>
