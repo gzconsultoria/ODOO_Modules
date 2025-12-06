@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="document_hub_current_project_act" model="ir.actions.act_window">
+    <data>
+        <record id="document_hub_current_project_act" model="ir.actions.act_window">
             <field name="name">Document hub</field>
             <field name="res_model">document_hub.document</field>
             <field name="view_mode">list,form</field>
@@ -23,5 +24,5 @@
                 </xpath>
             </field>
         </record>
-        
+    </data>
 </odoo>
