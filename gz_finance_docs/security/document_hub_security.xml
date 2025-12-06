@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <odoo>
+    <data>
+    
     <!-- ir.module.category REMOVIDO no Odoo 19 -->
 
     <record id="group_document_hub_document_administration" model="res.groups">
@@ -45,6 +46,8 @@
         <field name="implied_ids" eval="[(4, ref('group_document_hub_document_manager'))]" />
         <!-- users field REMOVIDO no Odoo 19 - atribuir via Settings → Users -->
     </record>
+
+    </data>
 
     <data noupdate="1">
 
