@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
 
-        <record id="ir_sequence_document_hub_document" model="ir.sequence">
+    <record id="ir_sequence_document_hub_document" model="ir.sequence">
            <field name="name">Document hub: sequence number</field>
            <field name="code">document_hub.document</field>
            <field name="prefix">DOC/%(year)s/%(month)s/</field>
@@ -14,5 +13,4 @@
 
        <!-- Sequence secundária removida - company_id=2 não existe em ambiente novo -->
 
-    </data>
 </odoo>
