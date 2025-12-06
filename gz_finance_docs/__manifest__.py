@@ -37,6 +37,7 @@ This module is fully open source under the GPL-2 license.
         'base', 
         'mail',
         'project',
+        'gz_finance_core',  # Menu Consultoria principal
         # 'sale_offer',  # Removido - módulo customizado não padrão
     ],
     'data': [

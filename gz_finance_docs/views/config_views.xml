@@ -112,7 +112,12 @@
         </field>
     </record>
 
-    <menuitem name="Configurações" id="menu_config" parent="gz_finance_docs.menu_root" sequence="50" groups="gz_finance_docs.group_document_hub_document_manager"/>
+    <!-- Configurações dentro de Documentos Financeiros -->
+    <menuitem id="menu_config" 
+              name="Configurações" 
+              parent="gz_finance_docs.menu_document_hub" 
+              sequence="50" 
+              groups="gz_finance_docs.group_document_hub_document_manager"/>
     <menuitem name="Geral" id="menu_config_general" parent="gz_finance_docs.menu_config" sequence="10">
         <menuitem name="Pastas" id="menu_config_folder" action="document_hub_folder_act" sequence="1" />
         <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />
