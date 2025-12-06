@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-
         <record id="document_hub_document_tree_view" model="ir.ui.view">
             <field name="name">Document hub document tree view</field>
             <field name="model">document_hub.document</field>
@@ -120,24 +119,24 @@
                 </p>
             </field>
         </record>
+
+        <menuitem id="menu_document_hub"
+                  name="Documentos Financeiros"
+                  parent="gz_finance_core.menu_finance_root"
+                  sequence="15"
+                  web_icon="gz_finance_docs,static/description/icon.png"/>
+
+        <menuitem id="menu_document_hub_mail_documents"
+                  name="Email"
+                  parent="menu_document_hub"
+                  sequence="10"
+                  action="document_hub_mail_document_act"/>
+
+        <menuitem id="menu_document_hub_company_documents"
+                  name="Documentos Empresariais"
+                  parent="menu_document_hub"
+                  sequence="20"
+                  action="document_hub_company_document_act"
+                  groups="gz_finance_docs.group_document_hub_document_manager"/>
     </data>
-
-    <menuitem id="menu_document_hub"
-              name="Documentos Financeiros"
-              parent="gz_finance_core.menu_finance_root"
-              sequence="15"
-              web_icon="gz_finance_docs,static/description/icon.png"/>
-
-    <menuitem id="menu_document_hub_mail_documents"
-              name="Email"
-              parent="menu_document_hub"
-              sequence="10"
-              action="document_hub_mail_document_act"/>
-
-    <menuitem id="menu_document_hub_company_documents"
-              name="Documentos Empresariais"
-              parent="menu_document_hub"
-              sequence="20"
-              action="document_hub_company_document_act"
-              groups="gz_finance_docs.group_document_hub_document_manager"/>
 </odoo>
