@@ -12,15 +12,7 @@
            <field name="company_id" ref="base.main_company"/>
        </record>
 
-       <record id="ir_sequence_technology_document_hub_document" model="ir.sequence">
-           <field name="name">Document hub technology: sequence number</field>
-           <field name="code">document_hub.document</field>
-           <field name="prefix">DOC-T/%(year)s/%(month)s/</field>
-           <field name="padding">4</field>
-           <field name="number_next">1</field>
-           <field name="number_increment">1</field>
-           <field name="company_id" eval="2"/>
-       </record>
+       <!-- Sequence secundária removida - company_id=2 não existe em ambiente novo -->
 
     </data>
 </odoo>
