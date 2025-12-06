@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
-    
-    <record id="tag_urgent" model="document_hub.tag">
+<odoo>
+    <data noupdate="1">
+
+        <record id="tag_urgent" model="document_hub.tag">
         <field name="name">Urgente</field>
     </record>
         
@@ -108,4 +109,5 @@
             <field name="name">Email</field>
         </record>
 
+    </data>
 </odoo>

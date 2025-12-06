@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
-    <record id="ir_sequence_document_hub_document" model="ir.sequence">
+<odoo>
+    <data noupdate="1">
+
+        <record id="ir_sequence_document_hub_document" model="ir.sequence">
            <field name="name">Document hub: sequence number</field>
            <field name="code">document_hub.document</field>
            <field name="prefix">DOC/%(year)s/%(month)s/</field>
@@ -20,4 +22,5 @@
            <field name="company_id" eval="2"/>
        </record>
 
+    </data>
 </odoo>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
-    
-    <record id="folder_escritorio" model="document_hub.folder">
+<odoo>
+    <data noupdate="1">
+
+        <record id="folder_escritorio" model="document_hub.folder">
         <field name="name">🏢 Escritório</field>
         <field name="description">Documentos e operações internas do escritório de consultoria.</field>
         <field name="visibility_administration">True</field>
@@ -286,4 +287,5 @@
             <field name="visibility_salesman">True</field>
         </record>
 
+    </data>
 </odoo>
