@@ -118,7 +118,7 @@
                     <separator/>
                     <filter string="Email" name="filter_mail" domain="[('privacy_doc', '=', 'mail')]"/>
                     <filter string="Empresarial" name="filter_company" domain="[('privacy_doc', '=', 'company')]"/>
-                    <group string="Group By">
+                    <group>
                         <filter string="Pasta" name="group_folder" context="{'group_by': 'folder_id'}"/>
                         <filter string="Proprietário" name="group_owner" context="{'group_by': 'owner_id'}"/>
                         <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
