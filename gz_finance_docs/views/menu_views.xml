@@ -1,63 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Menu Raiz - Documentos Financeiros -->
-    <menuitem
-        id="menu_document_hub"
-        name="Documentos Financeiros"
-    
-        groups="gz_finance_docs.group_document_hub_document_manager"
- 
-        sequence="200"/>
+    <!-- ====================================== -->
+    <!-- MENU PRINCIPAL - DOCUMENTOS            -->
+    <!-- ====================================== -->
+    <menuitem id="menu_document_hub"
+              name="Documentos Financeiros"
+              parent="gz_finance_core.menu_finance_root"
+              groups="gz_finance_docs.group_document_hub_document_manager"
+              web_icon="gz_finance_docs,static/description/icon.png"
+              sequence="15"/>
 
-    <!-- Submenu: Documentos -->
-    <menuitem
-        id="menu_document_hub_mail_documents"
-        name="Email"
-        parent="menu_document_hub"
-        action="gz_finance_docs.document_hub_mail_document_act"
-        sequence="10"/>
+    <!-- ====================================== -->
+    <!-- SUBMENU: DOCUMENTOS                    -->
+    <!-- ====================================== -->
+    <menuitem id="menu_document_hub_mail_documents"
+              name="Email"
+              parent="menu_document_hub"
+              action="gz_finance_docs.document_hub_mail_document_act"
+              sequence="10"/>
 
-    <menuitem
-        id="menu_document_hub_company_documents"
-        name="Documentos Empresariais"
-        parent="menu_document_hub"
-        action="gz_finance_docs.document_hub_company_document_act"
-        groups="gz_finance_docs.group_document_hub_document_manager"
-        sequence="20"/>
+    <menuitem id="menu_document_hub_company_documents"
+              name="Documentos Empresariais"
+              parent="menu_document_hub"
+              action="gz_finance_docs.document_hub_company_document_act"
+              groups="gz_finance_docs.group_document_hub_document_manager"
+              sequence="20"/>
 
-    <!-- Submenu: Configurações -->
-    <menuitem
-        id="menu_config"
-        name="Configurações"
-        parent="menu_document_hub"
-        groups="gz_finance_docs.group_document_hub_document_manager"
-        sequence="30"/>
+    <!-- ====================================== -->
+    <!-- SUBMENU: CONFIGURAÇÕES                 -->
+    <!-- ====================================== -->
+    <menuitem id="menu_config"
+              name="Configurações"
+              parent="menu_document_hub"
+              groups="gz_finance_docs.group_document_hub_document_manager"
+              sequence="30"/>
 
-    <menuitem
-        id="menu_config_general"
-        name="Geral"
-        parent="menu_config"
-        sequence="10"/>
+    <menuitem id="menu_config_general"
+              name="Geral"
+              parent="menu_config"
+              sequence="10"/>
 
-    <menuitem
-        id="menu_config_folder"
-        name="Pastas"
-        parent="menu_config_general"
-        action="gz_finance_docs.document_hub_folder_act"
-        sequence="20"/>
+    <menuitem id="menu_config_folder"
+              name="Pastas"
+              parent="menu_config_general"
+              action="gz_finance_docs.document_hub_folder_act"
+              sequence="20"/>
 
-    <menuitem
-        id="menu_config_tag"
-        name="Tags"
-        parent="menu_config_general"
-        action="gz_finance_docs.document_hub_tag_act"
-        sequence="30"/>
+    <menuitem id="menu_config_tag"
+              name="Tags"
+              parent="menu_config_general"
+              action="gz_finance_docs.document_hub_tag_act"
+              sequence="30"/>
 
-    <menuitem
-        id="menu_config_settings"
-        name="Definições"
-        parent="menu_config"
-        action="gz_finance_docs.document_hub_settings_action"
-        groups="base.group_system"
-        sequence="40"/>
+    <menuitem id="menu_config_settings"
+              name="Definições"
+              parent="menu_config"
+              action="gz_finance_docs.document_hub_settings_action"
+              groups="base.group_system"
+              sequence="40"/>
 </odoo>
