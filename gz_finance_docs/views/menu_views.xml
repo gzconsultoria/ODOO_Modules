@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- 1. Menu principal Documentos Financeiros -->
-        <menuitem id="menu_document_hub"
+    <!-- 1. Menu principal Documentos Financeiros -->
+    <menuitem id="menu_document_hub"
                   name="Documentos Financeiros"
                   parent="gz_finance_core.menu_finance_root"
                   sequence="15"
@@ -48,12 +47,11 @@
                   action="document_hub_tag_act" 
                   sequence="5" />
         
-        <!-- 6. Menu de Definições do Sistema -->
-        <menuitem id="menu_config_settings"
-                  name="Definições"
-                  parent="menu_config"
-                  sequence="100"
-                  action="document_hub_settings_action"
-                  groups="base.group_system"/>
-    </data>
+    <!-- 6. Menu de Definições do Sistema -->
+    <menuitem id="menu_config_settings"
+              name="Definições"
+              parent="menu_config"
+              sequence="100"
+              action="document_hub_settings_action"
+              groups="base.group_system"/>
 </odoo>
