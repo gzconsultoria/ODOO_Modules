@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="document_hub_current_project_act" model="ir.actions.act_window">
-        <field name="name">Document hub</field>
-        <field name="res_model">document_hub.document</field>
+    <data>
+        <record id="document_hub_current_project_act" model="ir.actions.act_window">
+            <field name="name">Document hub</field>
+            <field name="res_model">document_hub.document</field>
             <field name="view_mode">list,form</field>
             <field name="context">{
                 'search_default_project_id': [active_id],
@@ -10,18 +11,19 @@
                 }
             </field>
         </record>
-    <record id='document_hub_project_form_inherit' model='ir.ui.view'>
+        
+        <record id='document_hub_project_form_inherit' model='ir.ui.view'>
             <field name="name">document_hub.project.form.inherit</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button string='Documents' class="oe_stat_button" name="%(document_hub_current_project_act)d" type="action" icon="fa-book" 
+                    <button string='Documents' class="oe_stat_button" name="document_hub_current_project_act" type="action" icon="fa-book" 
                     groups="gz_finance_docs.group_document_hub_document_pm,gz_finance_docs.group_document_hub_document_administration,gz_finance_docs.group_document_hub_document_accounting,gz_finance_docs.group_document_hub_document_purchasing_and_logistics,gz_finance_docs.group_document_hub_document_director,gz_finance_docs.group_document_hub_document_manager">
                         <field string="Documents" name="doc_count" widget="statinfo"/>
                     </button>
                 </xpath>
             </field>
         </record>
-
+    </data>
 </odoo>
