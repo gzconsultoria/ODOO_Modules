@@ -1,52 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Menu Raiz - Documentos Financeiros -->
     <menuitem
         id="menu_document_hub"
         name="Documentos Financeiros"
         parent="gz_finance_core.menu_finance_root"
-        sequence="15"
-        web_icon="gz_finance_docs,static/description/icon.png"/>
+        groups="gz_finance_docs.group_document_hub_document_manager"
+        web_icon="gz_finance_docs,static/description/icon.png"
+        sequence="15"/>
+
+    <!-- Submenu: Documentos -->
     <menuitem
         id="menu_document_hub_mail_documents"
         name="Email"
         parent="menu_document_hub"
-        sequence="10"
-        action="document_hub_mail_document_act"/>
+        action="gz_finance_docs.document_hub_mail_document_act"
+        sequence="10"/>
+
     <menuitem
         id="menu_document_hub_company_documents"
         name="Documentos Empresariais"
         parent="menu_document_hub"
-        sequence="20"
-        action="document_hub_company_document_act"
-        groups="gz_finance_docs.group_document_hub_document_manager"/>
+        action="gz_finance_docs.document_hub_company_document_act"
+        groups="gz_finance_docs.group_document_hub_document_manager"
+        sequence="20"/>
+
+    <!-- Submenu: Configurações -->
     <menuitem
         id="menu_config"
         name="Configurações"
         parent="menu_document_hub"
-        sequence="50"
-        groups="gz_finance_docs.group_document_hub_document_manager"/>
+        groups="gz_finance_docs.group_document_hub_document_manager"
+        sequence="30"/>
+
     <menuitem
         id="menu_config_general"
         name="Geral"
         parent="menu_config"
         sequence="10"/>
+
     <menuitem
         id="menu_config_folder"
         name="Pastas"
         parent="menu_config_general"
-        action="document_hub_folder_act"
-        sequence="1"/>
+        action="gz_finance_docs.document_hub_folder_act"
+        sequence="20"/>
+
     <menuitem
         id="menu_config_tag"
         name="Tags"
         parent="menu_config_general"
-        action="document_hub_tag_act"
-        sequence="5"/>
+        action="gz_finance_docs.document_hub_tag_act"
+        sequence="30"/>
+
     <menuitem
         id="menu_config_settings"
         name="Definições"
         parent="menu_config"
-        sequence="100"
-        action="document_hub_settings_action"
-        groups="base.group_system"/>
+        action="gz_finance_docs.document_hub_settings_action"
+        groups="base.group_system"
+        sequence="40"/>
 </odoo>
