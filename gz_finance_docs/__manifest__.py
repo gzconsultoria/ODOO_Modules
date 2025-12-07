@@ -11,7 +11,7 @@
     'description': """
 Document hub
 ==================
-An advanced document management module for Odoo 17 Community, inspired by the Odoo Enterprise "Documents" app. Enables centralized storage, categorization, sharing, and automation of document workflows within your company.
+An advanced document management module for Odoo 19 Community, inspired by the Odoo Enterprise "Documents" app. Enables centralized storage, categorization, sharing, and automation of document workflows within your company.
 
 Key features:
 - Store and organize files in folder structures and tags
@@ -41,17 +41,24 @@ This module is fully open source under the GPL-2 license.
         # 'sale_offer',  # Removido - módulo customizado não padrão
     ],
     'data': [
+        # 1. Dados iniciais
         'data/document_sequence.xml',
         'data/folders_data.xml',  # Cria pastas padrão: Clientes + Escritório
         'data/tags_data.xml',
         'data/cron_data.xml',
+        
+        # 2. Segurança
         'security/document_hub_security.xml',
         'security/ir.model.access.csv',
+        
+        # 3. Views e actions (NÃO incluem menus)
         'views/project_views.xml',
         'views/document_hub_views.xml',
-        'views/menu_views.xml',
-        'views/config_views.xml',
+        'views/config_views.xml',  # APENAS views e actions - SEM menus
         'views/res_config_settings_views.xml',
+        
+        # 4. Menus (ÚLTIMO - depende de todas as actions acima)
+        'views/menu_views.xml',  # TODOS os menus juntos, em ordem correta
     ],
     'assets': {
         'web.assets_backend': [
