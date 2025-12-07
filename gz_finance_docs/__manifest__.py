@@ -41,7 +41,7 @@ This module is fully open source under the GPL-2 license.
         # 'sale_offer',  # Removido - módulo customizado não padrão
     ],
     'data': [
-        # Teste 4: + config_views
+        # Teste 5: + document_hub_views
         'security/document_hub_security.xml',
         'security/ir.model.access.csv',
         'data/document_sequence.xml',
@@ -50,6 +50,7 @@ This module is fully open source under the GPL-2 license.
         'data/cron_data.xml',
         'views/project_views.xml',
         'views/config_views.xml',
+        'views/document_hub_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
