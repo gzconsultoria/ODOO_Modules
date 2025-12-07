@@ -6,10 +6,9 @@
     <!-- ====================================== -->
     <menuitem id="menu_document_hub"
               name="Documentos Financeiros"
-              parent="gz_finance_core.menu_finance_root"
               groups="gz_finance_docs.group_document_hub_document_manager"
               web_icon="gz_finance_docs,static/description/icon.png"
-              sequence="15"/>
+              sequence="55"/>
 
     <!-- ====================================== -->
     <!-- SUBMENU: DOCUMENTOS                    -->
