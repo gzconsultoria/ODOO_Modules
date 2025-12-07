@@ -18,8 +18,11 @@
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button string='Documents' class="oe_stat_button" name="document_hub_current_project_act" type="action" icon="fa-book" 
-                    groups="gz_finance_docs.group_document_hub_document_pm,gz_finance_docs.group_document_hub_document_administration,gz_finance_docs.group_document_hub_document_accounting,gz_finance_docs.group_document_hub_document_purchasing_and_logistics,gz_finance_docs.group_document_hub_document_director,gz_finance_docs.group_document_hub_document_manager">
+                    <button string='Documents' class="oe_stat_button" 
+                            name="%(document_hub_current_project_act)d" 
+                            type="action" 
+                            icon="fa-book" 
+                            groups="gz_finance_docs.group_document_hub_document_pm,gz_finance_docs.group_document_hub_document_administration,gz_finance_docs.group_document_hub_document_accounting,gz_finance_docs.group_document_hub_document_purchasing_and_logistics,gz_finance_docs.group_document_hub_document_director,gz_finance_docs.group_document_hub_document_manager">
                         <field string="Documents" name="doc_count" widget="statinfo"/>
                     </button>
                 </xpath>
