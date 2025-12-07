@@ -41,13 +41,14 @@ This module is fully open source under the GPL-2 license.
         # 'sale_offer',  # Removido - módulo customizado não padrão
     ],
     'data': [
-        # Teste 2: Security + Data files
+        # Teste 3: Security + Data + project_views
         'security/document_hub_security.xml',
         'security/ir.model.access.csv',
         'data/document_sequence.xml',
         'data/folders_data.xml',
         'data/tags_data.xml',
         'data/cron_data.xml',
+        'views/project_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
