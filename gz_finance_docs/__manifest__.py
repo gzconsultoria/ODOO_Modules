@@ -41,24 +41,9 @@ This module is fully open source under the GPL-2 license.
         # 'sale_offer',  # Removido - módulo customizado não padrão
     ],
     'data': [
-        # 1. Dados iniciais
-        'data/document_sequence.xml',
-        'data/folders_data.xml',
-        'data/tags_data.xml',
-        'data/cron_data.xml',
-        
-        # 2. Segurança
+        # Teste 1: Apenas segurança
         'security/document_hub_security.xml',
         'security/ir.model.access.csv',
-        
-        # 3. Views e actions (NÃO incluem menus)
-        'views/project_views.xml',
-        'views/document_hub_views.xml',
-        'views/config_views.xml',
-        'views/res_config_settings_views.xml',
-        
-        # 4. Menus (ÚLTIMO - depende de todas as actions acima)
-        'views/menu_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
