@@ -1,53 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="res_config_settings_view_form_document_hub_settings" model="ir.ui.view">
-            <field name="name">res.config.settings.view.form.document_hub_settings</field>
-            <field name="model">res.config.settings</field>
-            <field name="priority" eval="70"/>
-            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//form" position="inside">
-                    <app data-string="Document hub settings" string="Document hub" name="document_hub">
-                        <block title="Active IMAP" name="document_hub_imap_active_settings">
-                            <setting title="Active IMAP settings for getting attachments from email" string="Active" help="Active IMAP settings for getting attachments from email.">
-                                <field name="imap_active"/>
-                            </setting>
-                        </block>
-                        <block title="IMAP Host settings" name="document_hub_imap_host_settings" invisible="not imap_active">
-                            <setting string="Host" help="Use the hostname for your mail.">
-                                <field name="imap_host"/>
-                            </setting>
-                            <setting string="Port" help="Use the port of your mail host.">
-                                <field name="imap_port"/>
-                            </setting>
-                        </block>
-                        <block title="Detail settings" name="document_hub_imap_detail_settings" invisible="not imap_active">
-                            <div class="text-muted">
-                                This is the section for determining the primary user who will be sending most emails for internal purposes
-                            </div>
-                            <setting string="User" help="Use bot name of your mail ex. bot@mjgroup.biz">
-                                <field name="imap_user"/>
-                            </setting>
-                            <setting string="Password" help="Use password for your bot user mail.">
-                                <field name="imap_password" password="True"/>
-                            </setting>
-                            <setting string="Folder" help="Set a default folder.">
-                                <field name="imap_folder"/>
-                            </setting>
-                        </block>
-                    </app>
-                </xpath>
+        <!-- ================== ACTIONS PARA DOCUMENTOS ================== -->
+        
+        <!-- Action: Email Documents -->
+        <record id="document_hub_mail_document_act" model="ir.actions.act_window">
+            <field name="name">Documentos de Email</field>
+            <field name="res_model">document_hub.document</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('privacy_doc', '=', 'mail')]</field>
+            <field name="context">{'default_privacy_doc': 'mail'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crie seu primeiro documento de email
+                </p>
+                <p>
+                    Documentos importados automaticamente de emails via IMAP.
+                </p>
             </field>
         </record>
-        
-        <record id="document_hub_settings_action" model="ir.actions.act_window">
-            <field name="name">Settings</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.config.settings</field>
-            <field name="view_mode">form</field>
-            <field name="target">current</field>
-            <field name="context">{'module' : 'gz_finance_docs'}</field>
+
+        <!-- Action: Company Documents -->
+        <record id="document_hub_company_document_act" model="ir.actions.act_window">
+            <field name="name">Documentos Empresariais</field>
+            <field name="res_model">document_hub.document</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('privacy_doc', '=', 'company')]</field>
+            <field name="context">{'default_privacy_doc': 'company'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crie seu primeiro documento empresarial
+                </p>
+                <p>
+                    Documentos confidenciais da empresa.
+                </p>
+            </field>
         </record>
+
+        <!-- ================== VIEWS PARA DOCUMENTOS ================== -->
+        
+        <!-- Tree/List View -->
+        <record id="document_hub_document_tree_view" model="ir.ui.view">
+            <field name="name">document.hub.document.tree</field>
+            <field name="model">document_hub.document</field>
+            <field name="arch" type="xml">
+                <list string="Documents" sample="1">
+                    <field name="name"/>
+                    <field name="topic"/>
+                    <field name="partner_id"/>
+                    <field name="folder_id"/>
+                    <field name="owner_id" widget="many2one_avatar_user"/>
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="state" widget="badge" decoration-success="state == 'open'" decoration-muted="state == 'lock'"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="document_hub_document_form_view" model="ir.ui.view">
+            <field name="name">document.hub.document.form</field>
+            <field name="model">document_hub.document</field>
+            <field name="arch" type="xml">
+                <form string="Document">
+                    <header>
+                        <button name="action_lock_document" string="Bloquear" type="object" invisible="state == 'lock'" class="oe_highlight"/>
+                        <button name="action_open_document" string="Desbloquear" type="object" invisible="state == 'open'" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="open,lock"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="topic" placeholder="ex: Contrato de projeto" required="1"/>
+                                <field name="folder_id" options="{'no_create': True}"/>
+                                <field name="partner_id"/>
+                                <field name="project_id" invisible="not rel_is_project and not rel_is_parent_folder_project"/>
+                            </group>
+                            <group>
+                                <field name="owner_id" widget="many2one_avatar_user"/>
+                                <field name="privacy_doc"/>
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                                <field name="rel_is_project" column_invisible="1"/>
+                                <field name="rel_is_parent_folder_project" column_invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Arquivos">
+                                <field name="file_ids" widget="many2many_binary" options="{'accepted_file_extensions': '*'}"/>
+                            </page>
+                            <page string="Descrição">
+                                <field name="description" placeholder="Digite uma descrição dos documentos para que possam ser facilmente identificados."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="document_hub_document_search_view" model="ir.ui.view">
+            <field name="name">document.hub.document.search</field>
+            <field name="model">document_hub.document</field>
+            <field name="arch" type="xml">
+                <search string="Search Documents">
+                    <field name="name"/>
+                    <field name="topic"/>
+                    <field name="partner_id"/>
+                    <field name="folder_id"/>
+                    <field name="tag_ids"/>
+                    <filter string="Abertos" name="filter_open" domain="[('state', '=', 'open')]"/>
+                    <filter string="Bloqueados" name="filter_lock" domain="[('state', '=', 'lock')]"/>
+                    <separator/>
+                    <filter string="Email" name="filter_mail" domain="[('privacy_doc', '=', 'mail')]"/>
+                    <filter string="Empresarial" name="filter_company" domain="[('privacy_doc', '=', 'company')]"/>
+                    <group string="Group By">
+                        <filter string="Pasta" name="group_folder" context="{'group_by': 'folder_id'}"/>
+                        <filter string="Proprietário" name="group_owner" context="{'group_by': 'owner_id'}"/>
+                        <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
     </data>
 </odoo>
